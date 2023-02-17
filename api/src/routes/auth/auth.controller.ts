@@ -1,19 +1,30 @@
-import { Controller, Post, UseGuards, Request, Get } from '@nestjs/common';
-import { AuthService } from 'src/services/auth/auth.service';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Get,
+  Body,
+} from '@nestjs/common';
 import { CredentialsAuthGuard } from 'src/services/auth/guards/credentials-auth.guard';
-import { JwtAuthGuard } from 'src/services/auth/guards/jwt-auth.guard';
 import {
   WithCredentials,
   Public,
 } from 'src/services/auth/guards/guard-activators.decorator';
 import { UserDto } from 'src/services/users/models/user.dto';
+import { LoginHandler } from './handlers/login.handler';
+import { RegisterHandler } from './handlers/register.handler';
 import { ICurrentUserRequest } from './models/current-request.model';
 import { ILoginRequest } from './models/login-request.model';
 import { ILoginResponse } from './models/login-response.model';
+import { IRegisterRequest } from './models/register-request.model';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly loginHandler: LoginHandler,
+    private readonly registerHandler: RegisterHandler,
+  ) {}
 
   @Get()
   current(@Request() request: ICurrentUserRequest): UserDto {
@@ -25,20 +36,13 @@ export class AuthController {
   @Post('login')
   @WithCredentials()
   @UseGuards(CredentialsAuthGuard)
-  async login(@Request() request: ILoginRequest): Promise<ILoginResponse> {
-    const token = await this.authService.generateJwt(request.user);
-
-    const response: ILoginResponse = {
-      access_token: token,
-    };
-
-    return response;
+  login(@Request() request: ILoginRequest): Promise<ILoginResponse> {
+    return this.loginHandler.handle(request);
   }
 
   @Post('register')
   @Public()
-  async register() {
-    console.log('register');
-    // TODO: implement
+  register(@Body() request: IRegisterRequest): Promise<UserDto> {
+    return this.registerHandler.handle(request);
   }
 }

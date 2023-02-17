@@ -8,6 +8,9 @@ import { AuthController } from 'src/routes/auth/auth.controller';
 import { JwtModule } from '@nestjs/jwt/dist';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { EncryptionService } from './encryption.service';
+import { RegisterHandler } from 'src/routes/auth/handlers/register.handler';
+import { LoginHandler } from 'src/routes/auth/handlers/login.handler';
 
 @Module({
   imports: [
@@ -19,7 +22,14 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, CredentialsStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    CredentialsStrategy,
+    JwtStrategy,
+    EncryptionService,
+    RegisterHandler,
+    LoginHandler,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}

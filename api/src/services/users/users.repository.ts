@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { DataAccessService } from 'src/services/data/data.service';
+import { SaltHashResult } from '../auth/models/salt-hash.model';
+import { UserDto } from './models/user.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -24,5 +27,18 @@ export class UsersRepository {
     const user = await this.dataService.user.findFirst({ where: filter });
 
     return user;
+  }
+
+  async create(dto: UserDto, passwordHash: SaltHashResult): Promise<User> {
+    const result = await this.dataService.user.create({
+      data: {
+        id: dto.id,
+        email: dto.email,
+        name: dto.name,
+        password: passwordHash.hash,
+      },
+    });
+
+    return result;
   }
 }

@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { SaltHashResult } from '../auth/models/salt-hash.model';
+import { UserDto } from './models/user.dto';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
@@ -16,5 +18,9 @@ export class UsersService {
     const user = this.usersRepository.getByEmail(email);
 
     return user;
+  }
+
+  async create(dto: UserDto, passwordHash: SaltHashResult): Promise<User> {
+    return this.usersRepository.create(dto, passwordHash);
   }
 }
