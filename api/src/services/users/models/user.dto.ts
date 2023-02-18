@@ -10,7 +10,7 @@ export class UserDto {
 
     dto.id = entity.id;
     dto.name = entity.name;
-    dto.email = entity.name;
+    dto.email = entity.email;
 
     return dto;
   }
