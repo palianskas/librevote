@@ -8,8 +8,6 @@ export class EncryptionService {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(value, salt);
 
-    console.log(bcrypt.compareSync(value, hash), salt);
-
     const result: SaltHashResult = {
       salt: salt,
       hash: hash,
