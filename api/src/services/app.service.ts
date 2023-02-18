@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { StatusResponse } from 'src/routes/app.controller';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  status(): StatusResponse {
+    return {
+      status: `Ok ${new Date().toISOString()}`,
+    };
   }
 }
