@@ -16,14 +16,14 @@ export class RegisterHandler {
       throw new BadRequestException();
     }
 
-    const hash = await this.encryptionService.encrypt(request.password);
+    const password = await this.encryptionService.encrypt(request.password);
 
     const data: UserDto = {
       email: request.email,
       name: request.name,
     };
 
-    const entity = await this.usersService.create(data, hash);
+    const entity = await this.usersService.create(data, password);
 
     const dto = UserDto.map(entity);
 
