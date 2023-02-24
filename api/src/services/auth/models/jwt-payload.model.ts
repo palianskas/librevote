@@ -1,4 +1,8 @@
 export interface IJwtPayload {
   sub: string;
-  username: string;
+  exp: number;
+}
+
+export interface IJwtRefreshPayload extends IJwtPayload {
+  refresh: boolean;
 }

@@ -11,6 +11,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { EncryptionService } from './encryption.service';
 import { RegisterHandler } from 'src/routes/auth/handlers/register.handler';
 import { LoginHandler } from 'src/routes/auth/handlers/login.handler';
+import { AccessRefreshHandler } from 'src/routes/auth/handlers/access-refresh.handler';
 
 @Module({
   imports: [
@@ -19,7 +20,6 @@ import { LoginHandler } from 'src/routes/auth/handlers/login.handler';
     DataModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1h' },
     }),
   ],
   providers: [
@@ -29,6 +29,7 @@ import { LoginHandler } from 'src/routes/auth/handlers/login.handler';
     EncryptionService,
     RegisterHandler,
     LoginHandler,
+    AccessRefreshHandler,
   ],
   controllers: [AuthController],
 })

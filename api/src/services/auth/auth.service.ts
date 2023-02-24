@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
 import { UserDto } from '../users/models/user.dto';
 import { UsersService } from '../users/users.service';
 import { EncryptionService } from './encryption.service';
-import { IJwtPayload } from './models/jwt-payload.model';
+import { IJwtPayload, IJwtRefreshPayload } from './models/jwt-payload.model';
 
 @Injectable()
 export class AuthService {
+  static ACCESS_TOKEN_VALIDITY_INTERVAL_SECS = 15 * 60; // 15m
+  static REFRESH_TOKEN_VALIDITY_INTERVAL_SECS = 24 * 60 * 60; // 24h
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
@@ -33,12 +35,40 @@ export class AuthService {
     return null;
   }
 
-  generateJwt(user: User): Promise<string> {
+  verify<TToken extends object>(token: string): Promise<TToken> {
+    return this.jwtService.verifyAsync<TToken>(token);
+  }
+
+  generateAccessJwt(
+    userId: string,
+    validityIntervalSecs: number = AuthService.ACCESS_TOKEN_VALIDITY_INTERVAL_SECS,
+  ): Promise<string> {
+    const expirationDate = this.generateExpirationDate(validityIntervalSecs);
+
     const payload: IJwtPayload = {
-      username: user.email,
-      sub: user.id,
+      sub: userId,
+      exp: expirationDate,
     };
 
     return this.jwtService.signAsync(payload);
+  }
+
+  generateRefreshJwt(
+    userId: string,
+    validityIntervalSecs: number = AuthService.REFRESH_TOKEN_VALIDITY_INTERVAL_SECS,
+  ): Promise<string> {
+    const expirationDate = this.generateExpirationDate(validityIntervalSecs);
+
+    const payload: IJwtRefreshPayload = {
+      sub: userId,
+      exp: expirationDate,
+      refresh: true,
+    };
+
+    return this.jwtService.signAsync(payload);
+  }
+
+  private generateExpirationDate(validityIntervalSecs: number): number {
+    return Date.now() / 1000 + validityIntervalSecs;
   }
 }

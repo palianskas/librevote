@@ -1,17 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { AuthService } from 'src/services/auth/auth.service';
-import { ILoginRequest } from '../models/login-request.model';
-import { ILoginResponse } from '../models/login-response.model';
+import {
+  IAuthenticatedRequest,
+  ILoginResponse,
+} from '../models/auth-contracts.model';
 
 @Injectable()
 export class LoginHandler {
   constructor(private readonly authService: AuthService) {}
 
-  async handle(request: ILoginRequest): Promise<ILoginResponse> {
-    const token = await this.authService.generateJwt(request.user);
+  async handle(request: IAuthenticatedRequest): Promise<ILoginResponse> {
+    const accessToken = await this.authService.generateAccessJwt(
+      request.user.id,
+    );
+    const refreshToken = await this.authService.generateRefreshJwt(
+      request.user.id,
+    );
 
     const response: ILoginResponse = {
-      access_token: token,
+      access_token: accessToken,
+      refresh_token: refreshToken,
     };
 
     return response;
