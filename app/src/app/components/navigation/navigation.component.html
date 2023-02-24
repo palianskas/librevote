@@ -1,0 +1,16 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <h3>librevote</h3>
+    </a>
+    <div *ngIf="!user">
+      <button (click)="register()">register</button>
+      <button (click)="login()">login</button>
+      <button (click)="current()">current</button>
+      <button (click)="refresh()">refresh</button>
+    </div>
+    <div *ngIf="!!user">
+      <span>{{ user.name }}</span>
+    </div>
+  </div>
+</nav>
