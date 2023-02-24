@@ -8,7 +8,6 @@ import {
 } from '@angular/common/http';
 
 import { Observable, catchError, EMPTY } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ConfigService } from '../common.module/services/config.service';
 import { AuthError } from '../auth.module/models/auth-error.enum';
 import { AuthService } from '../auth.module/services/auth.service';

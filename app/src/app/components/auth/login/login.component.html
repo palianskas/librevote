@@ -1,0 +1,23 @@
+<div class="container" id="form-container">
+  <form class="d-flex flex-column" [formGroup]="loginForm">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        id="email"
+        class="form-control"
+        type="text"
+        formControlName="email"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        formControlName="password"
+      />
+    </div>
+    <button (click)="login()" class="btn btn-primary">Login</button>
+  </form>
+</div>

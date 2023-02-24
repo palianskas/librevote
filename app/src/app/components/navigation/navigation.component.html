@@ -1,13 +1,19 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" routerLink="/">
       <h3>librevote</h3>
     </a>
-    <div *ngIf="!user">
-      <button (click)="register()">register</button>
-      <button (click)="login()">login</button>
-      <button (click)="current()">current</button>
-      <button (click)="refresh()">refresh</button>
+    <div *ngIf="!user" class="d-flex">
+      <div class="container">
+        <a class="nav-link active" routerLink="/login" aria-current="page"
+          >Login</a
+        >
+      </div>
+      <div class="container">
+        <a class="nav-link active" routerLink="/register" aria-current="page"
+          >Register</a
+        >
+      </div>
     </div>
     <div *ngIf="!!user">
       <span>{{ user.name }}</span>

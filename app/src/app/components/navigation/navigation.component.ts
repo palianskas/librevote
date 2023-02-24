@@ -6,7 +6,6 @@ import { AuthService } from 'src/app/auth.module/services/auth.service';
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css'],
-  providers: [AuthService],
 })
 export class NavigationComponent implements OnInit {
   user: User = null;
@@ -14,7 +13,9 @@ export class NavigationComponent implements OnInit {
   constructor(private readonly authService: AuthService) {}
 
   ngOnInit(): void {
-    this.user = this.authService.user;
+    this.authService.user.subscribe((user) => {
+      this.user = user;
+    });
   }
 
   async register() {
@@ -30,7 +31,7 @@ export class NavigationComponent implements OnInit {
   }
 
   async current() {
-    const res = await this.authService.refetchCurrentUser();
+    const res = await this.authService.fetchCurrentUser();
   }
 
   async refresh() {

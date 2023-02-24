@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import {
   ILoginRequest,
@@ -14,14 +14,11 @@ import { User, UserDto } from '../models/user.model';
   providedIn: 'root',
 })
 export class AuthService {
-  private _AUTH_TOKEN_LOCAL_STORAGE_KEY = 'ACCESS_TOKEN';
-  private _USER_LOCAL_STORAGE_KEY = 'USER';
-
   private authApi: IAuthApi;
-  private _user: User;
+  private _userSubject: Subject<User | null>;
 
-  public get user(): User {
-    return this._user;
+  public get user(): Subject<User | null> {
+    return this._userSubject;
   }
 
   constructor(
@@ -34,26 +31,24 @@ export class AuthService {
   }
 
   async init(): Promise<void> {
-    await this.refetchCurrentUser();
+    this._userSubject = new Subject<User | null>();
+
+    await this.fetchCurrentUser();
   }
 
-  async register(
-    email: string,
-    name: string,
-    password: string
-  ): Promise<UserDto> {
+  async register(email: string, name: string, password: string): Promise<void> {
     const dto = {
       email: email,
       name: name,
       password: password,
     };
 
-    const response = this.authApi.register(dto);
+    await this.authApi.register(dto);
 
-    return response;
+    await this.login(email, password);
   }
 
-  async login(email: string, password: string): Promise<any> {
+  async login(email: string, password: string): Promise<void> {
     const dto: ILoginRequest = {
       email: email,
       password: password,
@@ -64,24 +59,28 @@ export class AuthService {
     this.refresh_token = response.refresh_token;
     this.access_token = response.access_token;
 
-    return response;
+    this.fetchCurrentUser();
   }
 
-  async refetchCurrentUser(): Promise<User> {
-    const dto = await this.authApi.current();
+  async fetchCurrentUser(): Promise<User | null> {
+    if (!this.access_token) {
+      return null;
+    }
 
-    const user = User.map(dto);
+    let dto: UserDto;
 
-    this._user = user;
+    try {
+      dto = await this.authApi.current();
+    } catch {
+      return null;
+    }
+
+    const user = this.updateCurrentUser(dto);
 
     return user;
   }
 
   async refreshAccess(): Promise<void> {
-    const refreshToken = localStorage.getItem(
-      this.configService.REFRESH_TOKEN_LOCAL_STORAGE_KEY
-    );
-
     if (!this.refresh_token) {
       return;
     }
@@ -90,9 +89,22 @@ export class AuthService {
       refresh_token: this.refresh_token,
     };
 
-    const response = await this.authApi.refreshAccess(dto);
+    let response: ITokenRefreshResponse;
+    try {
+      response = await this.authApi.refreshAccess(dto);
+    } catch {
+      return;
+    }
 
     this.access_token = response.access_token;
+  }
+
+  private updateCurrentUser(dto: UserDto): User {
+    const user = User.map(dto);
+
+    this._userSubject.next(user);
+
+    return user;
   }
 
   private get access_token(): string {
