@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { firstValueFrom, Subject } from 'rxjs';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import {
@@ -23,7 +24,8 @@ export class AuthService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient,
+    private readonly router: Router
   ) {
     this.authApi = this.initApi();
 
@@ -60,6 +62,8 @@ export class AuthService {
     this.access_token = response.access_token;
 
     this.fetchCurrentUser();
+
+    this.router.navigate(['/']);
   }
 
   async fetchCurrentUser(): Promise<User | null> {
