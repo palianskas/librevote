@@ -32,7 +32,7 @@ export class CampaignUsersRepository {
     const result = await this.dataService.campaignUser.create({
       data: {
         userId: dto.userId,
-        campaignId: dto.campaignId,
+        campaignId: dto.campaignId!,
         role: dto.role,
       },
       include: {

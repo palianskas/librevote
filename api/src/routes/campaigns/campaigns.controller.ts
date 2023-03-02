@@ -7,13 +7,17 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
+import { Request } from '@nestjs/common/decorators';
+import { response } from 'express';
+import { WithCredentials } from 'src/services/auth/guards/guard-activators.decorator';
 import { CampaignsService } from 'src/services/campaigns/campaigns.service';
-import { CampaignUserRole } from 'src/services/campaigns/models/campaign-user-role.enum';
 import { CampaignDto } from 'src/services/campaigns/models/campaign.dto';
-import { Campaign } from 'src/services/campaigns/models/campaign.model';
 import { IAuthenticatedRequest } from '../auth/models/auth-contracts.model';
+import { CampaignCreateHandler } from './handlers/campaign-create.handler';
 import { CampaignSearchHandler } from './handlers/campaign-search.handler';
 import {
+  ICampaignCreateRequest,
+  ICampaignCreateResponse,
   ICampaignSearchRequest,
   ICampaignSearchResponse,
 } from './models/campaign-search-contracts.model';
@@ -23,6 +27,7 @@ export class CampaignsController {
   constructor(
     private readonly campaignService: CampaignsService,
     private readonly campaignSearchHandler: CampaignSearchHandler,
+    private readonly campaignCreateHandler: CampaignCreateHandler,
   ) {}
 
   @Get(':id')
@@ -39,13 +44,19 @@ export class CampaignsController {
   }
 
   @Post()
-  async create(@Body() dto: CampaignDto): Promise<string> {
-    const campaign = await this.campaignService.create(dto);
+  async create(
+    @Request() request: IAuthenticatedRequest,
+    @Body() body: ICampaignCreateRequest,
+  ): Promise<ICampaignCreateResponse> {
+    const response = await this.campaignCreateHandler.handle(
+      request.user,
+      body,
+    );
 
-    return campaign.id;
+    return response;
   }
 
-  @Post()
+  @Post('search')
   async search(
     @Body() request: ICampaignSearchRequest,
   ): Promise<ICampaignSearchResponse> {

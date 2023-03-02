@@ -5,8 +5,8 @@ import { CampaignDto } from './campaign.dto';
 
 export class CampaignUserDto {
   userId: string;
-  campaignId: string;
   role: CampaignUserRole;
+  campaignId?: string;
   campaign?: CampaignDto;
   user?: UserDto;
 

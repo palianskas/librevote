@@ -7,3 +7,10 @@ export interface ICampaignSearchRequest {
 export interface ICampaignSearchResponse {
   rows: CampaignDto[];
 }
+
+export interface ICampaignCreateRequest {
+  dto: CampaignDto;
+}
+export interface ICampaignCreateResponse {
+  id: string;
+}
