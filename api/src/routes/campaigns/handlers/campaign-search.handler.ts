@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CampaignUsersRepository } from 'src/services/campaigns/campaign-users/campaign-users.reposittory';
 import { CampaignsRepository } from 'src/services/campaigns/campaigns.repository';
 import { CampaignDto } from 'src/services/campaigns/models/campaign.dto';
-import { Campaign } from 'src/services/campaigns/models/campaign.model';
 import {
   ICampaignSearchRequest,
   ICampaignSearchResponse,
@@ -47,13 +46,13 @@ export class CampaignSearchHandler {
 
   private async getUsersCampaignIds(userIds: string[]): Promise<string[]> {
     const filter = {
-      id: {
+      userId: {
         in: userIds,
       },
     };
 
     const fieldSelect = {
-      id: true,
+      campaignId: true,
     };
 
     const campaignUsers = await this.campaignUsersRepository.search(
