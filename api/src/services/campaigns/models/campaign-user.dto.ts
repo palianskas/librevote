@@ -27,7 +27,7 @@ export class CampaignUserDto {
     return dto;
   }
 
-  static mapList(entities: CampaignUser[]): CampaignUserDto[] {
+  static mapList(entities: CampaignUser[] | undefined): CampaignUserDto[] {
     if (!entities) {
       return [];
     }

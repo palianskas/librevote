@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataAccessService } from 'src/services/data/data.service';
+import { IPrismaQuery } from '../data/models/prisma-query.model';
 import { CampaignDto } from './models/campaign.dto';
 import { Campaign } from './models/campaign.model';
 
@@ -12,23 +13,17 @@ export class CampaignsRepository {
       id: id,
     };
 
-    const campaign = await this.dataService.campaign.findFirst({
-      where: filter,
-      include: {
-        campaignUsers: true,
-      },
-    });
+    const query = this.buildQuery(filter);
+
+    const campaign = await this.dataService.campaign.findFirst(query);
 
     return campaign;
   }
 
-  async getMany(filter: any): Promise<Campaign[]> {
-    const campaigns = await this.dataService.campaign.findMany({
-      where: filter,
-      include: {
-        campaignUsers: true,
-      },
-    });
+  async search(filter: any, fieldSelect: any = null): Promise<Campaign[]> {
+    const query = this.buildQuery(filter, fieldSelect);
+
+    const campaigns = await this.dataService.campaign.findMany(query);
 
     return campaigns;
   }
@@ -55,5 +50,22 @@ export class CampaignsRepository {
     });
 
     return result;
+  }
+
+  // TODO: `QueryBuilder` and `QueryBuilderFactory` ?
+  private buildQuery(filter: any, fieldSelect: any = null): IPrismaQuery {
+    const query: IPrismaQuery = {
+      where: filter,
+    };
+
+    if (!!fieldSelect) {
+      query.select = fieldSelect;
+    } else {
+      query.include = {
+        campaignUsers: true,
+      };
+    }
+
+    return query;
   }
 }
