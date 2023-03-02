@@ -6,9 +6,10 @@ import { UsersModule } from './users/users.module';
 import { DataModule } from './data/data.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { CampaignsModule } from './campaigns/campaigns.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, DataModule],
+  imports: [AuthModule, UsersModule, DataModule, CampaignsModule],
   controllers: [AppController],
   providers: [
     AppService,
