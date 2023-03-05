@@ -7,7 +7,7 @@ import { IJwtPayload, IJwtRefreshPayload } from './models/jwt-payload.model';
 
 @Injectable()
 export class AuthService {
-  static ACCESS_TOKEN_VALIDITY_INTERVAL_SECS = 15 * 60; // 15m
+  static ACCESS_TOKEN_VALIDITY_INTERVAL_SECS = 60 * 60; // 15m
   static REFRESH_TOKEN_VALIDITY_INTERVAL_SECS = 24 * 60 * 60; // 24h
 
   constructor(
