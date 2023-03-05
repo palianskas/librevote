@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
+import { Request } from 'express';
 
-export interface IAuthenticatedRequest {
+export interface IAuthenticatedRequest extends Request {
   user: User;
 }
 
