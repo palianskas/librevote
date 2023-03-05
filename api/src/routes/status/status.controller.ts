@@ -1,15 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
 import { Public } from 'src/services/auth/guards/guard-activators.decorator';
-import { AppService } from '../services/app.service';
+import { StatusService } from 'src/services/core/status/status.service';
 
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class StatusController {
+  constructor(private readonly statusService: StatusService) {}
 
   @Public()
   @Get('status')
   async status(): Promise<StatusResponse> {
-    return this.appService.status();
+    return this.statusService.status();
   }
 }
 

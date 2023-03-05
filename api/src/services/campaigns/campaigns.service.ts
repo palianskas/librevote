@@ -6,13 +6,10 @@ import { Campaign } from './models/campaign.model';
 
 @Injectable()
 export class CampaignsService {
-  constructor(
-    private readonly campaignsRepository: CampaignsRepository,
-    private campaignUsersRepository: CampaignUsersRepository,
-  ) {}
+  constructor(private readonly campaignsRepository: CampaignsRepository) {}
 
   async get(id: string): Promise<Campaign | null> {
-    const campaign = this.campaignsRepository.get(id);
+    const campaign = await this.campaignsRepository.get(id);
 
     return campaign;
   }
