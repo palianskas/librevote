@@ -1,0 +1,29 @@
+<div class="container campaigns-list mt-3">
+  <button (click)="createNew()" class="btn btn-outline-primary my-3">
+    Create new
+  </button>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Pub key</th>
+        <th scope="col">Staff</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let campaign of campaigns"
+        (click)="open(campaign.id)"
+        class="clickable"
+      >
+        <td>{{ campaign.name }}</td>
+        <td>{{ campaign.pubKey }}</td>
+        <td>
+          <span *ngFor="let user of campaign.campaignUsers; let last = last"
+            >{{ user.user.name }}{{ !last ? "n" : "" }}</span
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
