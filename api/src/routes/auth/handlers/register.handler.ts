@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { EncryptionService } from 'src/services/auth/encryption.service';
-import { UserDto } from 'src/services/users/models/user.dto';
-import { UsersService } from 'src/services/users/users.service';
+import { EncryptionService } from 'src/services/auth.module/encryption.service';
+import { UserDto } from 'src/services/users.module/models/user.dto';
+import { UsersService } from 'src/services/users.module/users.service';
 import { IRegisterRequest } from '../models/auth-contracts.model';
 
 @Injectable()

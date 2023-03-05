@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { DataAccessService } from 'src/services/data/data.service';
-import { IPrismaQuery } from '../data/models/prisma-query.model';
+import { DataAccessService } from '../data.module/data.service';
+import { IPrismaQuery } from '../data.module/models/prisma-query.model';
 import { CampaignDto } from './models/campaign.dto';
 import { Campaign } from './models/campaign.model';
 

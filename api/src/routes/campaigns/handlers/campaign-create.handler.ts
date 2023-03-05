@@ -1,11 +1,8 @@
-import { BadRequestException } from '@nestjs/common';
-import { Injectable } from '@nestjs/common/decorators';
+import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
-import { IAuthenticatedRequest } from 'src/routes/auth/models/auth-contracts.model';
-import { CampaignsService } from 'src/services/campaigns/campaigns.service';
-import { CampaignUserRole } from 'src/services/campaigns/models/campaign-user-role.enum';
-import { CampaignUserDto } from 'src/services/campaigns/models/campaign-user.dto';
-import { CampaignDto } from 'src/services/campaigns/models/campaign.dto';
+import { CampaignsService } from 'src/services/campaigns.module/campaigns.service';
+import { CampaignUserRole } from 'src/services/campaigns.module/models/campaign-user-role.enum';
+import { CampaignDto } from 'src/services/campaigns.module/models/campaign.dto';
 import {
   ICampaignCreateRequest,
   ICampaignCreateResponse,

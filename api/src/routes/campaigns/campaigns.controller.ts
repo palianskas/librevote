@@ -7,9 +7,9 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { CampaignsService } from 'src/services/campaigns/campaigns.service';
-import { CampaignDto } from 'src/services/campaigns/models/campaign.dto';
-import { OperationalContextService } from 'src/services/core/operational-context/operational-context.service';
+import { CampaignsService } from 'src/services/campaigns.module/campaigns.service';
+import { CampaignDto } from 'src/services/campaigns.module/models/campaign.dto';
+import { OperationalContextService } from 'src/services/core.module/operational-context/operational-context.service';
 import { CampaignCreateHandler } from './handlers/campaign-create.handler';
 import { CampaignSearchHandler } from './handlers/campaign-search.handler';
 import {

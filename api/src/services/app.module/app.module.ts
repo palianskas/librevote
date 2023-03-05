@@ -1,15 +1,15 @@
 import { Module, Scope } from '@nestjs/common';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { StatusController } from 'src/routes/status/status.controller';
-import { AuthModule } from '../auth/auth.module';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CampaignsModule } from '../campaigns/campaigns.module';
-import { CoreModule } from '../core/core.module';
-import { OperationalContextInterceptor } from '../core/operational-context/operational-context.interceptor';
-import { OperationalContextService } from '../core/operational-context/operational-context.service';
-import { StatusService } from '../core/status/status.service';
-import { DataModule } from '../data/data.module';
-import { UsersModule } from '../users/users.module';
+import { AuthModule } from '../auth.module/auth.module';
+import { JwtAuthGuard } from '../auth.module/guards/jwt-auth.guard';
+import { CampaignsModule } from '../campaigns.module/campaigns.module';
+import { CoreModule } from '../core.module/core.module';
+import { OperationalContextInterceptor } from '../core.module/operational-context/operational-context.interceptor';
+import { OperationalContextService } from '../core.module/operational-context/operational-context.service';
+import { StatusService } from '../core.module/status/status.service';
+import { DataModule } from '../data.module/data.module';
+import { UsersModule } from '../users.module/users.module';
 
 @Module({
   imports: [CoreModule, AuthModule, UsersModule, DataModule, CampaignsModule],

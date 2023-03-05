@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
-import { Public } from 'src/services/auth/guards/guard-activators.decorator';
-import { StatusService } from 'src/services/core/status/status.service';
+import { Public } from 'src/services/auth.module/guards/guard-activators.decorator';
+import { StatusService } from 'src/services/core.module/status/status.service';
 
 @Controller()
 export class StatusController {

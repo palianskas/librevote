@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CampaignUsersRepository } from 'src/services/campaigns/campaign-users/campaign-users.reposittory';
-import { CampaignsRepository } from 'src/services/campaigns/campaigns.repository';
-import { CampaignDto } from 'src/services/campaigns/models/campaign.dto';
+import { CampaignUsersRepository } from 'src/services/campaigns.module/campaign-users/campaign-users.repository';
+import { CampaignsRepository } from 'src/services/campaigns.module/campaigns.repository';
+import { CampaignDto } from 'src/services/campaigns.module/models/campaign.dto';
 import {
   ICampaignSearchRequest,
   ICampaignSearchResponse,

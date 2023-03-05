@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from 'src/services/auth/auth.service';
-import { AuthError } from 'src/services/auth/models/auth-errors.enum';
-import { IJwtRefreshPayload } from 'src/services/auth/models/jwt-payload.model';
+import { AuthService } from 'src/services/auth.module/auth.service';
+import { AuthError } from 'src/services/auth.module/models/auth-errors.enum';
+import { IJwtRefreshPayload } from 'src/services/auth.module/models/jwt-payload.model';
 import {
   IAccessRefreshRequest,
   IAccessRefreshResponse,

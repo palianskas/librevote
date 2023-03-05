@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from '../users/models/user.dto';
-import { UsersService } from '../users/users.service';
+import { UserDto } from '../users.module/models/user.dto';
+import { UsersService } from '../users.module/users.service';
 import { EncryptionService } from './encryption.service';
 import { IJwtPayload, IJwtRefreshPayload } from './models/jwt-payload.model';
 

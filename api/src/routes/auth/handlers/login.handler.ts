@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AuthService } from 'src/services/auth/auth.service';
+import { AuthService } from 'src/services/auth.module/auth.service';
 import {
   IAuthenticatedRequest,
   ILoginResponse,
