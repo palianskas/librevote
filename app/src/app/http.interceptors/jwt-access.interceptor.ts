@@ -18,9 +18,10 @@ import { AuthService } from '../auth.module/services/auth.service';
 })
 export class JwtAccessInterceptor implements HttpInterceptor {
   constructor(
-    private readonly configService: ConfigService,
-    private readonly authService: AuthService
-  ) {}
+    private readonly configService: ConfigService
+  ) // private readonly authService: AuthService
+  // TODO: fix circular dependency through HttpClient
+  {}
 
   intercept(
     req: HttpRequest<any>,
@@ -41,7 +42,7 @@ export class JwtAccessInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.error?.message === AuthError.AccessTokenExpired) {
-          this.authService.refreshAccess();
+          // this.authService.refreshAccess();
         }
 
         return EMPTY;
