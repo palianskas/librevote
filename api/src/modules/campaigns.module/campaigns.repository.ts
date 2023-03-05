@@ -62,7 +62,11 @@ export class CampaignsRepository {
       query.select = fieldSelect;
     } else {
       query.include = {
-        campaignUsers: true,
+        campaignUsers: {
+          include: {
+            user: true,
+          },
+        },
       };
     }
 

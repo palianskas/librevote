@@ -20,7 +20,7 @@ export class CampaignsService {
     return campaign;
   }
 
-  isAccessDeniedToCampaign(user: User, campaign: Campaign | CampaignDto) {
+  isAccessDenied(user: User, campaign: Campaign | CampaignDto) {
     if (!campaign.campaignUsers) {
       return false;
     }
@@ -33,8 +33,6 @@ export class CampaignsService {
     user: User,
     campaigns: (Campaign | CampaignDto)[],
   ) {
-    return campaigns.some((campaign) =>
-      this.isAccessDeniedToCampaign(user, campaign),
-    );
+    return campaigns.some((campaign) => this.isAccessDenied(user, campaign));
   }
 }

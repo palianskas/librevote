@@ -41,7 +41,7 @@ export class CampaignsController {
 
     const user = request.user;
 
-    if (this.campaignService.isAccessDeniedToCampaign(user, campaign)) {
+    if (this.campaignService.isAccessDenied(user, campaign)) {
       throw new ForbiddenException();
     }
     const dto = CampaignDto.map(campaign);
@@ -68,11 +68,7 @@ export class CampaignsController {
   ): Promise<ICampaignSearchResponse> {
     const user = request.user;
 
-    const response = await this.campaignSearchHandler.handle(body);
-
-    if (this.campaignService.isAccessesDeniedToCampaigns(user, response.rows)) {
-      throw new ForbiddenException();
-    }
+    const response = await this.campaignSearchHandler.handle(user, body);
 
     return response;
   }

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { CampaignUsersRepository } from 'src/modules/campaigns.module/campaign-users/campaign-users.repository';
 import { CampaignsRepository } from 'src/modules/campaigns.module/campaigns.repository';
 import { CampaignDto } from 'src/modules/campaigns.module/models/campaign.dto';
@@ -15,6 +16,7 @@ export class CampaignSearchHandler {
   ) {}
 
   async handle(
+    user: User,
     request: ICampaignSearchRequest,
   ): Promise<ICampaignSearchResponse> {
     const filter = {
@@ -23,11 +25,12 @@ export class CampaignSearchHandler {
       },
     };
 
-    if (!!request.userIds) {
-      const userCampaignsIds = await this.getUsersCampaignIds(request.userIds);
+    // TODO: currently only allow to load own campaigns
+    request.userIds = [user.id];
 
-      filter.id.in = userCampaignsIds;
-    }
+    const userCampaignsIds = await this.getUsersCampaignIds(request.userIds);
+
+    filter.id.in = userCampaignsIds;
 
     if (!!request.campaignIds) {
       filter.id.in.concat(request.campaignIds);
