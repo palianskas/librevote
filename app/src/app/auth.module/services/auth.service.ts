@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom, Subject } from 'rxjs';
+import { RouteNames } from 'src/app/app.module/app.routes';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import {
   ILoginRequest,
@@ -63,7 +64,7 @@ export class AuthService {
 
     this.fetchCurrentUser();
 
-    this.router.navigate(['/']);
+    this.router.navigate([RouteNames.index]);
   }
 
   async fetchCurrentUser(): Promise<User | null> {

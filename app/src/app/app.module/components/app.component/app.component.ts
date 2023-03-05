@@ -8,7 +8,5 @@ import { AuthService } from 'src/app/auth.module/services/auth.service';
   providers: [AuthService],
 })
 export class AppComponent {
-  constructor(private readonly authService: AuthService) {}
-
-  title = 'app';
+  constructor() {}
 }
