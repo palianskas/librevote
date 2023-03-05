@@ -17,10 +17,21 @@ import { User, UserDto } from '../models/user.model';
 })
 export class AuthService {
   private authApi: IAuthApi;
+  private _user: User;
   private _userSubject: Subject<User | null>;
 
-  public get user(): Subject<User | null> {
+  public get userObservable(): Subject<User | null> {
     return this._userSubject;
+  }
+
+  public async getUser(): Promise<User> {
+    if (!!this._user) {
+      return this._user;
+    }
+
+    const user = await this.fetchCurrentUser();
+
+    return user;
   }
 
   constructor(
@@ -35,6 +46,10 @@ export class AuthService {
 
   async init(): Promise<void> {
     this._userSubject = new Subject<User | null>();
+
+    this.userObservable.subscribe((user) => {
+      this._user = user;
+    });
 
     await this.fetchCurrentUser();
   }
@@ -102,11 +117,14 @@ export class AuthService {
     }
 
     this.access_token = response.access_token;
+
+    this.fetchCurrentUser();
   }
 
   private updateCurrentUser(dto: UserDto): User {
     const user = User.map(dto);
 
+    this._user = user;
     this._userSubject.next(user);
 
     return user;

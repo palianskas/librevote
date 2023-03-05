@@ -12,8 +12,10 @@ export class NavigationComponent implements OnInit {
 
   constructor(private readonly authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.authService.user.subscribe((user) => {
+  async ngOnInit(): Promise<void> {
+    this.user = await this.authService.getUser();
+
+    this.authService.userObservable.subscribe((user) => {
       this.user = user;
     });
   }
