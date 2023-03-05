@@ -21,6 +21,11 @@ import { UsersModule } from '../users/users.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    {
+      provide: APP_INTERCEPTOR,
+      scope: Scope.REQUEST,
+      useClass: OperationalContextInterceptor,
+    },
   ],
 })
 export class AppModule {}
