@@ -1,13 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, firstValueFrom } from 'rxjs';
-import {
-  ILoginResponse,
-  ITokenRefreshResponse,
-  ILoginRequest,
-  ITokenRefreshRequest,
-} from 'src/app/auth.module/models/auth-contracts.model';
-import { User, UserDto } from 'src/app/auth.module/models/user.model';
+import { firstValueFrom } from 'rxjs';
+import { AuthService } from 'src/app/auth.module/services/auth.service';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import {
   ICampaignCreateRequest,
@@ -25,7 +19,8 @@ export class CampaignsService {
 
   constructor(
     private readonly httpClient: HttpClient,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly authService: AuthService
   ) {
     this.campaignsApi = this.initApi();
 
@@ -53,6 +48,20 @@ export class CampaignsService {
   }
 
   async search(request: ICampaignSearchRequest): Promise<Campaign[]> {
+    const response = await this.campaignsApi.search(request);
+
+    const campaigns = response.rows.map((row) => Campaign.map(row));
+
+    return campaigns;
+  }
+
+  async fetchUserCampaigns(): Promise<Campaign[]> {
+    const user = await this.authService.getUser();
+
+    const request: ICampaignSearchRequest = {
+      userIds: [user.id],
+    };
+
     const response = await this.campaignsApi.search(request);
 
     const campaigns = response.rows.map((row) => Campaign.map(row));
