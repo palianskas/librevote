@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CampaignsController } from 'src/routes/campaigns/campaigns.controller';
-import { CampaignCreateHandler } from 'src/routes/campaigns/handlers/campaign-create.handler';
-import { CampaignSearchHandler } from 'src/routes/campaigns/handlers/campaign-search.handler';
+import { CampaignCreateHandler } from 'src/services/campaigns.module/routes/handlers/campaign-create.handler';
+import { CampaignSearchHandler } from 'src/services/campaigns.module/routes/handlers/campaign-search.handler';
 import { CoreModule } from '../core.module/core.module';
 import { DataModule } from '../data.module/data.module';
 import { CampaignUsersRepository } from './campaign-users/campaign-users.repository';
 import { CampaignsRepository } from './campaigns.repository';
 import { CampaignsService } from './campaigns.service';
+import { CampaignsController } from './routes/campaigns.controller';
 
 @Module({
   imports: [DataModule, CoreModule],

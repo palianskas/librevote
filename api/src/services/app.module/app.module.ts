@@ -1,6 +1,6 @@
 import { Module, Scope } from '@nestjs/common';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { StatusController } from 'src/routes/status/status.controller';
+import { StatusController } from 'src/services/core.module/routes/status/status.controller';
 import { AuthModule } from '../auth.module/auth.module';
 import { JwtAuthGuard } from '../auth.module/guards/jwt-auth.guard';
 import { CampaignsModule } from '../campaigns.module/campaigns.module';

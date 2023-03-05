@@ -5,7 +5,7 @@ import {
   CallHandler,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { IAuthenticatedRequest } from 'src/routes/auth/models/auth-contracts.model';
+import { IAuthenticatedRequest } from 'src/services/auth.module/routes/models/auth-contracts.model';
 import { OperationalContextService } from './operational-context.service';
 
 @Injectable()

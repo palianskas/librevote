@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { StatusResponse } from 'src/routes/status/status.controller';
+import { StatusResponse } from 'src/services/core.module/routes/status/status.controller';
 
 @Injectable()
 export class StatusService {
