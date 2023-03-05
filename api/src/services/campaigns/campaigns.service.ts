@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CampaignUsersRepository } from './campaign-users/campaign-users.reposittory';
+import { User } from '@prisma/client';
 import { CampaignsRepository } from './campaigns.repository';
 import { CampaignDto } from './models/campaign.dto';
 import { Campaign } from './models/campaign.model';
@@ -18,5 +18,23 @@ export class CampaignsService {
     const campaign = this.campaignsRepository.create(dto);
 
     return campaign;
+  }
+
+  isAccessDeniedToCampaign(user: User, campaign: Campaign | CampaignDto) {
+    if (!campaign.campaignUsers) {
+      return false;
+    }
+
+    return !campaign.campaignUsers.some(
+      (campaignUser) => campaignUser.userId === user.id,
+    );
+  }
+  isAccessesDeniedToCampaigns(
+    user: User,
+    campaigns: (Campaign | CampaignDto)[],
+  ) {
+    return campaigns.some((campaign) =>
+      this.isAccessDeniedToCampaign(user, campaign),
+    );
   }
 }
