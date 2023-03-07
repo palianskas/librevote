@@ -4,13 +4,9 @@ import { Router } from '@angular/router';
 import { firstValueFrom, Subject } from 'rxjs';
 import { RouteNames } from 'src/app/app.module/app.routes';
 import { ConfigService } from 'src/app/common.module/services/config.service';
-import {
-  ILoginRequest,
-  ILoginResponse,
-  ITokenRefreshRequest,
-  ITokenRefreshResponse,
-} from '../models/auth-contracts.model';
+import { ILoginRequest, ILoginResponse } from '../models/auth-contracts.model';
 import { User, UserDto } from '../models/user.model';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +32,7 @@ export class AuthService {
 
   constructor(
     private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
     private readonly httpClient: HttpClient,
     private readonly router: Router
   ) {
@@ -74,16 +71,16 @@ export class AuthService {
 
     const response = await this.authApi.login(dto);
 
-    this.refresh_token = response.refresh_token;
-    this.access_token = response.access_token;
+    this.jwtService.refresh_token = response.refresh_token;
+    this.jwtService.access_token = response.access_token;
 
     this.fetchCurrentUser();
 
     this.router.navigate([RouteNames.index]);
   }
 
-  async fetchCurrentUser(): Promise<User | null> {
-    if (!this.access_token) {
+  async fetchCurrentUser(retryNo = 0): Promise<User | null> {
+    if (!this.jwtService.access_token) {
       return null;
     }
 
@@ -92,33 +89,18 @@ export class AuthService {
     try {
       dto = await this.authApi.current();
     } catch {
+      await this.jwtService.refreshAccess();
+
+      if (retryNo < 2) {
+        return await this.fetchCurrentUser(retryNo + 1);
+      }
+
       return null;
     }
 
     const user = this.updateCurrentUser(dto);
 
     return user;
-  }
-
-  async refreshAccess(): Promise<void> {
-    if (!this.refresh_token) {
-      return;
-    }
-
-    const dto: ITokenRefreshRequest = {
-      refresh_token: this.refresh_token,
-    };
-
-    let response: ITokenRefreshResponse;
-    try {
-      response = await this.authApi.refreshAccess(dto);
-    } catch {
-      return;
-    }
-
-    this.access_token = response.access_token;
-
-    this.fetchCurrentUser();
   }
 
   private updateCurrentUser(dto: UserDto): User {
@@ -128,36 +110,6 @@ export class AuthService {
     this._userSubject.next(user);
 
     return user;
-  }
-
-  private get access_token(): string {
-    const token = localStorage.getItem(
-      this.configService.ACCESS_TOKEN_LOCAL_STORAGE_KEY
-    );
-
-    return token;
-  }
-
-  private set access_token(token: string) {
-    localStorage.setItem(
-      this.configService.ACCESS_TOKEN_LOCAL_STORAGE_KEY,
-      token
-    );
-  }
-
-  private get refresh_token(): string {
-    const token = localStorage.getItem(
-      this.configService.REFRESH_TOKEN_LOCAL_STORAGE_KEY
-    );
-
-    return token;
-  }
-
-  private set refresh_token(token: string) {
-    localStorage.setItem(
-      this.configService.REFRESH_TOKEN_LOCAL_STORAGE_KEY,
-      token
-    );
   }
 
   private initApi(): IAuthApi {
@@ -193,17 +145,6 @@ export class AuthService {
 
         return firstValueFrom(request);
       },
-      refreshAccess: async (dto) => {
-        const request = this.httpClient.post<ITokenRefreshResponse>(
-          apiUrl + 'access',
-          dto,
-          {
-            observe: 'body',
-          }
-        );
-
-        return firstValueFrom(request);
-      },
     };
 
     return api;
@@ -214,5 +155,4 @@ interface IAuthApi {
   register(dto: UserDto): Promise<UserDto>;
   login(dto: ILoginRequest): Promise<ILoginResponse>;
   current(): Promise<UserDto>;
-  refreshAccess(dto: ITokenRefreshRequest): Promise<ITokenRefreshResponse>;
 }

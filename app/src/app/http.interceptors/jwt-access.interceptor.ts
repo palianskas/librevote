@@ -10,7 +10,7 @@ import {
 import { Observable, catchError, EMPTY } from 'rxjs';
 import { ConfigService } from '../common.module/services/config.service';
 import { AuthError } from '../auth.module/models/auth-error.enum';
-import { AuthService } from '../auth.module/services/auth.service';
+import { JwtService } from '../auth.module/services/jwt.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,10 +18,9 @@ import { AuthService } from '../auth.module/services/auth.service';
 })
 export class JwtAccessInterceptor implements HttpInterceptor {
   constructor(
-    private readonly configService: ConfigService
-  ) // private readonly authService: AuthService
-  // TODO: fix circular dependency through HttpClient
-  {}
+    private readonly configService: ConfigService,
+    private readonly jwtService: JwtService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -42,7 +41,7 @@ export class JwtAccessInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.error?.message === AuthError.AccessTokenExpired) {
-          // this.authService.refreshAccess();
+          this.jwtService.refreshAccess();
         }
 
         return EMPTY;

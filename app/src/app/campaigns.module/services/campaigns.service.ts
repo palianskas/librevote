@@ -23,11 +23,7 @@ export class CampaignsService {
     private readonly authService: AuthService
   ) {
     this.campaignsApi = this.initApi();
-
-    this.init();
   }
-
-  async init(): Promise<void> {}
 
   async get(id: string): Promise<Campaign> {
     const dto = await this.campaignsApi.get(id);
