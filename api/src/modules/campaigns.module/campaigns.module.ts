@@ -3,9 +3,12 @@ import { CampaignCreateHandler } from 'src/modules/campaigns.module/routes/handl
 import { CampaignSearchHandler } from 'src/modules/campaigns.module/routes/handlers/campaign-search.handler';
 import { CoreModule } from '../core.module/core.module';
 import { DataModule } from '../data.module/data.module';
+import { CampaignPublicLinksRepository } from './campaign-public-links.repository';
+import { CampaignPublicLinksService } from './campaign-public-links.service';
 import { CampaignUsersRepository } from './campaign-users/campaign-users.repository';
 import { CampaignsRepository } from './campaigns.repository';
 import { CampaignsService } from './campaigns.service';
+import { CampaignPublicLinksController } from './routes/campaign-public-links.controller';
 import { CampaignsController } from './routes/campaigns.controller';
 
 @Module({
@@ -16,7 +19,9 @@ import { CampaignsController } from './routes/campaigns.controller';
     CampaignUsersRepository,
     CampaignCreateHandler,
     CampaignSearchHandler,
+    CampaignPublicLinksService,
+    CampaignPublicLinksRepository,
   ],
-  controllers: [CampaignsController],
+  controllers: [CampaignsController, CampaignPublicLinksController],
 })
 export class CampaignsModule {}
