@@ -1,8 +1,13 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">
-      <h3>librevote</h3>
-    </a>
+    <div class="d-flex align-items-baseline ms-3">
+      <a class="navbar-brand fw-bold" routerLink="/"> librevote </a>
+      <div *ngIf="!!user">
+        <a class="navbar-brand" [routerLink]="routeNames.campaigns.index">
+          Campaigns
+        </a>
+      </div>
+    </div>
     <div *ngIf="!user" class="d-flex">
       <div class="container">
         <a
@@ -21,8 +26,9 @@
         >
       </div>
     </div>
-    <div *ngIf="!!user">
-      <span>{{ user.name }}</span>
+    <div *ngIf="!!user" class="d-flex align-items-baseline">
+      <span class="fw-bold">{{ user.name }}</span>
+      <button (click)="logOut()" class="btn">Log out</button>
     </div>
   </div>
 </nav>

@@ -8,10 +8,11 @@ import { CommonModule } from '../common.module/common.module';
 import { HttpInterceptorProviders } from '../http.interceptors';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app.component/app.component';
+import { MainComponent } from './components/main.component/main.component';
 import { NavigationComponent } from './components/navigation.component/navigation.component';
 
 @NgModule({
-  declarations: [AppComponent, NavigationComponent],
+  declarations: [AppComponent, NavigationComponent, MainComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

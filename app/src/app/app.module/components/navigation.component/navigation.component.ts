@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/auth.module/models/user.model';
 import { AuthService } from 'src/app/auth.module/services/auth.service';
 import { RouteNames } from '../../app.routes';
@@ -12,7 +13,10 @@ export class NavigationComponent implements OnInit {
   user: User = null;
   routeNames = RouteNames;
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.user = await this.authService.getUser();
@@ -20,5 +24,12 @@ export class NavigationComponent implements OnInit {
     this.authService.userObservable.subscribe((user) => {
       this.user = user;
     });
+  }
+
+  logOut(): void {
+    this.authService.logout();
+
+    //reload
+    this.router.navigate(['.']);
   }
 }

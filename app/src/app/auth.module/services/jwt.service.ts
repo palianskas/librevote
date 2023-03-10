@@ -37,6 +37,11 @@ export class JwtService {
     this.access_token = response.access_token;
   }
 
+  clear(): void {
+    localStorage.removeItem(this.configService.ACCESS_TOKEN_LOCAL_STORAGE_KEY);
+    localStorage.removeItem(this.configService.REFRESH_TOKEN_LOCAL_STORAGE_KEY);
+  }
+
   public get access_token(): string {
     const token = localStorage.getItem(
       this.configService.ACCESS_TOKEN_LOCAL_STORAGE_KEY

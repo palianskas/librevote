@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { firstValueFrom, Subject } from 'rxjs';
-import { RouteNames } from 'src/app/app.module/app.routes';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import { ILoginRequest, ILoginResponse } from '../models/auth-contracts.model';
 import { User, UserDto } from '../models/user.model';
@@ -15,6 +13,7 @@ export class AuthService {
   private authApi: IAuthApi;
   private _user: User;
   private _userSubject: Subject<User | null>;
+  private _userPromise: Promise<User> | null;
 
   public get userObservable(): Subject<User | null> {
     return this._userSubject;
@@ -25,7 +24,15 @@ export class AuthService {
       return this._user;
     }
 
-    const user = await this.fetchCurrentUser();
+    if (!!this._userPromise) {
+      return this._userPromise;
+    }
+
+    this._userPromise = this.fetchCurrentUser();
+
+    const user = await this._userPromise;
+
+    this._userPromise = null;
 
     return user;
   }
@@ -33,15 +40,14 @@ export class AuthService {
   constructor(
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
-    private readonly httpClient: HttpClient,
-    private readonly router: Router
+    private readonly httpClient: HttpClient
   ) {
     this.authApi = this.initApi();
 
     this.init();
   }
 
-  async init(): Promise<void> {
+  private async init(): Promise<void> {
     this._userSubject = new Subject<User | null>();
 
     this.userObservable.subscribe((user) => {
@@ -75,11 +81,15 @@ export class AuthService {
     this.jwtService.access_token = response.access_token;
 
     this.fetchCurrentUser();
-
-    this.router.navigate([RouteNames.index]);
   }
 
-  async fetchCurrentUser(retryNo = 0): Promise<User | null> {
+  logout(): void {
+    this.jwtService.clear();
+
+    this.updateCurrentUser(null);
+  }
+
+  private async fetchCurrentUser(retryNo = 0): Promise<User | null> {
     if (!this.jwtService.access_token) {
       return null;
     }
@@ -103,8 +113,8 @@ export class AuthService {
     return user;
   }
 
-  private updateCurrentUser(dto: UserDto): User {
-    const user = User.map(dto);
+  private updateCurrentUser(dto: UserDto | null): User | null {
+    const user = !!dto ? User.map(dto) : null;
 
     this._user = user;
     this._userSubject.next(user);
