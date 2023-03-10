@@ -25,8 +25,12 @@ export class CampaignsService {
     this.campaignsApi = this.initApi();
   }
 
-  async get(id: string): Promise<Campaign> {
+  async get(id: string): Promise<Campaign | null> {
     const dto = await this.campaignsApi.get(id);
+
+    if (!dto) {
+      return null;
+    }
 
     const campaign = Campaign.map(dto);
 
@@ -69,14 +73,16 @@ export class CampaignsService {
     const apiUrl = this.configService.API_URL + 'campaigns/';
 
     const api: ICampaignsApi = {
-      get: async (id) => {
+      get: async (id): Promise<CampaignDto> => {
         const url = apiUrl + id;
 
         const request = this.httpClient.get<CampaignDto>(url, {
           observe: 'body',
         });
 
-        return firstValueFrom(request);
+        return firstValueFrom(request).catch(() => {
+          return null;
+        });
       },
       create: async (createRequest) => {
         const request = this.httpClient.post<ICampaignCreateResponse>(
@@ -109,7 +115,7 @@ export class CampaignsService {
 }
 
 interface ICampaignsApi {
-  get(id: string): Promise<CampaignDto>;
+  get(id: string): Promise<CampaignDto | null>;
   create(dto: ICampaignCreateRequest): Promise<ICampaignCreateResponse>;
   search(request: ICampaignSearchRequest): Promise<ICampaignSearchResponse>;
 }

@@ -44,7 +44,7 @@ export class JwtAccessInterceptor implements HttpInterceptor {
           this.jwtService.refreshAccess();
         }
 
-        return EMPTY;
+        throw error;
       })
     );
   }
