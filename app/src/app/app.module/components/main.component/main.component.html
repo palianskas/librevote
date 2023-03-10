@@ -1,0 +1,30 @@
+<div
+  class="container d-flex justify-content-center align-items-center flex-grow-1"
+>
+  <div *ngIf="!!user">
+    <div class="container">
+      <a
+        class="btn btn-primary"
+        [routerLink]="routeNames.campaigns.index"
+        aria-current="page"
+        >Campaigns</a
+      >
+    </div>
+  </div>
+  <div *ngIf="!user">
+    <div class="container">
+      <a
+        class="btn btn-primary"
+        [routerLink]="routeNames.login.index"
+        aria-current="page"
+        >Login</a
+      >
+      <a
+        class="btn btn-primary"
+        [routerLink]="routeNames.register.index"
+        aria-current="page"
+        >Register</a
+      >
+    </div>
+  </div>
+</div>
