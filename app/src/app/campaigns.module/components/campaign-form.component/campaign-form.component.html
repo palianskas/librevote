@@ -1,6 +1,43 @@
 <div class="container m-5 d-flex flex-column">
   <h1>Campaign form</h1>
-  <button (click)="temp()" class="btn btn-outline-primary my-3">
-    Create new
-  </button>
+  <form
+    class="d-flex flex-column"
+    [formGroup]="campaignForm"
+    (ngSubmit)="create()"
+  >
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input
+        id="name"
+        class="form-control"
+        type="text"
+        formControlName="name"
+        required
+        [ngClass]="{ 'is-invalid': isInputInvalid(name) }"
+      />
+      <div *ngIf="isInputInvalid(name)" class="text-danger">
+        <div *ngIf="name.errors?.['required']">Field is required</div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="pubKey" class="form-label">Public key</label>
+      <input
+        type="text"
+        class="form-control"
+        id="pubKey"
+        formControlName="pubKey"
+        required
+        [ngClass]="{ 'is-invalid': isInputInvalid(pubKey) }"
+      />
+      <div *ngIf="isInputInvalid(pubKey)" class="text-danger">
+        <div *ngIf="pubKey.errors?.['required']">Field is required</div>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-outline-primary">Create new</button>
+    </div>
+    <div *ngIf="isLoginInvalid" class="text-danger text-center mt-3">
+      Login failed
+    </div>
+  </form>
 </div>

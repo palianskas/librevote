@@ -5,6 +5,7 @@ import { CampaignsViewComponent } from './components/campaigns-view.component/ca
 import { CampaignInfoComponent } from './components/campaign-info.component/campaign-info.component';
 import { RouterModule } from '@angular/router';
 import { CampaignFormComponent } from './components/campaign-form.component/campaign-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,6 @@ import { CampaignFormComponent } from './components/campaign-form.component/camp
     CampaignInfoComponent,
     CampaignFormComponent,
   ],
-  imports: [CommonModule, BrowserModule, RouterModule],
+  imports: [CommonModule, BrowserModule, RouterModule, ReactiveFormsModule],
 })
 export class CampaignsModule {}
