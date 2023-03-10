@@ -1,13 +1,19 @@
 <div class="container" id="form-container">
-  <form class="d-flex flex-column" [formGroup]="loginForm">
+  <form class="d-flex flex-column" [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
       <input
         id="email"
         class="form-control"
-        type="text"
+        type="email"
         formControlName="email"
+        required
+        [ngClass]="{ 'is-invalid': isInputInvalid(email) }"
       />
+      <div *ngIf="isInputInvalid(email)" class="text-danger">
+        <div *ngIf="email.errors?.['required']">Field is required</div>
+        <div *ngIf="email.errors?.['email']">Field is invalid</div>
+      </div>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
@@ -16,8 +22,16 @@
         class="form-control"
         id="password"
         formControlName="password"
+        required
+        [ngClass]="{ 'is-invalid': isInputInvalid(password) }"
       />
+      <div *ngIf="isInputInvalid(password)" class="text-danger">
+        <div *ngIf="password.errors?.['required']">Field is required</div>
+      </div>
     </div>
-    <button (click)="login()" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-outline-primary">Login</button>
+    <div *ngIf="isLoginInvalid" class="text-danger text-center mt-3">
+      Login failed
+    </div>
   </form>
 </div>

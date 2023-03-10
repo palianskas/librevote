@@ -7,7 +7,12 @@
         class="form-control"
         type="text"
         formControlName="name"
+        required
+        [ngClass]="{ 'is-invalid': isInputInvalid(name) }"
       />
+      <div *ngIf="isInputInvalid(name)" class="text-danger">
+        <div *ngIf="name.errors?.['required']">Field is required</div>
+      </div>
     </div>
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
@@ -16,7 +21,13 @@
         class="form-control"
         type="email"
         formControlName="email"
+        required
+        [ngClass]="{ 'is-invalid': isInputInvalid(email) }"
       />
+      <div *ngIf="isInputInvalid(email)" class="text-danger">
+        <div *ngIf="email.errors?.['required']">Field is required</div>
+        <div *ngIf="email.errors?.['email']">Field is invalid</div>
+      </div>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
@@ -25,8 +36,16 @@
         class="form-control"
         id="password"
         formControlName="password"
+        required
+        [ngClass]="{ 'is-invalid': isInputInvalid(password) }"
       />
+      <div *ngIf="isInputInvalid(password)" class="text-danger">
+        <div *ngIf="password.errors?.['required']">Field is required</div>
+      </div>
     </div>
     <button (click)="register()" class="btn btn-primary">Register</button>
+    <div *ngIf="isRegistrationInvalid" class="text-danger text-center mt-3">
+      Registration failed
+    </div>
   </form>
 </div>
