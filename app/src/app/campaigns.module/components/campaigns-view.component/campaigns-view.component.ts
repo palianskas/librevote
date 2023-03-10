@@ -12,6 +12,8 @@ import { CampaignsService } from '../../services/campaigns.service';
 export class CampaignsViewComponent implements OnInit {
   campaigns: Campaign[];
 
+  routeNames = RouteNames;
+
   constructor(
     private readonly campaignsService: CampaignsService,
     private readonly router: Router
