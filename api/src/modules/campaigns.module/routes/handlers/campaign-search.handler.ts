@@ -19,22 +19,10 @@ export class CampaignSearchHandler {
     user: User,
     request: ICampaignSearchRequest,
   ): Promise<ICampaignSearchResponse> {
-    const filter = {
-      id: {
-        in: [] as string[],
-      },
-    };
-
     // TODO: currently only allow to load own campaigns
     request.userIds = [user.id];
 
-    const userCampaignsIds = await this.getUsersCampaignIds(request.userIds);
-
-    filter.id.in = userCampaignsIds;
-
-    if (!!request.campaignIds) {
-      filter.id.in.concat(request.campaignIds);
-    }
+    const filter = this.buildSearchFilter(request);
 
     const campaigns = await this.campaignsRepository.search(filter);
 
@@ -47,24 +35,40 @@ export class CampaignSearchHandler {
     return response;
   }
 
-  private async getUsersCampaignIds(userIds: string[]): Promise<string[]> {
-    const filter = {
-      userId: {
-        in: userIds,
-      },
-    };
+  private buildSearchFilter(
+    request: ICampaignSearchRequest,
+  ): ICampaignSearchFilter {
+    const filter: ICampaignSearchFilter = {};
 
-    const fieldSelect = {
-      campaignId: true,
-    };
+    if (!!request.userIds) {
+      filter.campaignUsers = {
+        some: {
+          userId: {
+            in: request.userIds,
+          },
+        },
+      };
+    }
 
-    const campaignUsers = await this.campaignUsersRepository.search(
-      filter,
-      fieldSelect,
-    );
+    if (!!request.campaignIds) {
+      filter.id = {
+        in: request.campaignIds,
+      };
+    }
 
-    const campaignIds = campaignUsers.map((user) => user.campaignId);
-
-    return campaignIds;
+    return filter;
   }
+}
+
+interface ICampaignSearchFilter {
+  id?: {
+    in: string[];
+  };
+  campaignUsers?: {
+    some: {
+      userId: {
+        in: string[];
+      };
+    };
+  };
 }
