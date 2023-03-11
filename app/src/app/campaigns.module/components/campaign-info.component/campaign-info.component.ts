@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Campaign } from '../../models/campaign.model';
 import { CampaignsService } from '../../services/campaigns.service';
 
@@ -7,7 +8,9 @@ import { CampaignsService } from '../../services/campaigns.service';
   selector: 'app-campaign-info',
   templateUrl: './campaign-info.component.html',
 })
-export class CampaignInfoComponent implements OnInit {
+export class CampaignInfoComponent implements OnInit, OnDestroy {
+  paramsSubscription: Subscription;
+
   campaign: Campaign;
 
   constructor(
@@ -16,9 +19,13 @@ export class CampaignInfoComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const id = this.route.params.subscribe((params) => {
+    this.paramsSubscription = this.route.params.subscribe((params) => {
       this.fetchCampaign(params['id']);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.paramsSubscription.unsubscribe();
   }
 
   private async fetchCampaign(id: string): Promise<void> {

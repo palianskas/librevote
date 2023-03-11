@@ -4,6 +4,7 @@ import { LoginComponent } from '../auth.module/components/login.component/login.
 import { RegisterComponent } from '../auth.module/components/register.component/register.component';
 import { CampaignFormComponent } from '../campaigns.module/components/campaign-form.component/campaign-form.component';
 import { CampaignInfoComponent } from '../campaigns.module/components/campaign-info.component/campaign-info.component';
+import { CampaignPublicLinkViewComponent } from '../campaigns.module/components/campaign-public-link-view.component/campaign-public-link-view.component';
 import { CampaignsViewComponent } from '../campaigns.module/components/campaigns-view.component/campaigns-view.component';
 import { AuthGuard, RouteNames } from './app.routes';
 import { MainComponent } from './components/main.component/main.component';
@@ -27,6 +28,15 @@ const routes: Routes = [
       {
         path: ':id',
         component: CampaignInfoComponent,
+      },
+    ],
+  },
+  {
+    path: RouteNames.vote.index,
+    children: [
+      {
+        path: ':link',
+        component: CampaignPublicLinkViewComponent,
       },
     ],
   },

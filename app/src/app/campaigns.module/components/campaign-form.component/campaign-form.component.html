@@ -33,6 +33,21 @@
         <div *ngIf="pubKey.errors?.['required']">Field is required</div>
       </div>
     </div>
+    <div class="mb-3">
+      <label for="publicLink" class="form-label">Public link</label>
+      <input
+        type="text"
+        class="form-control"
+        id="publicLink"
+        formControlName="publicLink"
+        required
+        [ngClass]="{ 'is-invalid': isInputInvalid(publicLink) }"
+      />
+      <div *ngIf="isInputInvalid(publicLink)" class="text-danger">
+        <div *ngIf="publicLink.errors?.['required']">Field is required</div>
+        <div *ngIf="publicLink.errors?.['pattern']">Field is invalid</div>
+      </div>
+    </div>
     <div class="container mb-3 p-3 border rounded-3">
       <app-campaign-form-users-input [campaignUsers]="campaignUsers"/>
     </div>

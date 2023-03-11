@@ -13,6 +13,9 @@ export const RouteNames = {
   campaigns: {
     index: 'campaigns',
   },
+  vote: {
+    index: 'vote',
+  },
 } as const;
 
 @Injectable({
