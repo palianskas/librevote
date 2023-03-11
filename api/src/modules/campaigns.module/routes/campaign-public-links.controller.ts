@@ -36,6 +36,21 @@ export class CampaignPublicLinksController {
     return dto;
   }
 
+  @Get('link/:link')
+  async getByLink(@Param('link') link: string): Promise<CampaignPublicLinkDto> {
+    const campaignPublicLink = await this.campaignPublicLinksService.getByLink(
+      link,
+    );
+
+    if (!campaignPublicLink) {
+      throw new NotFoundException();
+    }
+
+    const dto = CampaignPublicLinkDto.map(campaignPublicLink);
+
+    return dto;
+  }
+
   @Post()
   async create(
     @Body() body: ICampaignPublicLinkCreateRequest,

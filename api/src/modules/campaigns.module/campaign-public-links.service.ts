@@ -15,6 +15,13 @@ export class CampaignPublicLinksService {
     return campaignPublicLink;
   }
 
+  async getByLink(link: string): Promise<CampaignPublicLink | null> {
+    const campaignPublicLink =
+      await this.campaignPublicLinksRepository.getByLink(link);
+
+    return campaignPublicLink;
+  }
+
   async create(dto: CampaignPublicLinkDto): Promise<string> {
     const campaignPublicLink = await this.campaignPublicLinksRepository.create(
       dto,
