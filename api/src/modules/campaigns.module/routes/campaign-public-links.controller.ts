@@ -11,6 +11,10 @@ import { Public } from 'src/modules/auth.module/guards/guard-activators.decorato
 import { IAuthenticatedRequest } from 'src/modules/auth.module/routes/models/auth-contracts.model';
 import { CampaignPublicLinksService } from '../campaign-public-links.service';
 import { CampaignPublicLinkDto } from '../models/campaign-public-link.dto';
+import {
+  ICampaignPublicLinkCreateRequest,
+  ICampaignPublicLinkCreateResponse,
+} from './models/campaign-public-links-contracts.model';
 
 @Public()
 @Controller('campaign-public-links')
@@ -34,12 +38,17 @@ export class CampaignPublicLinksController {
 
   @Post()
   async create(
-    @Body() dto: CampaignPublicLinkDto,
+    @Body() body: ICampaignPublicLinkCreateRequest,
     @Request() request: IAuthenticatedRequest,
-  ): Promise<CampaignPublicLinkDto> {
+  ): Promise<ICampaignPublicLinkCreateResponse> {
     const user = request.user;
+    const dto = body.dto;
 
-    const response = await this.campaignPublicLinksService.create(dto);
+    const id = await this.campaignPublicLinksService.create(dto);
+
+    const response: ICampaignPublicLinkCreateResponse = {
+      id: id,
+    };
 
     return response;
   }

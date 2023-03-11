@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CampaignPublicLink, User } from '@prisma/client';
+import { CampaignPublicLink } from '@prisma/client';
 import { CampaignPublicLinksRepository } from './campaign-public-links.repository';
 import { CampaignPublicLinkDto } from './models/campaign-public-link.dto';
 
@@ -10,14 +10,16 @@ export class CampaignPublicLinksService {
   ) {}
 
   async get(id: string): Promise<CampaignPublicLink | null> {
-    const campaign = await this.campaignPublicLinksRepository.get(id);
+    const campaignPublicLink = await this.campaignPublicLinksRepository.get(id);
 
-    return campaign;
+    return campaignPublicLink;
   }
 
-  async create(dto: CampaignPublicLinkDto): Promise<CampaignPublicLink> {
-    const campaign = this.campaignPublicLinksRepository.create(dto);
+  async create(dto: CampaignPublicLinkDto): Promise<string> {
+    const campaignPublicLink = await this.campaignPublicLinksRepository.create(
+      dto,
+    );
 
-    return campaign;
+    return campaignPublicLink.id;
   }
 }
