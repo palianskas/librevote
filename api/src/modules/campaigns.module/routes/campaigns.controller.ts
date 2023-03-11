@@ -18,7 +18,7 @@ import {
   ICampaignCreateResponse,
   ICampaignSearchRequest,
   ICampaignSearchResponse,
-} from './models/campaign-search-contracts.model';
+} from './models/campaign-contracts.model';
 
 @Controller('campaigns')
 export class CampaignsController {

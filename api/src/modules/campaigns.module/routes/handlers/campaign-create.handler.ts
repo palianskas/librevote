@@ -6,7 +6,7 @@ import { CampaignDto } from 'src/modules/campaigns.module/models/campaign.dto';
 import {
   ICampaignCreateRequest,
   ICampaignCreateResponse,
-} from '../models/campaign-search-contracts.model';
+} from '../models/campaign-contracts.model';
 
 @Injectable()
 export class CampaignCreateHandler {
