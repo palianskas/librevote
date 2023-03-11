@@ -8,7 +8,7 @@ import {
   ICampaignCreateResponse,
   ICampaignSearchRequest,
   ICampaignSearchResponse,
-} from '../models/campaign-search-contracts.model';
+} from '../models/campaigns-contracts.model';
 import { Campaign, CampaignDto } from '../models/campaign.model';
 
 @Injectable({
