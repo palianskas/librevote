@@ -1,4 +1,4 @@
-import { User, UserDto } from 'src/app/auth.module/models/user.model';
+import { User, UserDto } from 'src/app/users.module/models/user.model';
 import { CampaignUserRole } from './campaign-user-role.enum';
 import { Campaign, CampaignDto } from './campaign.model';
 

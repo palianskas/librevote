@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom, Subject } from 'rxjs';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import { ILoginRequest, ILoginResponse } from '../models/auth-contracts.model';
-import { User, UserDto } from '../models/user.model';
+import { User, UserDto } from '../../users.module/models/user.model';
 import { JwtService } from './jwt.service';
 
 @Injectable({
