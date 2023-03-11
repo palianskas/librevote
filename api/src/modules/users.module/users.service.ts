@@ -22,4 +22,12 @@ export class UsersService {
   async create(dto: UserDto, password: string): Promise<User> {
     return this.usersRepository.create(dto, password);
   }
+
+  async searchByEmails(emails: string[]): Promise<User[]> {
+    const users = await Promise.all(
+      emails.map((email) => this.getByEmail(email)),
+    );
+
+    return users.filter((user) => !!user) as User[];
+  }
 }
