@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouteNames } from 'src/app/app.module/app.routes';
-import { Campaign, CampaignDto } from '../../models/campaign.model';
+import { CampaignUserDto } from '../../models/campaign-user.model';
+import { CampaignDto } from '../../models/campaign.model';
 import { CampaignsService } from '../../services/campaigns.service';
 
 @Component({
@@ -10,10 +11,9 @@ import { CampaignsService } from '../../services/campaigns.service';
   templateUrl: './campaign-form.component.html',
 })
 export class CampaignFormComponent {
-  campaign: Campaign;
+  campaignUsers: CampaignUserDto[] = [];
 
-  formSubmitted = false;
-  isLoginInvalid = false;
+  campaignFormSubmitted = false;
 
   campaignForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -32,8 +32,9 @@ export class CampaignFormComponent {
     return this.campaignForm.controls.pubKey;
   }
 
-  async create() {
-    this.formSubmitted = true;
+  async create(): Promise<void> {
+    this.campaignFormSubmitted = true;
+    this.campaignForm.markAllAsTouched();
 
     if (this.campaignForm.invalid) {
       return;
@@ -42,7 +43,7 @@ export class CampaignFormComponent {
     const dto: CampaignDto = {
       name: this.name.value,
       pubKey: this.pubKey.value,
-      campaignUsers: [],
+      campaignUsers: this.campaignUsers,
     };
 
     const id = await this.campaignsService.create(dto);
@@ -51,6 +52,6 @@ export class CampaignFormComponent {
   }
 
   isInputInvalid(control: FormControl): boolean {
-    return (this.formSubmitted || control.touched) && control.invalid;
+    return control.touched && control.invalid;
   }
 }

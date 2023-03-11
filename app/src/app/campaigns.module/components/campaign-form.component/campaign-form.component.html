@@ -33,11 +33,13 @@
         <div *ngIf="pubKey.errors?.['required']">Field is required</div>
       </div>
     </div>
-    <div>
-      <button type="submit" class="btn btn-outline-primary">Create new</button>
+    <div class="container mb-3 p-3 border rounded-3">
+      <app-campaign-form-users-input [campaignUsers]="campaignUsers"/>
     </div>
-    <div *ngIf="isLoginInvalid" class="text-danger text-center mt-3">
-      Login failed
+    <div>
+      <button type="submit" class="btn btn-outline-primary">
+        Create campaign
+      </button>
     </div>
   </form>
 </div>

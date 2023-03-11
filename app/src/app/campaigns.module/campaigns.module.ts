@@ -6,12 +6,14 @@ import { CampaignInfoComponent } from './components/campaign-info.component/camp
 import { RouterModule } from '@angular/router';
 import { CampaignFormComponent } from './components/campaign-form.component/campaign-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CampaignFormUsersInputComponent } from './components/campaign-form.component/campaign-form-users-input/campaign-form-users-input.component';
 
 @NgModule({
   declarations: [
     CampaignsViewComponent,
     CampaignInfoComponent,
     CampaignFormComponent,
+    CampaignFormUsersInputComponent,
   ],
   imports: [CommonModule, BrowserModule, RouterModule, ReactiveFormsModule],
 })

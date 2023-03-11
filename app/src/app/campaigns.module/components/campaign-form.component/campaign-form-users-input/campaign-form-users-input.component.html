@@ -1,0 +1,66 @@
+<div>
+  <label for="staff-input" class="form-label">Staff</label>
+  <div
+    id="staff-input"
+    *ngFor="let campaignUser of campaignUsers; first as isFirst"
+  >
+    <div class="input-group">
+      <input
+        type="text"
+        aria-label="First name"
+        class="form-control"
+        disabled
+        [value]="campaignUser.user.name"
+      />
+      <input
+        type="email"
+        aria-label="First name"
+        class="form-control"
+        disabled
+        [value]="campaignUser.user.email"
+      />
+      <select
+        class="form-control form-select"
+        [value]="campaignUser.role"
+        [disabled]="isFirst"
+      >
+        <option *ngFor="let role of availableRoles" [value]="role">
+          {{ role }}
+        </option>
+      </select>
+      <button
+        [disabled]="isFirst"
+        class="btn btn-outline-danger"
+        (click)="removeCampaignUser(campaignUser)"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+  <div>
+    <form
+      [formGroup]="newUserForm"
+      (ngSubmit)="searchCampaignUsers()"
+      class="d-flex align-items-baseline mt-3"
+    >
+      <div class="input-group w-50">
+        <span class="input-group-text">User email</span>
+        <input
+          type="text"
+          class="form-control form-input"
+          id="email"
+          formControlName="email"
+          required
+          [ngClass]="{ 'is-invalid': isInputInvalid(email) }"
+        />
+        <button type="submit" class="btn btn-outline-primary">Add user</button>
+      </div>
+      <span
+        *ngIf="isNewUserFormSubmitted && newUserForm.invalid"
+        class="text-danger text-center ms-3"
+      >
+        User not found
+      </span>
+    </form>
+  </div>
+</div>
