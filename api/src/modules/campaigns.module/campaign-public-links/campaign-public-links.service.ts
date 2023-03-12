@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CampaignPublicLink } from '@prisma/client';
+import { CampaignPublicLinkDto } from '../models/campaign-public-link/campaign-public-link.dto';
 import { CampaignPublicLinksRepository } from './campaign-public-links.repository';
-import { CampaignPublicLinkDto } from './models/campaign-public-link/campaign-public-link.dto';
 
 @Injectable()
 export class CampaignPublicLinksService {

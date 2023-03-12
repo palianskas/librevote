@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { Public } from 'src/modules/auth.module/guards/guard-activators.decorator';
 import { IAuthenticatedRequest } from 'src/modules/auth.module/routes/models/auth-contracts.model';
-import { CampaignPublicLinksService } from '../campaign-public-links.service';
+import { CampaignPublicLinksService } from '../campaign-public-links/campaign-public-links.service';
 import { CampaignPublicLinkDto } from '../models/campaign-public-link/campaign-public-link.dto';
 import {
   ICampaignPublicLinkCreateRequest,
