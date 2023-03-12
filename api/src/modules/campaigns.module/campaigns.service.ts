@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CampaignsRepository } from './campaigns.repository';
+import { CampaignUserRole } from './models/campaign-user-role.enum';
 import { CampaignDto } from './models/campaign.dto';
 import { Campaign } from './models/campaign.model';
 
@@ -20,19 +21,31 @@ export class CampaignsService {
     return campaign;
   }
 
-  isAccessDenied(user: User, campaign: Campaign | CampaignDto) {
+  async update(dto: CampaignDto): Promise<Campaign> {
+    const campaign = this.campaignsRepository.update(dto);
+
+    return campaign;
+  }
+
+  isReadAccessDenied(user: User, campaign: Campaign) {
     if (!campaign.campaignUsers) {
-      return false;
+      return true;
     }
 
     return !campaign.campaignUsers.some(
       (campaignUser) => campaignUser.userId === user.id,
     );
   }
-  isAccessesDeniedToCampaigns(
-    user: User,
-    campaigns: (Campaign | CampaignDto)[],
-  ) {
-    return campaigns.some((campaign) => this.isAccessDenied(user, campaign));
+
+  isWriteAccessDenied(user: User, campaign: Campaign) {
+    if (!campaign.campaignUsers) {
+      return true;
+    }
+
+    const campaignUser = campaign.campaignUsers.find(
+      (campaignUser) => campaignUser.userId === user.id,
+    );
+
+    return campaignUser?.role !== CampaignUserRole.Admin;
   }
 }

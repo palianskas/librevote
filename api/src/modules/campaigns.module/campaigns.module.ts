@@ -10,6 +10,7 @@ import { CampaignsRepository } from './campaigns.repository';
 import { CampaignsService } from './campaigns.service';
 import { CampaignPublicLinksController } from './routes/campaign-public-links.controller';
 import { CampaignsController } from './routes/campaigns.controller';
+import { CampaignUpdateHandler } from './routes/handlers/campaign-update.handler';
 
 @Module({
   imports: [DataModule, CoreModule],
@@ -19,6 +20,7 @@ import { CampaignsController } from './routes/campaigns.controller';
     CampaignUsersRepository,
     CampaignCreateHandler,
     CampaignSearchHandler,
+    CampaignUpdateHandler,
     CampaignPublicLinksService,
     CampaignPublicLinksRepository,
   ],

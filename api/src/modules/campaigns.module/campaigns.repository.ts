@@ -52,6 +52,34 @@ export class CampaignsRepository {
     return result;
   }
 
+  async update(dto: CampaignDto): Promise<Campaign> {
+    const campaignUsers = dto.campaignUsers.map((userDto) => ({
+      role: userDto.role,
+      userId: userDto.userId,
+    }));
+
+    const result = await this.dataService.campaign.update({
+      where: {
+        id: dto.id,
+      },
+      data: {
+        name: dto.name,
+        pubKey: dto.pubKey,
+        campaignUsers: {
+          deleteMany: {},
+          createMany: {
+            data: campaignUsers,
+          },
+        },
+      },
+      include: {
+        campaignUsers: true,
+      },
+    });
+
+    return result;
+  }
+
   // TODO: `QueryBuilder` and `QueryBuilderFactory` ?
   private buildQuery(filter: any, fieldSelect: any = null): IPrismaQuery {
     const query: IPrismaQuery = {

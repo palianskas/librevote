@@ -6,16 +6,20 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   Request,
 } from '@nestjs/common';
 import { IAuthenticatedRequest } from 'src/modules/auth.module/routes/models/auth-contracts.model';
 import { CampaignsService } from 'src/modules/campaigns.module/campaigns.service';
 import { CampaignDto } from 'src/modules/campaigns.module/models/campaign.dto';
 import { CampaignCreateHandler } from './handlers/campaign-create.handler';
+import { CampaignUpdateHandler } from './handlers/campaign-update.handler';
 import { CampaignSearchHandler } from './handlers/campaign-search.handler';
 import {
   ICampaignCreateRequest,
   ICampaignCreateResponse,
+  ICampaignSaveRequest,
+  ICampaignSaveResponse,
   ICampaignSearchRequest,
   ICampaignSearchResponse,
 } from './models/campaign-contracts.model';
@@ -26,6 +30,7 @@ export class CampaignsController {
     private readonly campaignService: CampaignsService,
     private readonly campaignSearchHandler: CampaignSearchHandler,
     private readonly campaignCreateHandler: CampaignCreateHandler,
+    private readonly campaignSaveHandler: CampaignUpdateHandler,
   ) {}
 
   @Get(':id')
@@ -41,9 +46,10 @@ export class CampaignsController {
 
     const user = request.user;
 
-    if (this.campaignService.isAccessDenied(user, campaign)) {
+    if (this.campaignService.isReadAccessDenied(user, campaign)) {
       throw new ForbiddenException();
     }
+
     const dto = CampaignDto.map(campaign);
 
     return dto;
@@ -57,6 +63,18 @@ export class CampaignsController {
     const user = request.user;
 
     const response = await this.campaignCreateHandler.handle(user, body);
+
+    return response;
+  }
+
+  @Put()
+  async save(
+    @Body() body: ICampaignSaveRequest,
+    @Request() request: IAuthenticatedRequest,
+  ): Promise<ICampaignSaveResponse> {
+    const user = request.user;
+
+    const response = await this.campaignSaveHandler.handle(user, body);
 
     return response;
   }

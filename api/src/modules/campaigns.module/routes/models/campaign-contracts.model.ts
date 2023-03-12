@@ -14,3 +14,10 @@ export interface ICampaignCreateRequest {
 export interface ICampaignCreateResponse {
   id: string;
 }
+
+export interface ICampaignSaveRequest {
+  dto: CampaignDto;
+}
+export interface ICampaignSaveResponse {
+  dto: CampaignDto;
+}
