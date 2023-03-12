@@ -4,7 +4,7 @@ import { District } from './district.model';
 export class DistrictDto {
   id?: string;
   name: string;
-  campaignId?: string;
+  campaignId: string | null;
   parentDistrictId: string | null;
   campaign?: CampaignDto;
   parentDistrict?: DistrictDto;

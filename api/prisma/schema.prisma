@@ -44,8 +44,8 @@ model CampaignPublicLink {
 model District {
   id               String         @id @default(cuid())
   name             String
-  campaignId       String
-  campaign         Campaign       @relation(fields: [campaignId], references: [id])
+  campaignId       String?
+  campaign         Campaign?      @relation(fields: [campaignId], references: [id])
   parentDistrictId String?
   parentDistrict   District?      @relation(name: "parent-child-district", fields: [parentDistrictId], references: [id])
   childDistricts   District[]     @relation(name: "parent-child-district")
