@@ -26,9 +26,4 @@ export class CampaignsViewComponent implements OnInit {
   open(id: string): void {
     this.router.navigate([RouteNames.campaigns.index, id]);
   }
-
-  createNew(): void {
-    // TODO: open modal w/ wizard
-    console.log('new');
-  }
 }

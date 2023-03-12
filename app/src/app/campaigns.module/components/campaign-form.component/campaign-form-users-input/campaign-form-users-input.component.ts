@@ -29,16 +29,11 @@ export class CampaignFormUsersInputComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const user = await this.authService.getUser();
+    if (this.campaignUsers.length > 0) {
+      return;
+    }
 
-    const campaignUser: CampaignUserDto = {
-      campaignId: '',
-      userId: user.id,
-      user: user,
-      role: CampaignUserRole.Admin,
-    };
-
-    this.campaignUsers.push(campaignUser);
+    await this.initNewCampaignUsers();
   }
 
   get email(): FormControl<string> {
@@ -87,5 +82,18 @@ export class CampaignFormUsersInputComponent implements OnInit {
 
   isInputInvalid(control: FormControl): boolean {
     return control.touched && control.invalid;
+  }
+
+  private async initNewCampaignUsers(): Promise<void> {
+    const user = await this.authService.getUser();
+
+    const campaignUser: CampaignUserDto = {
+      campaignId: '',
+      userId: user.id,
+      user: user,
+      role: CampaignUserRole.Admin,
+    };
+
+    this.campaignUsers.push(campaignUser);
   }
 }

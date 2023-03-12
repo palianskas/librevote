@@ -1,5 +1,8 @@
 <div class="container campaigns-list m-2">
-  <a class="btn btn-outline-primary my-3" routerLink="./new" aria-current="page"
+  <a
+    class="btn btn-outline-primary my-3"
+    routerLink="./form"
+    aria-current="page"
     >Create new</a
   >
   <table class="table">
@@ -20,7 +23,7 @@
         <td>{{ campaign.pubKey }}</td>
         <td>
           <span *ngFor="let user of campaign.campaignUsers; let last = last"
-            >{{ user.user.name }}{{ !last ? "n" : "" }}</span
+            >{{ user.user.name }}{{ !last ? ", " : "" }}</span
           >
         </td>
       </tr>

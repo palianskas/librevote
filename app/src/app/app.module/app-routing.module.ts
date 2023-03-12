@@ -22,8 +22,17 @@ const routes: Routes = [
     children: [
       { path: '', component: CampaignsViewComponent },
       {
-        path: 'new',
-        component: CampaignFormComponent,
+        path: RouteNames.campaigns.form.index,
+        children: [
+          {
+            path: '',
+            component: CampaignFormComponent,
+          },
+          {
+            path: ':id',
+            component: CampaignFormComponent,
+          },
+        ],
       },
       {
         path: ':id',

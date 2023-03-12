@@ -1,3 +1,16 @@
 <div class="container m-5 d-flex flex-column" *ngIf="!!campaign">
+  <div>
+    <a
+      class="btn btn-outline-primary my-3"
+      [routerLink]="[
+        '/',
+        routeNames.campaigns.index,
+        routeNames.campaigns.form.index,
+        campaign.id
+      ]"
+      aria-current="page"
+      >Edit</a
+    >
+  </div>
   <h1>{{ campaign.name }}</h1>
 </div>

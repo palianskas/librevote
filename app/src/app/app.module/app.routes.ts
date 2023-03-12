@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../auth.module/services/auth.service';
 
 export const RouteNames = {
@@ -12,6 +12,9 @@ export const RouteNames = {
   },
   campaigns: {
     index: 'campaigns',
+    form: {
+      index: 'form',
+    },
   },
   vote: {
     index: 'vote',

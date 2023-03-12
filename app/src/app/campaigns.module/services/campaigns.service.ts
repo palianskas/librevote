@@ -8,6 +8,8 @@ import {
   ICampaignCreateResponse,
   ICampaignSearchRequest,
   ICampaignSearchResponse,
+  ICampaignUpdateRequest,
+  ICampaignUpdateResponse,
 } from '../models/campaigns-contracts.model';
 import { Campaign, CampaignDto } from '../models/campaign.model';
 
@@ -45,6 +47,16 @@ export class CampaignsService {
     const response = await this.campaignsApi.create(request);
 
     return response.id;
+  }
+
+  async update(dto: CampaignDto): Promise<CampaignDto> {
+    const request: ICampaignUpdateRequest = {
+      dto: dto,
+    };
+
+    const response = await this.campaignsApi.update(request);
+
+    return response.dto;
   }
 
   async search(request: ICampaignSearchRequest): Promise<Campaign[]> {
@@ -95,6 +107,17 @@ export class CampaignsService {
 
         return firstValueFrom(request);
       },
+      update: async (saveRequest) => {
+        const request = this.httpClient.put<ICampaignUpdateResponse>(
+          apiUrl,
+          saveRequest,
+          {
+            observe: 'body',
+          }
+        );
+
+        return firstValueFrom(request);
+      },
       search: async (searchRequest) => {
         const url = apiUrl + 'search/';
 
@@ -116,6 +139,7 @@ export class CampaignsService {
 
 interface ICampaignsApi {
   get(id: string): Promise<CampaignDto | null>;
-  create(dto: ICampaignCreateRequest): Promise<ICampaignCreateResponse>;
+  create(request: ICampaignCreateRequest): Promise<ICampaignCreateResponse>;
+  update(request: ICampaignUpdateRequest): Promise<ICampaignUpdateResponse>;
   search(request: ICampaignSearchRequest): Promise<ICampaignSearchResponse>;
 }

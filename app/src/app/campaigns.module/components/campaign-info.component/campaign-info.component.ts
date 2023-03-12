@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { RouteNames } from 'src/app/app.module/app.routes';
 import { Campaign } from '../../models/campaign.model';
 import { CampaignsService } from '../../services/campaigns.service';
 
@@ -10,6 +11,7 @@ import { CampaignsService } from '../../services/campaigns.service';
 })
 export class CampaignInfoComponent implements OnInit, OnDestroy {
   paramsSubscription: Subscription;
+  routeNames = RouteNames;
 
   campaign: Campaign;
 

@@ -14,14 +14,14 @@
       />
       <input
         type="email"
-        aria-label="First name"
+        aria-label="Email"
         class="form-control"
         disabled
         [value]="campaignUser.user.email"
       />
       <select
         class="form-control form-select"
-        [value]="campaignUser.role"
+        [(ngModel)]="campaignUser.role"
         [disabled]="isFirst"
       >
         <option *ngFor="let role of availableRoles" [value]="role">

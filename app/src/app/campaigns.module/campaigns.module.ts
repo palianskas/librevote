@@ -5,7 +5,7 @@ import { CampaignsViewComponent } from './components/campaigns-view.component/ca
 import { CampaignInfoComponent } from './components/campaign-info.component/campaign-info.component';
 import { RouterModule } from '@angular/router';
 import { CampaignFormComponent } from './components/campaign-form.component/campaign-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CampaignFormUsersInputComponent } from './components/campaign-form.component/campaign-form-users-input/campaign-form-users-input.component';
 import { CampaignPublicLinkViewComponent } from './components/campaign-public-link-view.component/campaign-public-link-view.component';
 
@@ -17,6 +17,12 @@ import { CampaignPublicLinkViewComponent } from './components/campaign-public-li
     CampaignFormUsersInputComponent,
     CampaignPublicLinkViewComponent,
   ],
-  imports: [CommonModule, BrowserModule, RouterModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class CampaignsModule {}
