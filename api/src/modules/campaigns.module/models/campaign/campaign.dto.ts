@@ -1,4 +1,4 @@
-import { CampaignUserDto } from './campaign-user.dto';
+import { CampaignUserDto } from '../campaign-user/campaign-user.dto';
 import { Campaign } from './campaign.model';
 
 export class CampaignDto {

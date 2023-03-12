@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CampaignsRepository } from './campaigns.repository';
-import { CampaignUserRole } from './models/campaign-user-role.enum';
-import { CampaignDto } from './models/campaign.dto';
-import { Campaign } from './models/campaign.model';
+import { CampaignUserRole } from './models/campaign-user/campaign-user-role.enum';
+import { CampaignDto } from './models/campaign/campaign.dto';
+import { Campaign } from './models/campaign/campaign.model';
 
 @Injectable()
 export class CampaignsService {

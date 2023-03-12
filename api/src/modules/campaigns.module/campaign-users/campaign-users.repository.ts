@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DataAccessService } from 'src/modules/data.module/data.service';
 import { IPrismaQuery } from 'src/modules/data.module/models/prisma-query.model';
-import { CampaignUserDto } from '../models/campaign-user.dto';
-import { CampaignUser } from '../models/campaign-user.model';
+import { CampaignUserDto } from '../models/campaign-user/campaign-user.dto';
+import { CampaignUser } from '../models/campaign-user/campaign-user.model';
 
 @Injectable()
 export class CampaignUsersRepository {

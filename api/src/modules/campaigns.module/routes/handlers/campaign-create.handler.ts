@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CampaignsService } from 'src/modules/campaigns.module/campaigns.service';
-import { CampaignUserRole } from 'src/modules/campaigns.module/models/campaign-user-role.enum';
-import { CampaignDto } from 'src/modules/campaigns.module/models/campaign.dto';
+import { CampaignUserRole } from 'src/modules/campaigns.module/models/campaign-user/campaign-user-role.enum';
+import { CampaignDto } from 'src/modules/campaigns.module/models/campaign/campaign.dto';
 import {
   ICampaignCreateRequest,
   ICampaignCreateResponse,

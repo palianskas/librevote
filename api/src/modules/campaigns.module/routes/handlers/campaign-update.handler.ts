@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CampaignsService } from 'src/modules/campaigns.module/campaigns.service';
-import { CampaignDto } from 'src/modules/campaigns.module/models/campaign.dto';
-import { Campaign } from '../../models/campaign.model';
+import { CampaignDto } from 'src/modules/campaigns.module/models/campaign/campaign.dto';
+import { Campaign } from '../../models/campaign/campaign.model';
 import {
   ICampaignSaveRequest as ICampaignUpdateRequest,
   ICampaignSaveResponse as ICampaignUpdateResponse,

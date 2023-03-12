@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CampaignUsersRepository } from 'src/modules/campaigns.module/campaign-users/campaign-users.repository';
 import { CampaignsRepository } from 'src/modules/campaigns.module/campaigns.repository';
-import { CampaignDto } from 'src/modules/campaigns.module/models/campaign.dto';
+import { CampaignDto } from 'src/modules/campaigns.module/models/campaign/campaign.dto';
 import {
   ICampaignSearchRequest,
   ICampaignSearchResponse,

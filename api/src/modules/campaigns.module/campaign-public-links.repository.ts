@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CampaignPublicLink } from '@prisma/client';
 import { DataAccessService } from '../data.module/data.service';
 import { IPrismaQuery } from '../data.module/models/prisma-query.model';
-import { CampaignPublicLinkDto } from './models/campaign-public-link.dto';
-import { CampaignDto } from './models/campaign.dto';
-import { Campaign } from './models/campaign.model';
+import { CampaignPublicLinkDto } from './models/campaign-public-link/campaign-public-link.dto';
+import { CampaignDto } from './models/campaign/campaign.dto';
+import { Campaign } from './models/campaign/campaign.model';
 
 @Injectable()
 export class CampaignPublicLinksRepository {

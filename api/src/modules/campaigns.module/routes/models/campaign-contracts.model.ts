@@ -1,4 +1,4 @@
-import { CampaignDto } from 'src/modules/campaigns.module/models/campaign.dto';
+import { CampaignDto } from 'src/modules/campaigns.module/models/campaign/campaign.dto';
 
 export interface ICampaignSearchRequest {
   campaignIds?: string[];

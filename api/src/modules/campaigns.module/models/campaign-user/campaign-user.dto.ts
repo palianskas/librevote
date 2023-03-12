@@ -1,7 +1,7 @@
 import { UserDto } from 'src/modules/users.module/models/user.dto';
 import { CampaignUserRole } from './campaign-user-role.enum';
 import { CampaignUser } from './campaign-user.model';
-import { CampaignDto } from './campaign.dto';
+import { CampaignDto } from '../campaign/campaign.dto';
 
 export class CampaignUserDto {
   userId: string;

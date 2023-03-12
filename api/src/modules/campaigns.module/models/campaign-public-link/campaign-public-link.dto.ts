@@ -1,5 +1,5 @@
 import { CampaignPublicLink } from './campaign-public-link.model';
-import { CampaignDto } from './campaign.dto';
+import { CampaignDto } from '../campaign/campaign.dto';
 
 export class CampaignPublicLinkDto {
   id?: string;

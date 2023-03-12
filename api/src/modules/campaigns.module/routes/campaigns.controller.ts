@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { IAuthenticatedRequest } from 'src/modules/auth.module/routes/models/auth-contracts.model';
 import { CampaignsService } from 'src/modules/campaigns.module/campaigns.service';
-import { CampaignDto } from 'src/modules/campaigns.module/models/campaign.dto';
+import { CampaignDto } from 'src/modules/campaigns.module/models/campaign/campaign.dto';
 import { CampaignCreateHandler } from './handlers/campaign-create.handler';
 import { CampaignUpdateHandler } from './handlers/campaign-update.handler';
 import { CampaignSearchHandler } from './handlers/campaign-search.handler';
