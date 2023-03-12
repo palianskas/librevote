@@ -44,9 +44,6 @@ export class CampaignsRepository {
           },
         },
       },
-      include: {
-        campaignUsers: true,
-      },
     });
 
     return result;
