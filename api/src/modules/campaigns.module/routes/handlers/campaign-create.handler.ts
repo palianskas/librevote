@@ -3,6 +3,8 @@ import { User } from '@prisma/client';
 import { CampaignsService } from 'src/modules/campaigns.module/campaigns.service';
 import { CampaignUserRole } from 'src/modules/campaigns.module/models/campaign-user/campaign-user-role.enum';
 import { CampaignDto } from 'src/modules/campaigns.module/models/campaign/campaign.dto';
+import { DistrictsService } from '../../districts/districts.service';
+import { Campaign } from '../../models/campaign/campaign.model';
 import {
   ICampaignCreateRequest,
   ICampaignCreateResponse,
@@ -10,7 +12,10 @@ import {
 
 @Injectable()
 export class CampaignCreateHandler {
-  constructor(private readonly campaignsService: CampaignsService) {}
+  constructor(
+    private readonly campaignsService: CampaignsService,
+    private readonly districtsService: DistrictsService,
+  ) {}
 
   async handle(
     user: User,
@@ -18,9 +23,40 @@ export class CampaignCreateHandler {
   ): Promise<ICampaignCreateResponse> {
     const dto = request.dto;
 
+    dto.districts = [];
+
+    dto.districts.push({
+      campaignId: null,
+      name: 'L0 district',
+      parentDistrictId: null,
+      childDistricts: [
+        {
+          campaignId: null,
+          name: 'L1 district 1',
+          parentDistrictId: null,
+          childDistricts: [],
+        },
+        {
+          campaignId: null,
+          name: 'L1 district 2',
+          parentDistrictId: null,
+          childDistricts: [
+            {
+              campaignId: null,
+              name: 'L2 district 1',
+              parentDistrictId: null,
+              childDistricts: [],
+            },
+          ],
+        },
+      ],
+    });
+
     this.ensureCreatorIsAdmin(user, dto);
 
     const campaign = await this.campaignsService.create(dto);
+
+    this.createCampaignDistricts(dto, campaign);
 
     const response: ICampaignCreateResponse = {
       id: campaign.id,
@@ -42,5 +78,20 @@ export class CampaignCreateHandler {
         userId: user.id,
       });
     }
+  }
+
+  private async createCampaignDistricts(
+    dto: CampaignDto,
+    entity: Campaign,
+  ): Promise<void> {
+    const promises: Promise<string>[] = [];
+
+    dto.districts.forEach((districtDto) => {
+      districtDto.campaignId = entity.id;
+
+      promises.push(this.districtsService.create(districtDto));
+    });
+
+    await Promise.all(promises);
   }
 }
