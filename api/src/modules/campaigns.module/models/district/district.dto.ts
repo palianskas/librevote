@@ -1,3 +1,4 @@
+import { CampaignUserDto } from '../campaign-user/campaign-user.dto';
 import { CampaignDto } from '../campaign/campaign.dto';
 import { District } from './district.model';
 
@@ -9,6 +10,7 @@ export class DistrictDto {
   campaign?: CampaignDto;
   parentDistrict?: DistrictDto;
   childDistricts: DistrictDto[];
+  campaignUsers?: CampaignUserDto[];
 
   static map(entity: District): DistrictDto {
     const dto = new DistrictDto();
@@ -27,6 +29,7 @@ export class DistrictDto {
     }
 
     dto.childDistricts = this.mapList(entity.childDistricts);
+    dto.campaignUsers = CampaignUserDto.mapList(entity.campaignUsers);
 
     return dto;
   }

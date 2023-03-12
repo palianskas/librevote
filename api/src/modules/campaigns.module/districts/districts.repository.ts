@@ -39,6 +39,7 @@ export class DistrictsRepository {
         campaign: true,
         parentDistrict: true,
         childDistricts: true,
+        campaignUsers: true,
       },
     };
 
