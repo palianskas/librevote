@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth.module/services/auth.service';
 import { CampaignUserRole } from 'src/app/campaigns.module/models/campaign-user-role.enum';
-import { CampaignUserDto } from 'src/app/campaigns.module/models/campaign-user.model';
+import { CampaignUser } from 'src/app/campaigns.module/models/campaign-user.model';
 import { UsersService } from 'src/app/users.module/services/users.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { UsersService } from 'src/app/users.module/services/users.service';
   templateUrl: './campaign-form-users-input.component.html',
 })
 export class CampaignFormUsersInputComponent implements OnInit {
-  @Input() campaignUsers: CampaignUserDto[];
+  @Input() campaignUsers: CampaignUser[];
 
   availableRoles: CampaignUserRole[] = [
     CampaignUserRole.Admin,
@@ -74,7 +74,7 @@ export class CampaignFormUsersInputComponent implements OnInit {
     this.isNewUserFormSubmitted = false;
   }
 
-  removeCampaignUser(campaignUser: CampaignUserDto): void {
+  removeCampaignUser(campaignUser: CampaignUser): void {
     const index = this.campaignUsers.indexOf(campaignUser);
 
     this.campaignUsers.splice(index, 1);
@@ -87,7 +87,7 @@ export class CampaignFormUsersInputComponent implements OnInit {
   private async initNewCampaignUsers(): Promise<void> {
     const user = await this.authService.getUser();
 
-    const campaignUser: CampaignUserDto = {
+    const campaignUser: CampaignUser = {
       campaignId: '',
       userId: user.id,
       user: user,

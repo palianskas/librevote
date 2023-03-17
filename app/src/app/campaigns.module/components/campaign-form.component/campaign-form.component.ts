@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { RouteNames } from 'src/app/app.module/app.routes';
 import { CampaignPublicLinkDto } from '../../models/campaign-public-links/campaign-public-link.model';
 import { Campaign, CampaignDto } from '../../models/campaign.model';
+import { CampaignCandidatesService } from '../../services/campaign-candidates.service';
 import { CampaignPublicLinksService } from '../../services/campaign-public-links.service';
 import { CampaignsService } from '../../services/campaigns.service';
 
@@ -33,6 +34,7 @@ export class CampaignFormComponent implements OnInit {
   constructor(
     private readonly campaignsService: CampaignsService,
     private readonly campaignPublicLinksService: CampaignPublicLinksService,
+    private readonly campaignCandidatesService: CampaignCandidatesService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
@@ -103,6 +105,7 @@ export class CampaignFormComponent implements OnInit {
       pubKey: '',
       campaignUsers: [],
       publicLink: null,
+      candidates: [],
     });
   }
 
@@ -133,6 +136,13 @@ export class CampaignFormComponent implements OnInit {
     this.campaignPublicLinksService.update(dto);
   }
 
+  private async createCandidates(campaignId: string): Promise<void> {
+    this.campaign.candidates.forEach((candidate) => {
+      (candidate.campaignId = campaignId),
+        this.campaignCandidatesService.create(candidate);
+    });
+  }
+
   private handleFormSubmit(): boolean {
     this.campaignFormSubmitted = true;
     this.campaignForm.markAllAsTouched();
@@ -158,6 +168,7 @@ export class CampaignFormComponent implements OnInit {
     const id = await this.campaignsService.create(dto);
 
     this.createPublicLink(id);
+    this.createCandidates(id);
 
     return id;
   }

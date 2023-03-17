@@ -1,0 +1,57 @@
+<div>
+  <div id="candidates-input" *ngFor="let candidate of candidates">
+    <div class="input-group" id="users">
+      <input
+        type="text"
+        aria-label="First name"
+        class="form-control"
+        disabled
+        [value]="candidate.name"
+      />
+      <input
+        type="description"
+        aria-label="Description"
+        class="form-control"
+        disabled
+        [value]="candidate.description"
+      />
+      <button
+        class="btn btn-outline-danger"
+        (click)="removeCandidate(candidate)"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+  <div>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="addNew()"
+      class="d-flex align-items-baseline mt-3"
+    >
+      <div class="input-group">
+        <label for="name" class="input-group-text">Name</label>
+        <input
+          type="text"
+          class="form-control form-input"
+          id="name"
+          formControlName="name"
+          required
+          [ngClass]="{ 'is-invalid': isInputInvalid(name) }"
+        />
+        <label for="description" class="input-group-text">Description</label>
+        <input
+          type="text"
+          class="form-control form-input"
+          id="description"
+          formControlName="description"
+          required
+          [ngClass]="{ 'is-invalid': isInputInvalid(description) }"
+        />
+        <button type="submit" class="btn btn-outline-primary">
+          Add candidate
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

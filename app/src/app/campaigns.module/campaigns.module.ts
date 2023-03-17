@@ -8,6 +8,10 @@ import { CampaignFormComponent } from './components/campaign-form.component/camp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CampaignFormUsersInputComponent } from './components/campaign-form.component/campaign-form-users-input/campaign-form-users-input.component';
 import { CampaignPublicLinkViewComponent } from './components/campaign-public-link-view.component/campaign-public-link-view.component';
+import { CampaignFormCandidatesInputComponent } from './components/campaign-form.component/campaign-form-candidates-input/campaign-form-candidates-input.component';
+import { CampaignsService } from './services/campaigns.service';
+import { CampaignPublicLinksService } from './services/campaign-public-links.service';
+import { CampaignCandidatesService } from './services/campaign-candidates.service';
 
 @NgModule({
   declarations: [
@@ -16,6 +20,7 @@ import { CampaignPublicLinkViewComponent } from './components/campaign-public-li
     CampaignFormComponent,
     CampaignFormUsersInputComponent,
     CampaignPublicLinkViewComponent,
+    CampaignFormCandidatesInputComponent,
   ],
   imports: [
     CommonModule,
@@ -23,6 +28,11 @@ import { CampaignPublicLinkViewComponent } from './components/campaign-public-li
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
+  ],
+  providers: [
+    CampaignsService,
+    CampaignPublicLinksService,
+    CampaignCandidatesService,
   ],
 })
 export class CampaignsModule {}

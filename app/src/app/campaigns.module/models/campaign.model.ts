@@ -1,15 +1,20 @@
 import {
+  CampaignCandidate,
+  CampaignCandidateDto,
+} from './campaign-candidates/campaign-candidate.model';
+import {
   CampaignPublicLink,
   CampaignPublicLinkDto,
 } from './campaign-public-links/campaign-public-link.model';
-import { CampaignUserDto } from './campaign-user.model';
+import { CampaignUser, CampaignUserDto } from './campaign-user.model';
 
 export class Campaign {
   id: string;
   name: string;
   pubKey: string;
-  campaignUsers: CampaignUserDto[];
+  campaignUsers: CampaignUser[];
   publicLink: CampaignPublicLink;
+  candidates: CampaignCandidate[];
 
   static map(dto: CampaignDto): Campaign {
     const entity = new Campaign();
@@ -17,7 +22,8 @@ export class Campaign {
     entity.id = dto.id;
     entity.name = dto.name;
     entity.pubKey = dto.pubKey;
-    entity.campaignUsers = CampaignUserDto.mapList(dto.campaignUsers);
+    entity.campaignUsers = CampaignUser.mapList(dto.campaignUsers);
+    entity.candidates = CampaignCandidate.mapList(dto.candidates);
 
     if (!!dto.publicLink) {
       entity.publicLink = CampaignPublicLink.map(dto.publicLink);
@@ -33,6 +39,7 @@ export class CampaignDto {
   pubKey: string;
   campaignUsers: CampaignUserDto[];
   publicLink: CampaignPublicLinkDto;
+  candidates: CampaignCandidateDto[];
 
   static map(data: any): CampaignDto {
     const dto = new CampaignDto();
