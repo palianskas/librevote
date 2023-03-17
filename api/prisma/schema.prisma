@@ -16,12 +16,12 @@ model User {
 }
 
 model Campaign {
-  id                 String               @id @default(cuid())
-  name               String
-  pubKey             String
-  campaignUsers      CampaignUser[]
-  campaignPublicLink CampaignPublicLink[]
-  districts          District[]
+  id            String               @id @default(cuid())
+  name          String
+  pubKey        String
+  campaignUsers CampaignUser[]
+  publicLinks   CampaignPublicLink[]
+  districts     District[]
 }
 
 model CampaignUser {
@@ -35,10 +35,12 @@ model CampaignUser {
 }
 
 model CampaignPublicLink {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   campaignId String
   link       String
-  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  validFrom  DateTime?
+  validUntil DateTime?
+  campaign   Campaign  @relation(fields: [campaignId], references: [id])
 }
 
 model District {
