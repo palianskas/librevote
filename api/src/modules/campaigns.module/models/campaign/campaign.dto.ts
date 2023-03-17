@@ -1,3 +1,4 @@
+import { CampaignCandidateDto } from '../campaign-candidate/campaign-candidate.dto';
 import { CampaignPublicLinkDto } from '../campaign-public-link/campaign-public-link.dto';
 import { CampaignUserDto } from '../campaign-user/campaign-user.dto';
 import { DistrictDto } from '../district/district.dto';
@@ -10,6 +11,7 @@ export class CampaignDto {
   campaignUsers: CampaignUserDto[];
   districts: DistrictDto[];
   publicLink: CampaignPublicLinkDto;
+  candidates: CampaignCandidateDto[];
 
   static map(entity: Campaign): CampaignDto {
     const dto = new CampaignDto();
@@ -17,8 +19,10 @@ export class CampaignDto {
     dto.id = entity.id;
     dto.name = entity.name;
     dto.pubKey = entity.pubKey;
+
     dto.campaignUsers = CampaignUserDto.mapList(entity.campaignUsers);
     dto.districts = DistrictDto.mapList(entity.districts);
+    dto.candidates = CampaignCandidateDto.mapList(entity.candidates);
 
     if (!!entity.publicLinks) {
       const publicLink = CampaignPublicLinkDto.getAndMapActiveLink(

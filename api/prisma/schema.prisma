@@ -22,6 +22,7 @@ model Campaign {
   campaignUsers CampaignUser[]
   publicLinks   CampaignPublicLink[]
   districts     District[]
+  candidates    CampaignCandidate[]
 }
 
 model CampaignUser {
@@ -41,6 +42,15 @@ model CampaignPublicLink {
   validFrom  DateTime?
   validUntil DateTime?
   campaign   Campaign  @relation(fields: [campaignId], references: [id])
+}
+
+model CampaignCandidate {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  imageFileId String
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  campaignId  String
 }
 
 model District {
