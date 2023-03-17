@@ -29,4 +29,36 @@ export class CampaignPublicLinkDto {
 
     return dto;
   }
+
+  static getAndMapActiveLink(
+    entities: CampaignPublicLink[],
+  ): CampaignPublicLinkDto | undefined {
+    const activeLink = entities.find((entity) => this.isActive(entity));
+
+    if (!activeLink) {
+      return;
+    }
+
+    return this.map(activeLink);
+  }
+
+  private static isActive(link: CampaignPublicLink): boolean {
+    if (link.validFrom === null && link.validUntil === null) {
+      return true;
+    }
+
+    const currentTimestamp = Date.now();
+
+    if (link.validFrom === null && link.validUntil !== null) {
+      return currentTimestamp < link.validUntil.getUTCMilliseconds();
+    }
+    if (link.validFrom !== null && link.validUntil === null) {
+      return currentTimestamp > link.validFrom.getUTCMilliseconds();
+    }
+
+    return (
+      link.validFrom!.getUTCMilliseconds() < currentTimestamp &&
+      currentTimestamp < link.validUntil!.getUTCMilliseconds()
+    );
+  }
 }
