@@ -3,6 +3,9 @@ import { DistrictDto } from '../models/district/district.dto';
 import { District } from '../models/district/district.model';
 import { DistrictsRepository } from './districts.repository';
 
+/**
+ * @deprecated Requirement for districts removed
+ */
 @Injectable()
 export class DistrictsService {
   constructor(private readonly districtsRepository: DistrictsRepository) {}

@@ -4,6 +4,9 @@ import { IPrismaQuery } from '../../data.module/models/prisma-query.model';
 import { DistrictDto } from '../models/district/district.dto';
 import { District } from '../models/district/district.model';
 
+/**
+ * @deprecated Requirement for districts removed
+ */
 @Injectable()
 export class DistrictsRepository {
   constructor(private readonly dataService: DataAccessService) {}

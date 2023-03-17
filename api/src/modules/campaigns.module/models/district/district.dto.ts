@@ -2,6 +2,9 @@ import { CampaignUserDto } from '../campaign-user/campaign-user.dto';
 import { CampaignDto } from '../campaign/campaign.dto';
 import { District } from './district.model';
 
+/**
+ * @deprecated Requirement for districts removed
+ */
 export class DistrictDto {
   id?: string;
   name: string;
