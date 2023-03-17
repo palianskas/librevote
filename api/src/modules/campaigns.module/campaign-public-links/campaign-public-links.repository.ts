@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CampaignPublicLink } from '@prisma/client';
+import { CampaignPublicLink } from '../models/campaign-public-link/campaign-public-link.model';
 import { DataAccessService } from '../../data.module/data.service';
 import { IPrismaQuery } from '../../data.module/models/prisma-query.model';
 import { CampaignPublicLinkDto } from '../models/campaign-public-link/campaign-public-link.dto';
