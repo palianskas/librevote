@@ -51,6 +51,19 @@ export class CampaignPublicLinksRepository {
     return result;
   }
 
+  async update(dto: CampaignPublicLinkDto): Promise<CampaignPublicLink> {
+    const result = await this.dataService.campaignPublicLink.update({
+      where: {
+        id: dto.id,
+      },
+      data: {
+        link: dto.link,
+      },
+    });
+
+    return result;
+  }
+
   private buildQuery(filter: any, fieldSelect: any = null): IPrismaQuery {
     const query: IPrismaQuery = {
       where: filter,

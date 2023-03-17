@@ -29,4 +29,12 @@ export class CampaignPublicLinksService {
 
     return campaignPublicLink.id;
   }
+
+  async update(dto: CampaignPublicLinkDto): Promise<CampaignPublicLink> {
+    const campaignPublicLink = await this.campaignPublicLinksRepository.update(
+      dto,
+    );
+
+    return campaignPublicLink;
+  }
 }

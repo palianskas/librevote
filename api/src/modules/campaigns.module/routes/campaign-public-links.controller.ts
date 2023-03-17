@@ -5,15 +5,17 @@ import {
   NotFoundException,
   Param,
   Post,
-  Request,
+  Put,
 } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common/exceptions';
 import { Public } from 'src/modules/auth.module/guards/guard-activators.decorator';
-import { IAuthenticatedRequest } from 'src/modules/auth.module/routes/models/auth-contracts.model';
 import { CampaignPublicLinksService } from '../campaign-public-links/campaign-public-links.service';
 import { CampaignPublicLinkDto } from '../models/campaign-public-link/campaign-public-link.dto';
 import {
   ICampaignPublicLinkCreateRequest,
   ICampaignPublicLinkCreateResponse,
+  ICampaignPublicLinkUpdateRequest,
+  ICampaignPublicLinkUpdateResponse,
 } from './models/campaign-public-links-contracts.model';
 
 @Public()
@@ -53,16 +55,43 @@ export class CampaignPublicLinksController {
 
   @Post()
   async create(
-    @Body() body: ICampaignPublicLinkCreateRequest,
-    @Request() request: IAuthenticatedRequest,
+    @Body() request: ICampaignPublicLinkCreateRequest,
   ): Promise<ICampaignPublicLinkCreateResponse> {
-    const user = request.user;
-    const dto = body.dto;
+    const dto = request.dto;
 
     const id = await this.campaignPublicLinksService.create(dto);
 
     const response: ICampaignPublicLinkCreateResponse = {
       id: id,
+    };
+
+    return response;
+  }
+
+  @Put()
+  async update(
+    @Body() request: ICampaignPublicLinkUpdateRequest,
+  ): Promise<ICampaignPublicLinkUpdateResponse> {
+    const requestDto = request.dto;
+
+    if (!requestDto.id) {
+      throw new BadRequestException('ID not specified!');
+    }
+
+    const existingLink = await this.campaignPublicLinksService.get(
+      requestDto.id,
+    );
+
+    if (!existingLink) {
+      throw new BadRequestException(
+        `Public link not found by ID: ${requestDto.id}`,
+      );
+    }
+
+    const link = await this.campaignPublicLinksService.update(requestDto);
+
+    const response: ICampaignPublicLinkUpdateResponse = {
+      dto: CampaignPublicLinkDto.map(link),
     };
 
     return response;
