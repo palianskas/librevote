@@ -6,3 +6,9 @@ export interface ICampaignPublicLinkCreateRequest {
 export interface ICampaignPublicLinkCreateResponse {
   id: string;
 }
+export interface ICampaignPublicLinkUpdateRequest {
+  dto: CampaignPublicLinkDto;
+}
+export interface ICampaignPublicLinkUpdateResponse {
+  dto: CampaignPublicLinkDto;
+}

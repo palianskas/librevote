@@ -10,6 +10,8 @@ import {
 import {
   ICampaignPublicLinkCreateRequest,
   ICampaignPublicLinkCreateResponse,
+  ICampaignPublicLinkUpdateRequest,
+  ICampaignPublicLinkUpdateResponse,
 } from '../models/campaign-public-links/campaign-public-links-contracts.model';
 
 @Injectable({
@@ -59,6 +61,16 @@ export class CampaignPublicLinksService {
     return response.id;
   }
 
+  async update(dto: CampaignPublicLinkDto): Promise<CampaignPublicLinkDto> {
+    const request: ICampaignPublicLinkCreateRequest = {
+      dto: dto,
+    };
+
+    const response = await this.campaignPublicLinksApi.update(request);
+
+    return response.dto;
+  }
+
   private initApi(): ICampaignPublicLinksApi {
     const apiUrl = this.configService.API_URL + 'campaign-public-links/';
 
@@ -96,6 +108,17 @@ export class CampaignPublicLinksService {
 
         return firstValueFrom(request);
       },
+      update: async (updateRequest: ICampaignPublicLinkUpdateRequest) => {
+        const request = this.httpClient.put<ICampaignPublicLinkUpdateResponse>(
+          apiUrl,
+          updateRequest,
+          {
+            observe: 'body',
+          }
+        );
+
+        return firstValueFrom(request);
+      },
     };
 
     return api;
@@ -108,4 +131,7 @@ interface ICampaignPublicLinksApi {
   create(
     request: ICampaignPublicLinkCreateRequest
   ): Promise<ICampaignPublicLinkCreateResponse>;
+  update(
+    request: ICampaignPublicLinkUpdateRequest
+  ): Promise<ICampaignPublicLinkUpdateResponse>;
 }

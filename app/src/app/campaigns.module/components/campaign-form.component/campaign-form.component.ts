@@ -72,6 +72,25 @@ export class CampaignFormComponent implements OnInit {
     this.router.navigate([RouteNames.campaigns.index, id]);
   }
 
+  async onPublicLinkSubmit(): Promise<void> {
+    if (this.isInputInvalid(this.publicLink)) {
+      return;
+    }
+
+    const existingPublicLink = await this.campaignPublicLinksService.getByLink(
+      this.publicLink.value
+    );
+
+    if (
+      !!existingPublicLink &&
+      existingPublicLink.campaignId != this.campaign.id
+    ) {
+      this.publicLink.setErrors({
+        taken: true,
+      });
+    }
+  }
+
   private async initCampaign(id?: string): Promise<void> {
     if (!!id) {
       this.campaign = await this.campaignsService.get(id);
@@ -83,6 +102,7 @@ export class CampaignFormComponent implements OnInit {
       name: '',
       pubKey: '',
       campaignUsers: [],
+      publicLink: null,
     });
   }
 
@@ -90,7 +110,7 @@ export class CampaignFormComponent implements OnInit {
     this.campaignForm.setValue({
       name: this.campaign.name,
       pubKey: this.campaign.pubKey,
-      publicLink: '',
+      publicLink: this.campaign.publicLink?.link ?? '',
     });
   }
 
@@ -101,6 +121,16 @@ export class CampaignFormComponent implements OnInit {
     };
 
     this.campaignPublicLinksService.create(dto);
+  }
+
+  private async updatePublicLink(): Promise<void> {
+    const dto: CampaignPublicLinkDto = {
+      id: this.campaign.publicLink.id,
+      campaignId: this.campaign.id,
+      link: this.publicLink.value,
+    };
+
+    this.campaignPublicLinksService.update(dto);
   }
 
   private handleFormSubmit(): boolean {
@@ -132,6 +162,8 @@ export class CampaignFormComponent implements OnInit {
     return id;
   }
   private updateRecord(dto: CampaignDto): Promise<CampaignDto> {
+    this.updatePublicLink();
+
     return this.campaignsService.update(dto);
   }
 
