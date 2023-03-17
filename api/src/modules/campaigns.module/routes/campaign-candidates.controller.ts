@@ -17,7 +17,7 @@ import {
 } from './models/campaign-candidates-contracts.model';
 
 @Public()
-@Controller('campaign-public-links')
+@Controller('campaign-candidates')
 export class CampaignCandidatesController {
   constructor(
     private readonly campaignCandidatesService: CampaignCandidatesService,

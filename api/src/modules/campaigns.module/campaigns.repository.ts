@@ -93,6 +93,7 @@ export class CampaignsRepository {
           },
         },
         publicLinks: true,
+        candidates: true,
       };
     }
 
