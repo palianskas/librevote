@@ -1,10 +1,10 @@
 <div>
-  <label for="staff-input" class="form-label">Staff</label>
   <div
     id="staff-input"
     *ngFor="let campaignUser of campaignUsers; first as isFirst"
   >
-    <div class="input-group">
+    <label for="users" class="form-label">Users</label>
+    <div class="input-group" id="users">
       <input
         type="text"
         aria-label="First name"
@@ -43,7 +43,7 @@
       (ngSubmit)="searchCampaignUsers()"
       class="d-flex align-items-baseline mt-3"
     >
-      <div class="input-group w-50">
+      <div class="input-group">
         <span class="input-group-text">User email</span>
         <input
           type="text"
