@@ -1,6 +1,7 @@
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RouteNames } from 'src/app/app.module/app.routes';
 import { AuthService } from 'src/app/auth.module/services/auth.service';
 
 @Component({
@@ -18,7 +19,10 @@ export class RegisterComponent {
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   get name(): FormControl<string> {
     return this.registerForm.controls.name;
@@ -48,6 +52,8 @@ export class RegisterComponent {
 
       return;
     }
+
+    this.router.navigate([RouteNames.index]);
   }
 
   isInputInvalid(control: FormControl): boolean {
