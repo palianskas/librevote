@@ -38,6 +38,8 @@ export class CampaignsRepository {
       data: {
         name: dto.name,
         pubKey: dto.pubKey,
+        startDate: dto.startDate,
+        endDate: dto.endDate,
         campaignUsers: {
           createMany: {
             data: campaignUsers,
@@ -62,6 +64,8 @@ export class CampaignsRepository {
       data: {
         name: dto.name,
         pubKey: dto.pubKey,
+        startDate: dto.startDate,
+        endDate: dto.endDate,
         campaignUsers: {
           deleteMany: {},
           createMany: {
