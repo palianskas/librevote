@@ -1,5 +1,13 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ValidatorFn,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RouteNames } from 'src/app/app.module/app.routes';
@@ -12,6 +20,20 @@ import { CampaignsService } from '../../services/campaigns.service';
 // lowercase letters and numbers with optional dashes inbetween
 const publicLinkRegExp = /^[a-z0-9](([a-z0-9]|\-)*[a-z0-9])?$/;
 
+function dateIntervalValidator(
+  startDateControl: AbstractControl,
+  endDateControl: AbstractControl
+): ValidatorFn {
+  return (): ValidationErrors | null => {
+    const startDate = new Date(startDateControl.value);
+    const endDate = new Date(endDateControl.value);
+
+    const isOverlap = startDate >= endDate;
+
+    return isOverlap ? { overlap: true } : null;
+  };
+}
+
 @Component({
   selector: 'app-campaign-form',
   templateUrl: './campaign-form.component.html',
@@ -23,6 +45,13 @@ export class CampaignFormComponent implements OnInit {
   campaignForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     pubKey: new FormControl('', [Validators.required]),
+    startDate: new FormControl(
+      formatDate(new Date(), 'yyyy-MM-ddTHH:mm', 'en'),
+      [Validators.required]
+    ),
+    endDate: new FormControl(formatDate(new Date(), 'yyyy-MM-ddTHH:mm', 'en'), [
+      Validators.required,
+    ]),
     publicLink: new FormControl('', [
       Validators.required,
       Validators.pattern(publicLinkRegExp),
@@ -37,7 +66,15 @@ export class CampaignFormComponent implements OnInit {
     private readonly campaignCandidatesService: CampaignCandidatesService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
-  ) {}
+  ) {
+    // add validators when controls are done initializing
+    this.startDate.addValidators(
+      dateIntervalValidator(this.startDate, this.endDate)
+    );
+    this.endDate.addValidators(
+      dateIntervalValidator(this.startDate, this.endDate)
+    );
+  }
 
   async ngOnInit(): Promise<void> {
     this.paramsSubscription = this.route.params.subscribe(async (params) => {
@@ -56,6 +93,12 @@ export class CampaignFormComponent implements OnInit {
   }
   get publicLink(): FormControl<string> {
     return this.campaignForm.controls.publicLink;
+  }
+  get startDate(): FormControl<string> {
+    return this.campaignForm.controls.startDate;
+  }
+  get endDate(): FormControl<string> {
+    return this.campaignForm.controls.endDate;
   }
 
   isInputInvalid(control: FormControl): boolean {
@@ -100,9 +143,14 @@ export class CampaignFormComponent implements OnInit {
       return;
     }
 
+    const startDate = new Date();
+    const endDate = new Date();
+
     this.campaign = Campaign.map({
       name: '',
       pubKey: '',
+      startDate: startDate,
+      endDate: endDate,
       campaignUsers: [],
       publicLink: null,
       candidates: [],
@@ -113,6 +161,8 @@ export class CampaignFormComponent implements OnInit {
     this.campaignForm.setValue({
       name: this.campaign.name,
       pubKey: this.campaign.pubKey,
+      startDate: formatDate(this.campaign.startDate, 'yyyy-MM-ddTHH:mm', 'en'),
+      endDate: formatDate(this.campaign.endDate, 'yyyy-MM-ddTHH:mm', 'en'),
       publicLink: this.campaign.publicLink?.link ?? '',
     });
   }
@@ -153,6 +203,7 @@ export class CampaignFormComponent implements OnInit {
   private async handleSave(): Promise<string> {
     const dto = CampaignDto.map(this.campaign);
 
+    console.log(dto);
     if (!!dto.id) {
       const response = await this.updateRecord(dto);
 
@@ -181,5 +232,7 @@ export class CampaignFormComponent implements OnInit {
   private flushFormDataToRecord(): void {
     this.campaign.name = this.name.value;
     this.campaign.pubKey = this.pubKey.value;
+    this.campaign.startDate = new Date(this.startDate.value);
+    this.campaign.endDate = new Date(this.endDate.value);
   }
 }

@@ -59,6 +59,46 @@
               </div>
             </div>
           </div>
+          <div class="row mb-3">
+            <div class="col-lg-6">
+              <label for="startDate" class="form-label">Voting start</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                id="startDate"
+                formControlName="startDate"
+                required
+                [ngClass]="{ 'is-invalid': isInputInvalid(startDate) }"
+              />
+              <div *ngIf="isInputInvalid(startDate)" class="text-danger">
+                <div *ngIf="startDate.errors?.['required']">
+                  Field is required
+                </div>
+                <div *ngIf="startDate.errors?.['overlap']">
+                  Start date is after end date
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <label for="endDate" class="form-label">Voting end</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                id="endDate"
+                formControlName="endDate"
+                required
+                [ngClass]="{ 'is-invalid': isInputInvalid(endDate) }"
+              />
+              <div *ngIf="isInputInvalid(endDate)" class="text-danger">
+                <div *ngIf="endDate.errors?.['required']">
+                  Field is required
+                </div>
+                <div *ngIf="endDate.errors?.['overlap']">
+                  End date is before end date
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
       <div class="col-xl-6">

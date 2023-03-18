@@ -56,6 +56,9 @@ export class CampaignDto {
     dto.id = data.id;
     dto.name = data.name;
     dto.pubKey = data.pubKey;
+    dto.startDate = new Date(data.startDate);
+    dto.endDate = new Date(data.endDate);
+
     dto.campaignUsers = CampaignUserDto.mapList(data.campaignUsers);
 
     if (!!data.publicLink) {
