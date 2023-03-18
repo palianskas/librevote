@@ -8,6 +8,8 @@ export class CampaignDto {
   id?: string;
   name: string;
   pubKey: string;
+  startDate: Date;
+  endDate: Date;
   campaignUsers: CampaignUserDto[];
   districts: DistrictDto[];
   publicLink: CampaignPublicLinkDto;
@@ -19,6 +21,8 @@ export class CampaignDto {
     dto.id = entity.id;
     dto.name = entity.name;
     dto.pubKey = entity.pubKey;
+    dto.startDate = entity.startDate;
+    dto.endDate = entity.endDate;
 
     dto.campaignUsers = CampaignUserDto.mapList(entity.campaignUsers);
     dto.districts = DistrictDto.mapList(entity.districts);

@@ -19,6 +19,8 @@ model Campaign {
   id            String               @id @default(cuid())
   name          String
   pubKey        String
+  startDate     DateTime
+  endDate       DateTime
   campaignUsers CampaignUser[]
   publicLinks   CampaignPublicLink[]
   districts     District[]
