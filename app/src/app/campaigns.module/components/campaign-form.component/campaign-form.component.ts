@@ -203,7 +203,6 @@ export class CampaignFormComponent implements OnInit {
   private async handleSave(): Promise<string> {
     const dto = CampaignDto.map(this.campaign);
 
-    console.log(dto);
     if (!!dto.id) {
       const response = await this.updateRecord(dto);
 
