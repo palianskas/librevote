@@ -74,9 +74,7 @@ export class CampaignsService {
       userIds: [user.id],
     };
 
-    const response = await this.campaignsApi.search(request);
-
-    const campaigns = response.rows.map((row) => Campaign.map(row));
+    const campaigns = await this.search(request);
 
     return campaigns;
   }
