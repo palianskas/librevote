@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule } from '../auth.module/auth.module';
 import { CampaignsModule } from '../campaigns.module/campaigns.module';
 import { CommonModule } from '../common.module/common.module';
+import { EncryptionModule } from '../encryption.module/encryption.module';
 import { HttpInterceptorProviders } from '../http.interceptors';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app.component/app.component';
@@ -21,6 +22,7 @@ import { NavigationComponent } from './components/navigation.component/navigatio
     CommonModule,
     AuthModule,
     CampaignsModule,
+    EncryptionModule,
   ],
   providers: [HttpInterceptorProviders],
   bootstrap: [AppComponent],
