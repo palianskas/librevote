@@ -45,6 +45,9 @@ export class CampaignsRepository {
             data: campaignUsers,
           },
         },
+        settings: {
+          create: dto.settings,
+        },
       },
     });
 
@@ -72,9 +75,14 @@ export class CampaignsRepository {
             data: campaignUsers,
           },
         },
+        settings: {
+          update: dto.settings,
+        },
       },
       include: {
         campaignUsers: true,
+        candidates: true,
+        settings: true,
       },
     });
 
@@ -98,6 +106,7 @@ export class CampaignsRepository {
         },
         publicLinks: true,
         candidates: true,
+        settings: true,
       };
     }
 

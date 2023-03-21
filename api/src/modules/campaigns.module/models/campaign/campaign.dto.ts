@@ -1,5 +1,6 @@
 import { CampaignCandidateDto } from '../campaign-candidate/campaign-candidate.dto';
 import { CampaignPublicLinkDto } from '../campaign-public-link/campaign-public-link.dto';
+import { CampaignSettingsDto } from '../campaign-settings/campaign-settings.model';
 import { CampaignUserDto } from '../campaign-user/campaign-user.dto';
 import { DistrictDto } from '../district/district.dto';
 import { Campaign } from './campaign.model';
@@ -14,6 +15,7 @@ export class CampaignDto {
   districts: DistrictDto[];
   publicLink: CampaignPublicLinkDto;
   candidates: CampaignCandidateDto[];
+  settings: CampaignSettingsDto;
 
   static map(entity: Campaign): CampaignDto {
     const dto = new CampaignDto();
@@ -37,6 +39,10 @@ export class CampaignDto {
         dto.publicLink = publicLink;
       }
     }
+
+    dto.settings = !!entity.settings
+      ? CampaignSettingsDto.map(entity.settings)
+      : CampaignSettingsDto.default;
 
     return dto;
   }

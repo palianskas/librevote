@@ -8,23 +8,26 @@ generator client {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  name          String
-  email         String         @unique
-  password      String
-  userCampaigns CampaignUser[]
+  id                       String          @id @default(cuid())
+  name                     String
+  email                    String          @unique
+  password                 String
+  userCampaigns            CampaignUser[]
+  designatedVotingVouchers VotingVoucher[]
 }
 
 model Campaign {
-  id            String               @id @default(cuid())
-  name          String
-  pubKey        String
-  startDate     DateTime
-  endDate       DateTime
-  campaignUsers CampaignUser[]
-  publicLinks   CampaignPublicLink[]
-  districts     District[]
-  candidates    CampaignCandidate[]
+  id             String               @id @default(cuid())
+  name           String
+  pubKey         String
+  startDate      DateTime
+  endDate        DateTime
+  campaignUsers  CampaignUser[]
+  publicLinks    CampaignPublicLink[]
+  districts      District[]
+  candidates     CampaignCandidate[]
+  settings       CampaignSettings?
+  votingVouchers VotingVoucher[]
 }
 
 model CampaignUser {
@@ -53,6 +56,23 @@ model CampaignCandidate {
   imageFileId String
   campaign    Campaign @relation(fields: [campaignId], references: [id])
   campaignId  String
+}
+
+model CampaignSettings {
+  id              String   @id @default(cuid())
+  campaignId      String   @unique
+  campaign        Campaign @relation(fields: [campaignId], references: [id])
+  votingMechanism String
+}
+
+model VotingVoucher {
+  id               String    @id @default(cuid())
+  campaignId       String
+  campaign         Campaign  @relation(fields: [campaignId], references: [id])
+  issueDate        DateTime
+  validUntilDate   DateTime?
+  designatedUserId String?
+  designatedUser   User?     @relation(fields: [designatedUserId], references: [id])
 }
 
 model District {

@@ -4,6 +4,7 @@ import { CampaignsService } from 'src/modules/campaigns.module/campaigns.service
 import { CampaignUserRole } from 'src/modules/campaigns.module/models/campaign-user/campaign-user-role.enum';
 import { CampaignDto } from 'src/modules/campaigns.module/models/campaign/campaign.dto';
 import { DistrictsService } from '../../districts/districts.service';
+import { CampaignSettingsDto } from '../../models/campaign-settings/campaign-settings.model';
 import {
   ICampaignCreateRequest,
   ICampaignCreateResponse,
@@ -20,9 +21,13 @@ export class CampaignCreateHandler {
     user: User,
     request: ICampaignCreateRequest,
   ): Promise<ICampaignCreateResponse> {
+    this.validateRequest(request);
+
     const dto = request.dto;
 
     this.ensureCreatorIsAdmin(user, dto);
+
+    this.ensureSettingsPresent(dto);
 
     const campaign = await this.campaignsService.create(dto);
 
@@ -45,6 +50,12 @@ export class CampaignCreateHandler {
         role: CampaignUserRole.Admin,
         userId: user.id,
       });
+    }
+  }
+
+  private ensureSettingsPresent(dto: CampaignDto): void {
+    if (!dto.settings) {
+      dto.settings = CampaignSettingsDto.default;
     }
   }
 }
