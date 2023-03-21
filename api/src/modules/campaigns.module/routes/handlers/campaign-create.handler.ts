@@ -58,4 +58,12 @@ export class CampaignCreateHandler {
       dto.settings = CampaignSettingsDto.default;
     }
   }
+
+  private validateRequest(request: ICampaignCreateRequest): boolean {
+    const dto = request.dto;
+
+    const isDateOverlap = dto.startDate >= dto.endDate;
+
+    return isDateOverlap;
+  }
 }

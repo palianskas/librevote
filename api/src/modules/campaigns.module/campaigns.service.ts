@@ -48,4 +48,12 @@ export class CampaignsService {
 
     return campaignUser?.role !== CampaignUserRole.Admin;
   }
+
+  isEditDisabled(campaign: Campaign): boolean {
+    const now = new Date();
+
+    const isBeforeVotingStart = campaign.startDate < now;
+
+    return isBeforeVotingStart;
+  }
 }

@@ -40,6 +40,10 @@ export class CampaignUpdateHandler {
     if (this.campaignsService.isWriteAccessDenied(user, entity)) {
       throw new ForbiddenException();
     }
+
+    if (this.campaignsService.isEditDisabled(entity)) {
+      throw new BadRequestException();
+    }
   }
 
   private async fetchEntity(dto: CampaignDto): Promise<Campaign> {
