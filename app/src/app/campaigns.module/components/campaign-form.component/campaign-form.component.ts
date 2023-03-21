@@ -146,6 +146,8 @@ export class CampaignFormComponent implements OnInit {
     const startDate = new Date();
     const endDate = new Date();
 
+    endDate.setUTCDate(endDate.getUTCDate() + 1);
+
     this.campaign = Campaign.map({
       name: '',
       pubKey: '',
