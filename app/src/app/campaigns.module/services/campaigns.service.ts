@@ -66,29 +66,6 @@ export class CampaignsService {
   }
 
   async search(request: ICampaignSearchRequest): Promise<Campaign[]> {
-    const rng = new RngService();
-    const { p, q } = await rng.getRandomPrimePair(4096);
-    const n = p.multiply(q);
-
-    const pubKey: PaillierPubKey = {
-      n: n,
-    };
-
-    const privKey: PaillierPrivKey = {
-      lambda: p.minus(1).multiply(q.minus(1)),
-      n: n,
-    };
-
-    const domain = EncryptionDomainFactory.getPaillierEncryptionDomain(
-      pubKey,
-      privKey
-    );
-
-    const c = domain.encrypt(123456789);
-    const m = domain.decrypt(c);
-    console.log('c', c);
-    console.log('m', m);
-
     const response = await this.campaignsApi.search(request);
 
     const campaigns = response.rows.map((row) => Campaign.map(row));
