@@ -25,8 +25,8 @@ export class Campaign {
     entity.id = dto.id;
     entity.name = dto.name;
     entity.pubKey = dto.pubKey;
-    entity.startDate = dto.startDate;
-    entity.endDate = dto.endDate;
+    entity.startDate = new Date(dto.startDate);
+    entity.endDate = new Date(dto.endDate);
 
     entity.campaignUsers = CampaignUser.mapList(dto.campaignUsers);
     entity.candidates = CampaignCandidate.mapList(dto.candidates);
