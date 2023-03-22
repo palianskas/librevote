@@ -41,7 +41,7 @@
     <form
       [formGroup]="newUserForm"
       (ngSubmit)="searchCampaignUsers()"
-      class="d-flex align-items-baseline mt-3"
+      class="mt-3"
     >
       <div class="input-group">
         <span class="input-group-text">User email</span>
@@ -55,11 +55,11 @@
         />
         <button type="submit" class="btn btn-outline-primary">Add user</button>
       </div>
-      <span
-        *ngIf="isNewUserFormSubmitted && newUserForm.invalid"
-        class="text-danger text-center ms-3"
-      >
+      <span *ngIf="email.errors?.['notFound']" class="text-danger">
         User not found
+      </span>
+      <span *ngIf="email.errors?.['alreadyAdded']" class="text-danger">
+        User is already added
       </span>
     </form>
   </div>

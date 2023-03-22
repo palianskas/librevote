@@ -52,7 +52,7 @@ export class CampaignFormUsersInputComponent implements OnInit {
     const users = await this.usersService.search(emails);
 
     if (users.length < 1) {
-      this.newUserForm.setErrors({
+      this.email.setErrors({
         notFound: true,
       });
 
@@ -60,6 +60,16 @@ export class CampaignFormUsersInputComponent implements OnInit {
     }
 
     const user = users[0];
+
+    if (
+      this.campaignUsers.some((campaignUser) => campaignUser.userId === user.id)
+    ) {
+      this.email.setErrors({
+        alreadyAdded: true,
+      });
+
+      return;
+    }
 
     this.campaignUsers.push({
       campaignId: '',
