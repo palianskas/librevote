@@ -54,6 +54,6 @@ export class CampaignsService {
 
     const isBeforeVotingStart = campaign.startDate < now;
 
-    return isBeforeVotingStart;
+    return !isBeforeVotingStart;
   }
 }
