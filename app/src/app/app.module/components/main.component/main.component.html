@@ -1,15 +1,11 @@
 <div
-  class="container d-flex justify-content-center align-items-center flex-grow-1"
+  class="container d-flex justify-content-center align-items-center flex-grow-1 mt-5"
 >
-  <div *ngIf="!!user">
-    <div class="container">
-      <a
-        class="btn btn-primary"
-        [routerLink]="routeNames.campaigns.index"
-        aria-current="page"
-        >Campaigns</a
-      >
+  <div *ngIf="!!user" class="w-100">
+    <div class="container mb-3">
+      <h1>Hey, {{ user.name }}</h1>
     </div>
+    <app-dashboard></app-dashboard>
   </div>
   <div *ngIf="!user">
     <div class="container">

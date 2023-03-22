@@ -9,11 +9,17 @@ import { EncryptionModule } from '../encryption.module/encryption.module';
 import { HttpInterceptorProviders } from '../http.interceptors';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app.component/app.component';
+import { DashboardComponent } from './components/main.component/dashboard.component/dashboard.components';
 import { MainComponent } from './components/main.component/main.component';
 import { NavigationComponent } from './components/navigation.component/navigation.component';
 
 @NgModule({
-  declarations: [AppComponent, NavigationComponent, MainComponent],
+  declarations: [
+    AppComponent,
+    NavigationComponent,
+    MainComponent,
+    DashboardComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
