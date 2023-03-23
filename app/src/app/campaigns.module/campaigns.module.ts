@@ -12,6 +12,7 @@ import { CampaignFormCandidatesInputComponent } from './components/campaign-form
 import { CampaignsService } from './services/campaigns.service';
 import { CampaignPublicLinksService } from './services/campaign-public-links.service';
 import { CampaignCandidatesService } from './services/campaign-candidates.service';
+import { CampaignFormSettingsInputComponent } from './components/campaign-form.component/campaign-form-settings-input/campaign-form-candidates-input.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CampaignCandidatesService } from './services/campaign-candidates.servic
     CampaignFormUsersInputComponent,
     CampaignPublicLinkViewComponent,
     CampaignFormCandidatesInputComponent,
+    CampaignFormSettingsInputComponent,
   ],
   imports: [
     CommonModule,

@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RouteNames } from 'src/app/app.module/app.routes';
 import { CampaignPublicLinkDto } from '../../models/campaign-public-links/campaign-public-link.model';
+import { CampaignSettingsDto } from '../../models/campaign-settings/campaign-settings.model';
 import { Campaign, CampaignDto } from '../../models/campaign.model';
 import { CampaignCandidatesService } from '../../services/campaign-candidates.service';
 import { CampaignPublicLinksService } from '../../services/campaign-public-links.service';
@@ -34,6 +35,10 @@ function dateIntervalValidator(
   };
 }
 
+function toDateString(date: Date): string {
+  return formatDate(date, 'yyyy-MM-ddTHH:mm', 'en');
+}
+
 @Component({
   selector: 'app-campaign-form',
   templateUrl: './campaign-form.component.html',
@@ -45,13 +50,8 @@ export class CampaignFormComponent implements OnInit {
   campaignForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     pubKey: new FormControl('', [Validators.required]),
-    startDate: new FormControl(
-      formatDate(new Date(), 'yyyy-MM-ddTHH:mm', 'en'),
-      [Validators.required]
-    ),
-    endDate: new FormControl(formatDate(new Date(), 'yyyy-MM-ddTHH:mm', 'en'), [
-      Validators.required,
-    ]),
+    startDate: new FormControl('', [Validators.required]),
+    endDate: new FormControl('', [Validators.required]),
     publicLink: new FormControl('', [
       Validators.required,
       Validators.pattern(publicLinkRegExp),
@@ -136,6 +136,26 @@ export class CampaignFormComponent implements OnInit {
     }
   }
 
+  onSettingsChange(): void {
+    if (this.campaign.settings.isManualVoteStartEndEnabled) {
+      this.startDate.disable();
+      this.endDate.disable();
+
+      this.startDate.setValue('');
+      this.endDate.setValue('');
+    } else {
+      if (!this.campaign.startDate || !this.campaign.endDate) {
+        this.initCampaignStartEndDates();
+      }
+
+      this.startDate.enable();
+      this.endDate.enable();
+
+      this.startDate.setValue(toDateString(this.campaign.startDate));
+      this.endDate.setValue(toDateString(this.campaign.endDate));
+    }
+  }
+
   private async initCampaign(id?: string): Promise<void> {
     if (!!id) {
       this.campaign = await this.campaignsService.get(id);
@@ -143,30 +163,47 @@ export class CampaignFormComponent implements OnInit {
       return;
     }
 
-    const startDate = new Date();
-    const endDate = new Date();
-
-    endDate.setUTCDate(endDate.getUTCDate() + 1);
-
     this.campaign = Campaign.map({
       name: '',
       pubKey: '',
-      startDate: startDate,
-      endDate: endDate,
       campaignUsers: [],
       publicLink: null,
       candidates: [],
+      settings: CampaignSettingsDto.default,
     });
+
+    this.initCampaignStartEndDates();
+  }
+
+  private initCampaignStartEndDates(): void {
+    const startDate = new Date();
+    const endDate = new Date();
+
+    startDate.setUTCHours(startDate.getUTCHours() + 1);
+    endDate.setUTCHours(endDate.getUTCHours() + 1);
+
+    endDate.setUTCDate(endDate.getUTCDate() + 1);
+
+    this.campaign.startDate = startDate;
+    this.campaign.endDate = endDate;
   }
 
   private initForm(): void {
     this.campaignForm.setValue({
       name: this.campaign.name,
       pubKey: this.campaign.pubKey,
-      startDate: formatDate(this.campaign.startDate, 'yyyy-MM-ddTHH:mm', 'en'),
-      endDate: formatDate(this.campaign.endDate, 'yyyy-MM-ddTHH:mm', 'en'),
+      startDate: '',
+      endDate: '',
       publicLink: this.campaign.publicLink?.link ?? '',
     });
+
+    if (this.campaign.settings.isManualVoteStartEndEnabled) {
+      this.startDate.disable();
+      this.endDate.disable();
+    } else {
+      this.startDate.setValue(toDateString(this.campaign.startDate));
+      this.endDate.setValue(toDateString(this.campaign.endDate));
+    }
   }
 
   private async createPublicLink(campaignId: string): Promise<void> {
@@ -233,7 +270,13 @@ export class CampaignFormComponent implements OnInit {
   private flushFormDataToRecord(): void {
     this.campaign.name = this.name.value;
     this.campaign.pubKey = this.pubKey.value;
-    this.campaign.startDate = new Date(this.startDate.value);
-    this.campaign.endDate = new Date(this.endDate.value);
+
+    if (this.campaign.settings.isManualVoteStartEndEnabled) {
+      this.campaign.startDate = null;
+      this.campaign.endDate = null;
+    } else {
+      this.campaign.startDate = new Date(this.startDate.value);
+      this.campaign.endDate = new Date(this.endDate.value);
+    }
   }
 }

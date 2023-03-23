@@ -1,0 +1,38 @@
+<h3>Configuration</h3>
+<div class="row">
+  <div class="col-6">
+    <label for="ettings-voting-mechanism" class="form-label">
+      Voting mechanism
+    </label>
+    <div *ngFor="let entry of votingMechanismOptions">
+      <input
+        type="radio"
+        [(ngModel)]="settings.votingMechanism"
+        name="settings-voting-mechanism"
+        [value]="entry.key"
+        (change)="onChange()"
+      />
+      <span>
+        {{ entry.value }}
+      </span>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [checked]="settings.isManualVoteStartEndEnabled"
+        (change)="
+          settings.isManualVoteStartEndEnabled =
+            !settings.isManualVoteStartEndEnabled
+        "
+        (change)="onChange()"
+        id="settings-manual-vote-startstop"
+      />
+      <label class="form-check-label" for="settings-manual-vote-startstop"
+        >Manually start/stop voting</label
+      >
+    </div>
+  </div>
+</div>

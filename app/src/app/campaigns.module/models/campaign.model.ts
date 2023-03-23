@@ -6,18 +6,23 @@ import {
   CampaignPublicLink,
   CampaignPublicLinkDto,
 } from './campaign-public-links/campaign-public-link.model';
+import {
+  CampaignSettings,
+  CampaignSettingsDto,
+} from './campaign-settings/campaign-settings.model';
 import { CampaignUser, CampaignUserDto } from './campaign-user.model';
 
 export class Campaign {
   id: string;
   name: string;
   pubKey: string;
-  startDate: Date;
-  endDate: Date;
+  startDate?: Date;
+  endDate?: Date;
 
   campaignUsers: CampaignUser[];
   publicLink: CampaignPublicLink;
   candidates: CampaignCandidate[];
+  settings: CampaignSettings;
 
   static map(dto: CampaignDto): Campaign {
     const entity = new Campaign();
@@ -25,8 +30,8 @@ export class Campaign {
     entity.id = dto.id;
     entity.name = dto.name;
     entity.pubKey = dto.pubKey;
-    entity.startDate = new Date(dto.startDate);
-    entity.endDate = new Date(dto.endDate);
+    entity.startDate = dto.startDate;
+    entity.endDate = dto.endDate;
 
     entity.campaignUsers = CampaignUser.mapList(dto.campaignUsers);
     entity.candidates = CampaignCandidate.mapList(dto.candidates);
@@ -34,6 +39,10 @@ export class Campaign {
     if (!!dto.publicLink) {
       entity.publicLink = CampaignPublicLink.map(dto.publicLink);
     }
+
+    entity.settings = !!dto.settings
+      ? CampaignSettings.map(dto.settings)
+      : CampaignSettings.default;
 
     return entity;
   }
@@ -43,12 +52,13 @@ export class CampaignDto {
   id?: string;
   name: string;
   pubKey: string;
-  startDate: Date;
-  endDate: Date;
+  startDate?: Date;
+  endDate?: Date;
 
   campaignUsers: CampaignUserDto[];
   publicLink: CampaignPublicLinkDto;
   candidates: CampaignCandidateDto[];
+  settings: CampaignSettingsDto;
 
   static map(data: any): CampaignDto {
     const dto = new CampaignDto();
@@ -56,14 +66,23 @@ export class CampaignDto {
     dto.id = data.id;
     dto.name = data.name;
     dto.pubKey = data.pubKey;
-    dto.startDate = new Date(data.startDate);
-    dto.endDate = new Date(data.endDate);
+
+    if (data.startDate) {
+      dto.startDate = new Date(data.startDate);
+    }
+    if (data.endDate) {
+      dto.endDate = new Date(data.endDate);
+    }
 
     dto.campaignUsers = CampaignUserDto.mapList(data.campaignUsers);
 
     if (!!data.publicLink) {
       dto.publicLink = CampaignPublicLinkDto.map(data.publicLink);
     }
+
+    dto.settings = !!data.settings
+      ? CampaignSettingsDto.map(data.settings)
+      : CampaignSettingsDto.default;
 
     return dto;
   }

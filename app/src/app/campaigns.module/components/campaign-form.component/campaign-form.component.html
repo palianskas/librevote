@@ -122,5 +122,14 @@
         <h3>Public/private keys</h3>
       </div>
     </div>
+    <div class="row mt-3">
+      <div class="col-xl-6">
+        <app-campaign-form-settings-input
+          *ngIf="!!campaign?.settings"
+          [(settings)]="campaign.settings"
+          [onChangeCallback]="onSettingsChange.bind(this)"
+        ></app-campaign-form-settings-input>
+      </div>
+    </div>
   </div>
 </div>
