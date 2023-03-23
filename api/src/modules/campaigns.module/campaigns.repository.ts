@@ -60,6 +60,12 @@ export class CampaignsRepository {
       userId: userDto.userId,
     }));
 
+    // ensure values get deleted instead of ignored
+    dto.startDate ??= null;
+    dto.endDate ??= null;
+
+    const { campaignId, ...settings } = dto.settings;
+
     const result = await this.dataService.campaign.update({
       where: {
         id: dto.id,
@@ -76,7 +82,7 @@ export class CampaignsRepository {
           },
         },
         settings: {
-          update: dto.settings,
+          update: settings,
         },
       },
       include: {
