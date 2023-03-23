@@ -52,8 +52,7 @@ export class CampaignsService {
   isEditDisabled(campaign: Campaign): boolean {
     const now = new Date();
 
-    const isBeforeVotingStart =
-      !!campaign.startDate && campaign.startDate < now;
+    const isBeforeVotingStart = !campaign.startDate || campaign.startDate > now;
 
     return !isBeforeVotingStart;
   }
