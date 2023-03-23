@@ -66,15 +66,7 @@ export class CampaignFormComponent implements OnInit {
     private readonly campaignCandidatesService: CampaignCandidatesService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
-  ) {
-    // add validators when controls are done initializing
-    this.startDate.addValidators(
-      dateIntervalValidator(this.startDate, this.endDate)
-    );
-    this.endDate.addValidators(
-      dateIntervalValidator(this.startDate, this.endDate)
-    );
-  }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.paramsSubscription = this.route.params.subscribe(async (params) => {
@@ -82,6 +74,14 @@ export class CampaignFormComponent implements OnInit {
 
       await this.initCampaign(id);
       this.initForm();
+
+      // add validators when controls are done initializing
+      this.startDate.addValidators(
+        dateIntervalValidator(this.startDate, this.endDate)
+      );
+      this.endDate.addValidators(
+        dateIntervalValidator(this.startDate, this.endDate)
+      );
     });
   }
 
