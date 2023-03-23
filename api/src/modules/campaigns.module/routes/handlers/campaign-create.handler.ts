@@ -62,7 +62,8 @@ export class CampaignCreateHandler {
   private validateRequest(request: ICampaignCreateRequest): boolean {
     const dto = request.dto;
 
-    const isDateOverlap = dto.startDate >= dto.endDate;
+    const isDateOverlap =
+      !!dto.startDate && !!dto.endDate && dto.startDate >= dto.endDate;
 
     return isDateOverlap;
   }

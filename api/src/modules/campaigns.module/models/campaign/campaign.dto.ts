@@ -9,8 +9,8 @@ export class CampaignDto {
   id?: string;
   name: string;
   pubKey: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | null;
+  endDate: Date | null;
   campaignUsers: CampaignUserDto[];
   districts: DistrictDto[];
   publicLink: CampaignPublicLinkDto;

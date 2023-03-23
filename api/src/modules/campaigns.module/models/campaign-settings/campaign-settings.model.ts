@@ -17,6 +17,7 @@ export class CampaignSettingsDto {
   campaignId?: string;
   campaign?: CampaignDto;
   votingMechanism: VotingMechanism;
+  isManualVoteStartEndEnabled: boolean;
 
   static map(entity: CampaignSettings): CampaignSettingsDto {
     const dto = new CampaignSettingsDto();
@@ -24,6 +25,7 @@ export class CampaignSettingsDto {
     dto.id = entity.id;
     dto.campaignId = entity.campaignId;
     dto.votingMechanism = VotingMechanism[entity.votingMechanism];
+    dto.isManualVoteStartEndEnabled = entity.isManualVoteStartEndEnabled;
 
     if (!!entity.campaign) {
       dto.campaign = CampaignDto.map(entity.campaign);
@@ -35,6 +37,7 @@ export class CampaignSettingsDto {
   static get default(): CampaignSettingsDto {
     const defaultSettings: CampaignSettingsDto = {
       votingMechanism: VotingMechanism.Public,
+      isManualVoteStartEndEnabled: false,
     };
 
     return defaultSettings;
