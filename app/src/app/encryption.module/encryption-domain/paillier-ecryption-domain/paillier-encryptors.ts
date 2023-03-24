@@ -28,8 +28,6 @@ export class PaillierEncryptor
 
     const cipher = d1.multiply(d2).mod(n_squared);
 
-    // console.log('encrypt()', cipher, d1, d2);
-
     return cipher;
   }
   private rngService = new RngService();
@@ -54,8 +52,6 @@ export class PaillierDecryptor
     const sigma = key.lambda.modInv(key.n);
 
     const message = d1.divide(key.n).multiply(sigma).mod(key.n);
-
-    // console.log('decrypt()', message, d1, sigma);
 
     return message;
   }
