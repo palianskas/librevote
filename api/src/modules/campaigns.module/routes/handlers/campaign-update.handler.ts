@@ -30,7 +30,7 @@ export class CampaignUpdateHandler {
     const campaign = await this.campaignsService.update(dto);
 
     const response: ICampaignUpdateResponse = {
-      dto: CampaignDto.map(campaign),
+      dto: CampaignDto.map(campaign, true),
     };
 
     return response;
@@ -42,7 +42,7 @@ export class CampaignUpdateHandler {
     }
 
     if (this.campaignsService.isEditDisabled(entity)) {
-      throw new BadRequestException();
+      throw new BadRequestException('This campaign cannot be edited');
     }
   }
 

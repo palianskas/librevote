@@ -50,7 +50,7 @@ export class CampaignsController {
       throw new ForbiddenException();
     }
 
-    const dto = CampaignDto.map(campaign);
+    const dto = CampaignDto.map(campaign, true);
 
     return dto;
   }

@@ -17,18 +17,21 @@ export class CampaignDto {
   candidates: CampaignCandidateDto[];
   settings: CampaignSettingsDto;
 
-  static map(entity: Campaign): CampaignDto {
+  static map(entity: Campaign, includePubKey = false): CampaignDto {
     const dto = new CampaignDto();
 
     dto.id = entity.id;
     dto.name = entity.name;
-    dto.pubKey = entity.pubKey;
     dto.startDate = entity.startDate;
     dto.endDate = entity.endDate;
 
     dto.campaignUsers = CampaignUserDto.mapList(entity.campaignUsers);
     dto.districts = DistrictDto.mapList(entity.districts);
     dto.candidates = CampaignCandidateDto.mapList(entity.candidates);
+
+    if (includePubKey) {
+      dto.pubKey = entity.pubKey;
+    }
 
     if (!!entity.publicLinks) {
       const publicLink = CampaignPublicLinkDto.getAndMapActiveLink(
