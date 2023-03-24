@@ -19,7 +19,7 @@ model User {
 model Campaign {
   id             String               @id @default(cuid())
   name           String
-  pubKey         String
+  pubKey         String?
   startDate      DateTime?
   endDate        DateTime?
   campaignUsers  CampaignUser[]

@@ -63,6 +63,7 @@ export class CampaignsRepository {
     // ensure values get deleted instead of ignored
     dto.startDate ??= null;
     dto.endDate ??= null;
+    dto.pubKey ??= null;
 
     const { campaignId, ...settings } = dto.settings;
 
@@ -95,7 +96,6 @@ export class CampaignsRepository {
     return result;
   }
 
-  // TODO: `QueryBuilder` and `QueryBuilderFactory` ?
   private buildQuery(filter: any, fieldSelect: any = null): IPrismaQuery {
     const query: IPrismaQuery = {
       where: filter,

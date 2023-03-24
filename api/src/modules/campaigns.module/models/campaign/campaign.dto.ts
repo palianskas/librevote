@@ -8,7 +8,7 @@ import { Campaign } from './campaign.model';
 export class CampaignDto {
   id?: string;
   name: string;
-  pubKey: string;
+  pubKey: string | null;
   startDate: Date | null;
   endDate: Date | null;
   campaignUsers: CampaignUserDto[];
