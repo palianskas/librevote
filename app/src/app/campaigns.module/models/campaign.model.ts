@@ -15,7 +15,7 @@ import { CampaignUser, CampaignUserDto } from './campaign-user.model';
 export class Campaign {
   id: string;
   name: string;
-  pubKey: string;
+  pubKey?: string;
   startDate?: Date;
   endDate?: Date;
 
@@ -51,7 +51,7 @@ export class Campaign {
 export class CampaignDto {
   id?: string;
   name: string;
-  pubKey: string;
+  pubKey?: string;
   startDate?: Date;
   endDate?: Date;
 

@@ -25,20 +25,6 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="pubKey" class="form-label">Public key</label>
-            <input
-              type="text"
-              class="form-control"
-              id="pubKey"
-              formControlName="pubKey"
-              required
-              [ngClass]="{ 'is-invalid': isInputInvalid(pubKey) }"
-            />
-            <div *ngIf="isInputInvalid(pubKey)" class="text-danger">
-              <div *ngIf="pubKey.errors?.['required']">Field is required</div>
-            </div>
-          </div>
-          <div class="mb-3">
             <label for="publicLink" class="form-label">Public link</label>
             <input
               type="text"

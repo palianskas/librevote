@@ -49,7 +49,6 @@ export class CampaignFormComponent implements OnInit {
   campaignFormSubmitted = false;
   campaignForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    pubKey: new FormControl('', [Validators.required]),
     startDate: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required]),
     publicLink: new FormControl('', [
@@ -87,9 +86,6 @@ export class CampaignFormComponent implements OnInit {
 
   get name(): FormControl<string> {
     return this.campaignForm.controls.name;
-  }
-  get pubKey(): FormControl<string> {
-    return this.campaignForm.controls.pubKey;
   }
   get publicLink(): FormControl<string> {
     return this.campaignForm.controls.publicLink;
@@ -191,7 +187,6 @@ export class CampaignFormComponent implements OnInit {
   private initForm(): void {
     this.campaignForm.setValue({
       name: this.campaign.name,
-      pubKey: this.campaign.pubKey,
       startDate: '',
       endDate: '',
       publicLink: this.campaign.publicLink?.link ?? '',
@@ -269,7 +264,6 @@ export class CampaignFormComponent implements OnInit {
 
   private flushFormDataToRecord(): void {
     this.campaign.name = this.name.value;
-    this.campaign.pubKey = this.pubKey.value;
 
     if (this.campaign.settings.isManualVoteStartEndEnabled) {
       this.campaign.startDate = null;
