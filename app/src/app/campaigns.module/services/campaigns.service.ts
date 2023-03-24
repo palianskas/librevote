@@ -12,12 +12,6 @@ import {
   ICampaignUpdateResponse,
 } from '../models/campaigns-contracts.model';
 import { Campaign, CampaignDto } from '../models/campaign.model';
-import { RngService } from 'src/app/encryption.module/services/rng.service';
-import { EncryptionDomainFactory } from 'src/app/encryption.module/encryption-domain/encryption-domain.factory';
-import {
-  PaillierPrivKey,
-  PaillierPubKey,
-} from 'src/app/encryption.module/encryption-domain/paillier-ecryption-domain/paillier-encryption.domain';
 
 @Injectable({
   providedIn: 'root',
