@@ -1,6 +1,6 @@
 import { BigInteger } from 'big-integer';
 import { EncryptionDomain } from './encryption.domain';
-import { PaillierEncryptionDomainBuilder } from './paillier-ecryption-domain/paillier-encryption-domain.builder';
+import { PaillierEncryptionDomainBuilder } from './paillier-encryption-domain/paillier-encryption-domain.builder';
 
 export class EncryptionDomainFactory {
   static getPaillierEncryptionDomain(
