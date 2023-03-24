@@ -1,27 +1,18 @@
+import { BigInteger } from 'big-integer';
+import { EncryptionDomain } from './encryption.domain';
 import { PaillierEncryptionDomainBuilder } from './paillier-ecryption-domain/paillier-encryption-domain.builder';
-import {
-  PaillierEncryptionDomain,
-  PaillierPrivKey,
-  PaillierPubKey,
-} from './paillier-ecryption-domain/paillier-encryption.domain';
-import {
-  PaillierDecryptor,
-  PaillierEncryptor,
-} from './paillier-ecryption-domain/paillier-encryptors';
 
 export class EncryptionDomainFactory {
   static getPaillierEncryptionDomain(
-    pubKey: PaillierPubKey,
-    privKey: PaillierPrivKey
-  ): PaillierEncryptionDomain {
+    pubKey: BigInteger,
+    privKey: BigInteger
+  ): EncryptionDomain {
     const builder = new PaillierEncryptionDomainBuilder();
 
     const domain = builder
       .withPubKey(pubKey)
       .withPrivKey(privKey)
-      .withMod(pubKey.n)
-      .withEncryptor(new PaillierEncryptor())
-      .withDecryptor(new PaillierDecryptor())
+      .withMod(pubKey)
       .build();
 
     return domain;

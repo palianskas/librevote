@@ -1,23 +1,9 @@
 import * as bigInt from 'big-integer';
 import { BigInteger } from 'big-integer';
 import { DiscreteNumber } from '../../discrete-number.type';
-import { EncryptionDomainBase } from '../encryption.domain';
+import { EncryptionDomain } from '../encryption.domain';
 
-export class PaillierPrivKey {
-  lambda: BigInteger;
-  n: BigInteger;
-}
-
-export class PaillierPubKey {
-  n: BigInteger;
-}
-
-export class PaillierEncryptionDomain extends EncryptionDomainBase<
-  BigInteger,
-  PaillierPubKey,
-  PaillierPrivKey,
-  BigInteger
-> {
+export class PaillierEncryptionDomain extends EncryptionDomain {
   public override encrypt(message: DiscreteNumber): BigInteger {
     return this.encryptor.encrypt(
       this.toBigInteger(message),

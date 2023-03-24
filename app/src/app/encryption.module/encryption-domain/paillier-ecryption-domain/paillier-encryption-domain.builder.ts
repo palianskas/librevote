@@ -1,25 +1,27 @@
 import { BigInteger } from 'big-integer';
-import { IDecryptor, IEncryptor } from '../encryption.domain';
-import {
-  PaillierEncryptionDomain,
-  PaillierPrivKey,
-  PaillierPubKey,
-} from './paillier-encryption.domain';
+import { IEncryptionDomainBuilder } from '../encryption-domain.builder';
+import { PaillierEncryptionDomain } from './paillier-encryption.domain';
+import { PaillierDecryptor, PaillierEncryptor } from './paillier-encryptors';
 
-export class PaillierEncryptionDomainBuilder {
+export class PaillierEncryptionDomainBuilder
+  implements IEncryptionDomainBuilder
+{
   private domain: PaillierEncryptionDomain;
 
   constructor() {
     this.domain = new PaillierEncryptionDomain();
+
+    this.domain.setEncryptor(new PaillierEncryptor());
+    this.domain.setDecryptor(new PaillierDecryptor());
   }
 
-  withPrivKey(key: PaillierPrivKey): this {
+  withPrivKey(key: BigInteger): this {
     this.domain.setPrivKey(key);
 
     return this;
   }
 
-  withPubKey(key: PaillierPubKey): this {
+  withPubKey(key: BigInteger): this {
     this.domain.setPubKey(key);
 
     return this;
@@ -31,19 +33,12 @@ export class PaillierEncryptionDomainBuilder {
     return this;
   }
 
-  withEncryptor(
-    encryptor: IEncryptor<BigInteger, PaillierPrivKey, BigInteger>
-  ): this {
-    this.domain.setEncryptor(encryptor);
-
+  withEncryptor(): this {
+    // ignore
     return this;
   }
-
-  withDecryptor(
-    decryptor: IDecryptor<BigInteger, PaillierPubKey, BigInteger>
-  ): this {
-    this.domain.setDecryptor(decryptor);
-
+  withDecryptor(): this {
+    // ignore
     return this;
   }
 

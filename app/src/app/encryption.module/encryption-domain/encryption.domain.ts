@@ -1,34 +1,37 @@
-export interface IEncryptor<TData, TKey, TMod> {
-  encrypt(message: TData, key: TKey, mod: TMod): TData;
+import { BigInteger } from 'big-integer';
+import { DiscreteNumber } from '../discrete-number.type';
+
+export interface IEncryptor {
+  encrypt(message: BigInteger, key: BigInteger, mod: BigInteger): BigInteger;
 }
 
-export interface IDecryptor<TData, TKey, TMod> {
-  decrypt(cipher: TData, key: TKey, mod: TMod): TData;
+export interface IDecryptor {
+  decrypt(cipher: BigInteger, key: BigInteger, mod: BigInteger): BigInteger;
 }
 
-export abstract class EncryptionDomainBase<TData, TPubKey, TPrivKey, TMod> {
-  protected encryptor: IEncryptor<TData, TPubKey, TMod>;
-  protected decryptor: IDecryptor<TData, TPrivKey, TMod>;
-  protected pubKey: TPubKey;
-  protected privKey: TPrivKey;
-  protected mod: TMod;
+export abstract class EncryptionDomain {
+  protected encryptor: IEncryptor;
+  protected decryptor: IDecryptor;
+  protected pubKey: BigInteger;
+  protected privKey: BigInteger;
+  protected mod: BigInteger;
 
-  setPubKey(key: TPubKey): void {
+  setPubKey(key: BigInteger): void {
     this.pubKey = key;
   }
-  setPrivKey(key: TPrivKey): void {
+  setPrivKey(key: BigInteger): void {
     this.privKey = key;
   }
-  setMod(mod: TMod): void {
+  setMod(mod: BigInteger): void {
     this.mod = mod;
   }
-  setEncryptor(encryptor: IEncryptor<TData, TPubKey, TMod>): void {
+  setEncryptor(encryptor: IEncryptor): void {
     this.encryptor = encryptor;
   }
-  setDecryptor(decryptor: IDecryptor<TData, TPrivKey, TMod>): void {
+  setDecryptor(decryptor: IDecryptor): void {
     this.decryptor = decryptor;
   }
 
-  abstract encrypt(message: TData): TData;
-  abstract decrypt(cipher: TData): TData;
+  abstract encrypt(message: DiscreteNumber): BigInteger;
+  abstract decrypt(cipher: DiscreteNumber): BigInteger;
 }

@@ -2,56 +2,54 @@ import * as bigInt from 'big-integer';
 import { BigInteger } from 'big-integer';
 import { RngService } from '../../services/rng.service';
 import { IDecryptor, IEncryptor } from '../encryption.domain';
-import { PaillierPrivKey, PaillierPubKey } from './paillier-encryption.domain';
 
-export class PaillierEncryptor
-  implements IEncryptor<BigInteger, PaillierPubKey, BigInteger>
-{
-  encrypt(message: BigInteger, key: PaillierPubKey): BigInteger {
-    if (!this.validate(message, key.n)) {
-      throw new Error(`Cannot encrypt message ${message} with mod ${key.n}`);
+export class PaillierEncryptor implements IEncryptor {
+  encrypt(message: BigInteger, pubKey: BigInteger): BigInteger {
+    if (!this.validate(message, pubKey)) {
+      throw new Error(`Cannot encrypt message ${message} with mod ${pubKey}`);
     }
 
     let r: BigInteger;
     while (true) {
-      r = this.rngService.getRandomInt(key.n.bitLength().toJSNumber());
+      r = RngService.getRandomInt(pubKey.bitLength().toJSNumber());
 
-      if (r.lt(key.n) && bigInt.gcd(r, key.n).equals(bigInt.one)) {
+      if (r.lt(pubKey) && bigInt.gcd(r, pubKey).equals(bigInt.one)) {
         break;
       }
     }
 
-    const n_squared = key.n.pow(2);
+    const n_squared = pubKey.pow(2);
 
-    const d1 = key.n.add(bigInt.one).modPow(message, n_squared);
-    const d2 = r.modPow(key.n, n_squared);
+    const d1 = pubKey.add(bigInt.one).modPow(message, n_squared);
+    const d2 = r.modPow(pubKey, n_squared);
 
     const cipher = d1.multiply(d2).mod(n_squared);
 
     return cipher;
   }
-  private rngService = new RngService();
 
   validate(message: BigInteger, mod: BigInteger): boolean {
     return message >= bigInt.zero && message < mod;
   }
 }
 
-export class PaillierDecryptor
-  implements IDecryptor<BigInteger, PaillierPrivKey, BigInteger>
-{
-  decrypt(cipher: BigInteger, key: PaillierPrivKey): BigInteger {
-    if (!this.validate(cipher, key.n)) {
-      throw new Error(`Cannot decrypt message ${cipher} with mod ${key.n}`);
+export class PaillierDecryptor implements IDecryptor {
+  decrypt(
+    cipher: BigInteger,
+    privKey: BigInteger,
+    mod: BigInteger
+  ): BigInteger {
+    if (!this.validate(cipher, privKey)) {
+      throw new Error(`Cannot decrypt message ${cipher} with mod ${privKey}`);
     }
 
-    const n_squared = key.n.pow(2);
+    const n_squared = mod.pow(2);
 
-    const d1 = cipher.modPow(key.lambda, n_squared).minus(1);
+    const d1 = cipher.modPow(privKey, n_squared).minus(1);
 
-    const sigma = key.lambda.modInv(key.n);
+    const sigma = privKey.modInv(mod);
 
-    const message = d1.divide(key.n).multiply(sigma).mod(key.n);
+    const message = d1.divide(mod).multiply(sigma).mod(mod);
 
     return message;
   }
