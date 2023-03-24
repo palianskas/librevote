@@ -161,7 +161,6 @@ export class CampaignFormComponent implements OnInit {
 
     this.campaign = Campaign.map({
       name: '',
-      pubKey: '',
       campaignUsers: [],
       publicLink: null,
       candidates: [],
