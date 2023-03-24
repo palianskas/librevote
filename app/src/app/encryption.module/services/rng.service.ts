@@ -53,7 +53,7 @@ export class RngService {
     return primePairPromise;
   }
 
-  static async generatePaillierKeyPair(bits = 4096): Promise<{
+  static async generatePaillierKeyPair(bits = 256): Promise<{
     lambda: BigInteger;
     n: BigInteger;
   }> {
