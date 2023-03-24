@@ -13,6 +13,8 @@ import { CampaignsService } from './services/campaigns.service';
 import { CampaignPublicLinksService } from './services/campaign-public-links.service';
 import { CampaignCandidatesService } from './services/campaign-candidates.service';
 import { CampaignFormSettingsInputComponent } from './components/campaign-form.component/campaign-form-settings-input/campaign-form-candidates-input.component';
+import { CampaignEncryptionKeysComponent } from './components/campaign-info.component/campaign-encryption-keys.component/campaign-encryption-keys.component';
+import { CampaignEncryptionKeysModalComponent } from './components/campaign-info.component/campaign-encryption-keys.component/campaign-encryption-keys-modal.component/campaign-encryption-keys-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { CampaignFormSettingsInputComponent } from './components/campaign-form.c
     CampaignPublicLinkViewComponent,
     CampaignFormCandidatesInputComponent,
     CampaignFormSettingsInputComponent,
+    CampaignEncryptionKeysComponent,
+    CampaignEncryptionKeysModalComponent,
   ],
   imports: [
     CommonModule,

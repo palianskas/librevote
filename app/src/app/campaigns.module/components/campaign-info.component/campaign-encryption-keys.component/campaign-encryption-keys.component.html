@@ -1,0 +1,22 @@
+<div *ngIf="!!campaign?.pubKey">
+  <h5>
+    Public key:
+    {{ getDisplayablePubKey(campaign.pubKey) }}
+  </h5>
+  <span></span><br />
+  <h5>
+    Private key:
+    <button class="btn btn-outline-primary">Reveal (TODO)</button>
+  </h5>
+</div>
+<div *ngIf="!campaign?.pubKey">
+  <h5>Campaign doesn't have keys</h5>
+  <button class="btn btn-outline-primary" (click)="generate()">
+    Generate keys
+  </button>
+</div>
+
+<app-campaign-encryption-keys-modal
+  [onConfirm]="save.bind(this)"
+  [onCancel]="cancel.bind(this)"
+></app-campaign-encryption-keys-modal>

@@ -12,5 +12,18 @@
       >Edit</a
     >
   </div>
-  <h1>{{ campaign.name }}</h1>
+  <h1>Campaign: {{ campaign.name }}</h1>
+  <div class="row">
+    <div class="col-lg-6">
+      <h3>Encryption keys</h3>
+      <hr />
+      <app-campaign-encryption-keys
+        [campaign]="campaign"
+      ></app-campaign-encryption-keys>
+    </div>
+    <div class="col-lg-6">
+      <h3>Voter registration</h3>
+      <hr />
+    </div>
+  </div>
 </div>

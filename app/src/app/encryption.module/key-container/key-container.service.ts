@@ -42,7 +42,9 @@ export class KeyContainerService {
     }
 
     try {
-      const container: KeyContainer = JSON.parse(item);
+      const rawContainer: KeyContainer = JSON.parse(item);
+
+      const container = KeyContainer.map(rawContainer);
 
       return container;
     } catch {

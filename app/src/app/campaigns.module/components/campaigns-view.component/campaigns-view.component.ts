@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteNames } from 'src/app/app.module/app.routes';
+import { KeyHelpers } from 'src/app/encryption.module/key.helpers';
 import { Campaign } from '../../models/campaign.model';
 import { CampaignsService } from '../../services/campaigns.service';
 
@@ -25,5 +26,9 @@ export class CampaignsViewComponent implements OnInit {
 
   open(id: string): void {
     this.router.navigate([RouteNames.campaigns.index, id]);
+  }
+
+  getDisplayablePubKey(pubKey?: string): string {
+    return KeyHelpers.getDisplayableKey(pubKey);
   }
 }

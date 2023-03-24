@@ -20,7 +20,9 @@
         class="clickable"
       >
         <td>{{ campaign.name }}</td>
-        <td>{{ campaign.pubKey }}</td>
+        <td>
+          {{ getDisplayablePubKey(campaign.pubKey) }}
+        </td>
         <td>
           <span *ngFor="let user of campaign.campaignUsers; let last = last"
             >{{ user.user.name }}{{ !last ? ", " : "" }}</span

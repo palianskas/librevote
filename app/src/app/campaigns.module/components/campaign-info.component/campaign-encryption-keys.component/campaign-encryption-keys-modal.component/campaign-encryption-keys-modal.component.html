@@ -1,0 +1,88 @@
+<button
+  id="modal-open-button"
+  data-bs-toggle="modal"
+  data-bs-target="#key-store-method-modal"
+  style="display: none"
+></button>
+<div
+  class="modal fade"
+  id="key-store-method-modal"
+  tabindex="-1"
+  aria-labelledby="modal-title"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">Keys generated</h5>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div>How to store private key?</div>
+          <div *ngFor="let entry of keyStorageOptions">
+            <input
+              type="radio"
+              [(ngModel)]="selectedKeyStorageOption"
+              name="settings-voting-mechanism"
+              [value]="entry.key"
+            />
+            <span>
+              {{ entry.value }}
+            </span>
+          </div>
+        </div>
+        <div [ngSwitch]="selectedKeyStorageOption" class="mt-2">
+          <div *ngSwitchCase="keyStorageOptions[0].key">
+            <i>
+              Private key will not be stored, you will be responsible for saving
+              it yourself. A file with the key will be downloaded.
+            </i>
+          </div>
+          <div *ngSwitchCase="keyStorageOptions[1].key">
+            <i>
+              Private key will be encrypted with the provided password and
+              stored locally.
+            </i>
+            <div class="mt-2">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                required
+                [(ngModel)]="password"
+                name="private key encryption password"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div *ngSwitchCase="keyStorageOptions[2].key">
+            <i>Private key will be stored locally in plaintext.</i>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+        <div title="{{ isPasswordMissing ? 'Please enter a password' : null }}">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            [disabled]="isPasswordMissing"
+            (click)="confirm()"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
