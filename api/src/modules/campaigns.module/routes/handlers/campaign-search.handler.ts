@@ -19,7 +19,7 @@ export class CampaignSearchHandler {
     user: User,
     request: ICampaignSearchRequest,
   ): Promise<ICampaignSearchResponse> {
-    // TODO: currently only allow to load own campaigns
+    // only allow to load own campaigns
     request.userIds = [user.id];
 
     const filter = this.buildSearchFilter(request);
