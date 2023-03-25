@@ -1,4 +1,13 @@
-<div class="container m-5 d-flex flex-column">
-  <h1>Link: {{ campaignPublicLink.link }}</h1>
-  <h1>Campaign name:{{ campaignPublicLink.campaign.name }}</h1>
+<div class="container m-5">
+  <div *ngIf="!campaignPublicLink">
+    <h3>Campaign not found</h3>
+    <h5>
+      Please make sure you have the correct link or contact the campaign's
+      administrator
+    </h5>
+  </div>
+  <div *ngIf="!!campaignPublicLink" class="d-flex flex-column">
+    <h1>Link: {{ campaignPublicLink.link }}</h1>
+    <h1>Campaign name:{{ campaignPublicLink.campaign.name }}</h1>
+  </div>
 </div>
