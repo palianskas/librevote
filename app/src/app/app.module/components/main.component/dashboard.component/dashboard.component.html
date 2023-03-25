@@ -29,7 +29,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let campaign of campaignOverview.inProgressCampaigns">
+              <tr
+                *ngFor="let campaign of campaignOverview.inProgressCampaigns"
+                (click)="openCampaign(campaign.id)"
+                class="clickable"
+              >
                 <td>{{ campaign.name }}</td>
                 <td>{{ campaign.startDate.toLocaleString() }}</td>
                 <td>{{ campaign.endDate.toLocaleString() }}</td>
