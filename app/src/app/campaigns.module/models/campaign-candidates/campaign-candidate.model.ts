@@ -4,8 +4,7 @@ export class CampaignCandidate {
   id?: string;
   name: string;
   description: string;
-
-  imageFileId: string;
+  index: number;
 
   campaignId: string;
   campaign?: CampaignDto;
@@ -16,7 +15,7 @@ export class CampaignCandidate {
     entity.id = dto.id;
     entity.name = dto.name;
     entity.description = dto.description;
-    entity.imageFileId = dto.imageFileId;
+    entity.index = dto.index;
 
     entity.campaignId = dto.campaignId;
     if (!!dto.campaign) {
@@ -41,8 +40,7 @@ export class CampaignCandidateDto {
   id?: string;
   name: string;
   description: string;
-
-  imageFileId: string;
+  index: number;
 
   campaignId: string;
   campaign?: CampaignDto;
@@ -53,7 +51,7 @@ export class CampaignCandidateDto {
     dto.id = data.id;
     dto.name = data.name;
     dto.description = data.description;
-    dto.imageFileId = data.imageFileId;
+    dto.index = data.index;
 
     dto.campaignId = data.campaignId;
     if (!!data.campaign) {
@@ -63,7 +61,7 @@ export class CampaignCandidateDto {
     return dto;
   }
 
-  static mapList(entries: any[] | undefined): CampaignCandidate[] {
+  static mapList(entries: any[] | undefined): CampaignCandidateDto[] {
     if (!entries) {
       return [];
     }

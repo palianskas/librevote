@@ -39,12 +39,14 @@ export class CampaignFormCandidatesInputComponent {
       return;
     }
 
-    this.candidates.push({
+    const candidate = CampaignCandidate.map({
       name: this.name.value,
       description: this.description.value,
-      imageFileId: '',
+      index: this.candidates.length,
       campaignId: this.campaign.id,
     });
+
+    this.candidates.push(candidate);
 
     this.resetForm();
   }
