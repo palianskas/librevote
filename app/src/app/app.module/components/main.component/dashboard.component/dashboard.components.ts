@@ -34,9 +34,9 @@ export class DashboardComponent implements OnInit {
     campaigns: Campaign[]
   ): CampaignOverviewContainer {
     const now = new Date();
-    const inProgressCampaigns = campaigns.filter((campaign) => {
-      return campaign.startDate < now && campaign.endDate > now;
-    });
+    const inProgressCampaigns = campaigns.filter((campaign) =>
+      campaign.isActive()
+    );
 
     const container: CampaignOverviewContainer = {
       totalCount: campaigns.length,

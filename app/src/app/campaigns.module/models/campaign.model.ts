@@ -24,6 +24,12 @@ export class Campaign {
   candidates: CampaignCandidate[];
   settings: CampaignSettings;
 
+  isActive(): boolean {
+    const now = new Date();
+
+    return this.startDate < now && this.endDate > now;
+  }
+
   static map(dto: CampaignDto): Campaign {
     const entity = new Campaign();
 
