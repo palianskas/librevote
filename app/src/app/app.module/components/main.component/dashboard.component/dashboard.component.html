@@ -32,7 +32,7 @@
               <tr
                 *ngFor="let campaign of campaignOverview.inProgressCampaigns"
                 (click)="openCampaign(campaign.id)"
-                class="clickable"
+                class="clickable clickable-bg"
               >
                 <td>{{ campaign.name }}</td>
                 <td>{{ campaign.startDate.toLocaleString() }}</td>

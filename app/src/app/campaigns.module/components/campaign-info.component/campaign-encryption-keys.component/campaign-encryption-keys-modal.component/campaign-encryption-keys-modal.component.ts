@@ -46,7 +46,7 @@ export class CampaignEncryptionKeysModalComponent {
   }
 
   openModal(): void {
-    const button = document.getElementById('modal-open-button');
+    const button = document.getElementById('key-store-modal-open-button');
     button.click();
   }
 

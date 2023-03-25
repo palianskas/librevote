@@ -1,0 +1,65 @@
+<button
+  id="key-reveal-modal-open-button"
+  data-bs-toggle="modal"
+  data-bs-target="#private-key-reveal-modal"
+  style="display: none"
+></button>
+<div
+  class="modal fade"
+  id="private-key-reveal-modal"
+  tabindex="-1"
+  aria-labelledby="modal-title"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">Private key reveal</h5>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="!!isPasswordProtected && !key" class="d-flex flex-column">
+          <div class="mt-2">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              [(ngModel)]="password"
+              name="private key encryption password"
+              autocomplete="off"
+            />
+          </div>
+          <button
+            id="password-submit-button"
+            class="btn btn-outline-primary"
+            (click)="submitPassword()"
+          >
+            Reveal
+          </button>
+          <span class="text-danger" *ngIf="isPasswordIncorrect"
+            >Password is incorrect</span
+          >
+        </div>
+        <div *ngIf="!!key" class="text-break">
+          {{ key }}
+          <button
+            class="btn btn-sm btn-outline-primary"
+            (click)="copyPrivateKey()"
+            [ngClass]="
+              privateKeyCopied ? 'btn-outline-secondary' : 'btn-outline-primary'
+            "
+            (click)="copyPrivateKey()"
+            (mouseover)="privateKeyCopied = false"
+          >
+            Copy private key
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,10 +5,12 @@ import {
   CampaignDto,
 } from 'src/app/campaigns.module/models/campaign.model';
 import { CampaignsService } from 'src/app/campaigns.module/services/campaigns.service';
+import { BrowserHelpers } from 'src/app/encryption.module/browser.helpers';
 import { KeyContainerService } from 'src/app/encryption.module/key-container/key-container.service';
 import { KeyHelpers } from 'src/app/encryption.module/key.helpers';
 import { RngService } from 'src/app/encryption.module/services/rng.service';
 import { CampaignEncryptionKeysModalComponent } from './campaign-encryption-keys-modal.component/campaign-encryption-keys-modal.component';
+import { CampaignPrivateKeyRevealModalComponent } from './campaign-key-reveal-modal.component/campaign-key-reveal-modal.component';
 
 enum KeyStorageOption {
   DoNotStore,
@@ -24,8 +26,16 @@ export class CampaignEncryptionKeysComponent {
   @Input() campaign: Campaign;
 
   @ViewChild(CampaignEncryptionKeysModalComponent)
-  child: CampaignEncryptionKeysModalComponent;
+  keyGenerationModalChild: CampaignEncryptionKeysModalComponent;
+
+  @ViewChild(CampaignPrivateKeyRevealModalComponent)
+  keyRevealModalChild: CampaignPrivateKeyRevealModalComponent;
+
   keyDownloadAnchorElement?: HTMLAnchorElement;
+
+  canTryRevealPrivateKey = true;
+  showFullPubKey = false;
+  pubKeyCopied = false;
 
   keyPair: { n: BigInteger; lambda: BigInteger };
 
@@ -34,12 +44,12 @@ export class CampaignEncryptionKeysComponent {
     private readonly keyContainerService: KeyContainerService
   ) {}
 
-  getDisplayablePubKey(pubKey: string): string {
-    return KeyHelpers.getDisplayableKey(pubKey);
+  getDisplayableKey(pubKey: string, showFullPubKey): string {
+    return showFullPubKey ? pubKey : KeyHelpers.getDisplayableKey(pubKey);
   }
 
   async generate(): Promise<void> {
-    this.openModal();
+    this.openKeyStoreModal();
     this.keyPair = await RngService.generatePaillierKeyPair();
   }
 
@@ -61,8 +71,26 @@ export class CampaignEncryptionKeysComponent {
     this.keyPair = null;
   }
 
-  openModal(): void {
-    this.child.openModal();
+  openKeyRevealModal(): void {
+    const container = this.keyContainerService.getContainer(this.campaign.id);
+
+    if (!container) {
+      this.canTryRevealPrivateKey = false;
+
+      return;
+    }
+
+    this.keyRevealModalChild.openModal(container);
+  }
+
+  copyPubKey(): void {
+    BrowserHelpers.copyToClipboard(this.campaign.pubKey);
+
+    this.pubKeyCopied = true;
+  }
+
+  private openKeyStoreModal(): void {
+    this.keyGenerationModalChild.openModal();
   }
 
   private downloadPrivateKey(): void {

@@ -47,6 +47,10 @@ export class KeyContainer {
     return EncryptionService.isMatch(password, this._password, this._salt);
   }
 
+  get isPasswordProtected(): boolean {
+    return !!this._password;
+  }
+
   private _saveSaltedPassword(password: string): void {
     const { saltedPassword, salt } = EncryptionService.saltPassword(password);
 
@@ -75,11 +79,7 @@ export class KeyContainer {
 
   private static isValidContainer(data: any): boolean {
     const isValid =
-      !!data &&
-      !!data._key &&
-      KeyContainerContext.isValidContext(data.context) &&
-      !!data._password &&
-      !!data._salt;
+      !!data && !!data._key && KeyContainerContext.isValidContext(data.context);
 
     return isValid;
   }

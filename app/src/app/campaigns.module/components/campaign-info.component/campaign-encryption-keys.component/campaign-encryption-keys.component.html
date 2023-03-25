@@ -1,16 +1,37 @@
 <div *ngIf="!!campaign?.pubKey">
-  <h5>
+  <h5 title="{{ campaign.pubKey }}" class="text-break">
     Public key:
-    {{ getDisplayablePubKey(campaign.pubKey) }}
+    <span class="clickable" (click)="showFullPubKey = !showFullPubKey">
+      {{ getDisplayableKey(campaign.pubKey, showFullPubKey) }}
+    </span>
+    <button
+      class="btn btn-sm"
+      [ngClass]="pubKeyCopied ? 'btn-outline-secondary' : 'btn-outline-primary'"
+      (click)="copyPubKey()"
+      (mouseover)="pubKeyCopied = false"
+    >
+      Copy public key
+    </button>
   </h5>
-  <span></span><br />
+
   <h5>
     Private key:
-    <button class="btn btn-outline-primary">Reveal (TODO)</button>
+    <button
+      class="btn btn-sm btn-outline-primary"
+      (click)="openKeyRevealModal()"
+      [disabled]="!canTryRevealPrivateKey"
+    >
+      Reveal key
+    </button>
   </h5>
+  <span *ngIf="!canTryRevealPrivateKey" class="text-danger"
+    >Key was not stored in the system
+  </span>
 </div>
 <div *ngIf="!campaign?.pubKey">
-  <h5>Campaign doesn't have keys</h5>
+  <h5 class="text-danger">
+    No keys found. Campaign will not accept votes without a public key.
+  </h5>
   <button class="btn btn-outline-primary" (click)="generate()">
     Generate keys
   </button>
@@ -20,3 +41,7 @@
   [onConfirm]="save.bind(this)"
   [onCancel]="cancel.bind(this)"
 ></app-campaign-encryption-keys-modal>
+
+<app-campaign-key-reveal-modal
+  [campaign]="campaign"
+></app-campaign-key-reveal-modal>
