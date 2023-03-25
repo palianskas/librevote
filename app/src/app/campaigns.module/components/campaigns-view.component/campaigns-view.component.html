@@ -9,7 +9,8 @@
     <thead>
       <tr>
         <th scope="col">Name</th>
-        <th scope="col">Pub key</th>
+        <th scope="col">Voting start date</th>
+        <th scope="col">Voting end date</th>
         <th scope="col">Staff</th>
       </tr>
     </thead>
@@ -20,9 +21,8 @@
         class="clickable"
       >
         <td>{{ campaign.name }}</td>
-        <td>
-          {{ getDisplayablePubKey(campaign.pubKey) }}
-        </td>
+        <td>{{ campaign.startDate?.toLocaleString() ?? "(Manual start)" }}</td>
+        <td>{{ campaign.endDate?.toLocaleString() ?? "(Manual stop)" }}</td>
         <td>
           <span *ngFor="let user of campaign.campaignUsers; let last = last"
             >{{ user.user.name }}{{ !last ? ", " : "" }}</span
