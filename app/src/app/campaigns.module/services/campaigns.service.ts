@@ -41,7 +41,9 @@ export class CampaignsService {
     return campaign;
   }
 
-  async create(dto: CampaignDto): Promise<string> {
+  async create(campaign: Campaign): Promise<string> {
+    const dto = CampaignDto.map(campaign);
+
     const request: ICampaignCreateRequest = {
       dto: dto,
     };
