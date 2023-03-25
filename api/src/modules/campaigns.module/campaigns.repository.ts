@@ -59,6 +59,11 @@ export class CampaignsRepository {
       role: userDto.role,
       userId: userDto.userId,
     }));
+    const candidates = dto.candidates.map((candidate) => ({
+      name: candidate.name,
+      description: candidate.description,
+      index: candidate.index,
+    }));
 
     // ensure values get deleted instead of ignored
     dto.startDate ??= null;
@@ -80,6 +85,12 @@ export class CampaignsRepository {
           deleteMany: {},
           createMany: {
             data: campaignUsers,
+          },
+        },
+        candidates: {
+          deleteMany: {},
+          createMany: {
+            data: candidates,
           },
         },
         settings: {
