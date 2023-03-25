@@ -29,8 +29,6 @@ export class AesDecryptor implements IDecryptor<string> {
   decrypt(message: string, key: string): string | null {
     key = normalizeKey(key);
 
-    key = 'a' + key.slice(1);
-
     const encryptor = cipher.createDecipher('AES-CBC', key);
 
     encryptor.start({ iv: key });
