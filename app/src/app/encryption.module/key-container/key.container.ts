@@ -1,20 +1,22 @@
-import * as bigInt from 'big-integer';
-import { BigInteger } from 'big-integer';
 import { EncryptionService } from '../services/encryption.service';
 
 export class KeyContainerContext {
   campaignId: string;
+
+  static isValidContext(data: any): boolean {
+    return !!data?.campaignId;
+  }
 }
 
 export class KeyContainer {
-  private _key: BigInteger;
+  private _key: string;
   private _salt?: string;
   private _password?: string;
 
   context: KeyContainerContext;
 
   constructor(
-    key: BigInteger,
+    key: string,
     context: KeyContainerContext,
     password: string | null | { value: string; salt: string }
   ) {
@@ -33,20 +35,16 @@ export class KeyContainer {
     }
   }
 
-  extract(password?: string): BigInteger | null {
-    if (!this._password) {
-      return this._key;
-    }
-
-    if (!password) {
-      return null;
-    }
-
-    if (!EncryptionService.isMatch(password, this._password, this._salt)) {
-      return null;
-    }
-
+  getKey(): string {
     return this._key;
+  }
+
+  canAccessKey(password?: string): boolean {
+    if (!this._password && !this._salt && !password) {
+      return true;
+    }
+
+    return EncryptionService.isMatch(password, this._password, this._salt);
   }
 
   private _saveSaltedPassword(password: string): void {
@@ -64,7 +62,7 @@ export class KeyContainer {
     }
 
     const container = new KeyContainer(
-      bigInt(data._key),
+      data._key,
       data.context as KeyContainerContext,
       {
         value: data._password,
@@ -79,8 +77,7 @@ export class KeyContainer {
     const isValid =
       !!data &&
       !!data._key &&
-      !!data.context &&
-      !!data.context.campaignId &&
+      KeyContainerContext.isValidContext(data.context) &&
       !!data._password &&
       !!data._salt;
 

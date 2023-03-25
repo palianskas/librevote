@@ -5,7 +5,6 @@ import {
   CampaignDto,
 } from 'src/app/campaigns.module/models/campaign.model';
 import { CampaignsService } from 'src/app/campaigns.module/services/campaigns.service';
-import { EncryptionDomainFactory } from 'src/app/encryption.module/encryption-domain/encryption-domain.factory';
 import { KeyContainerService } from 'src/app/encryption.module/key-container/key-container.service';
 import { KeyHelpers } from 'src/app/encryption.module/key.helpers';
 import { RngService } from 'src/app/encryption.module/services/rng.service';
@@ -66,7 +65,7 @@ export class CampaignEncryptionKeysComponent {
     this.child.openModal();
   }
 
-  private downloadPrivateKey() {
+  private downloadPrivateKey(): void {
     const filename = 'private-key.txt';
     const fileContent = this.keyPair.lambda.toString();
 
@@ -83,9 +82,11 @@ export class CampaignEncryptionKeysComponent {
     element.click();
   }
 
-  private savePrivateKey(password?: string) {
+  private savePrivateKey(password?: string): void {
+    const key = this.keyPair.lambda.toString();
+
     const container = this.keyContainerService.buildContainer(
-      this.keyPair.lambda,
+      key,
       this.campaign.id,
       password
     );

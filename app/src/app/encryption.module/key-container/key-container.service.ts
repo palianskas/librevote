@@ -1,23 +1,42 @@
 import { Injectable } from '@angular/core';
-import { BigInteger } from 'big-integer';
+import { EncryptionDomainFactory } from '../encryption-domain/encryption-domain.factory';
 import { KeyContainer, KeyContainerContext } from './key.container';
 
 @Injectable({ providedIn: 'root' })
 export class KeyContainerService {
   private static _containerLocationPrefix = 'KEY-CONTAINER:';
 
-  extractKey(container: KeyContainer, password?: string): BigInteger | null {
-    return container.extract(password);
+  extractKey(container: KeyContainer, password?: string): string | null {
+    if (!container.canAccessKey(password)) {
+      return null;
+    }
+
+    const key = container.getKey();
+
+    if (!password) {
+      return key;
+    }
+
+    const domain = EncryptionDomainFactory.getAesEncryptionDomain(password);
+
+    const decryptedKey = domain.decrypt(key);
+
+    return decryptedKey;
   }
 
   buildContainer(
-    key: BigInteger,
+    key: string,
     campaignId: string,
     password?: string
   ): KeyContainer {
     const context: KeyContainerContext = {
       campaignId: campaignId,
     };
+
+    if (!!password) {
+      const domain = EncryptionDomainFactory.getAesEncryptionDomain(password);
+      key = domain.encrypt(key);
+    }
 
     const container = new KeyContainer(key, context, password);
 
