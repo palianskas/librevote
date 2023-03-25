@@ -6,7 +6,7 @@ export class CampaignCandidateDto {
   name: string;
   description: string;
 
-  imageFileId: string;
+  index: number;
 
   campaignId: string;
   campaign?: CampaignDto;
@@ -17,7 +17,7 @@ export class CampaignCandidateDto {
     dto.id = entity.id;
     dto.name = entity.name;
     dto.description = entity.description;
-    dto.imageFileId = entity.imageFileId;
+    dto.index = entity.index;
 
     dto.campaignId = entity.campaignId;
     if (!!entity.campaign) {

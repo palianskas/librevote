@@ -27,7 +27,7 @@ export class CampaignCandidatesRepository {
         campaignId: dto.campaignId,
         name: dto.name,
         description: dto.description,
-        imageFileId: dto.imageFileId,
+        index: dto.index,
       },
       include: {
         campaign: true,
@@ -36,19 +36,6 @@ export class CampaignCandidatesRepository {
 
     return result;
   }
-
-  // async update(dto: CampaignCandidateDto): Promise<CampaignCandidate> {
-  //   const result = await this.dataService.campaignCandidate.update({
-  //     where: {
-  //       id: dto.id,
-  //     },
-  //     data: {
-  //        // ...
-  //     },
-  //   });
-
-  //   return result;
-  // }
 
   private buildQuery(filter: any, fieldSelect: any = null): IPrismaQuery {
     const query: IPrismaQuery = {
