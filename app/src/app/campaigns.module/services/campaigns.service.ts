@@ -49,7 +49,9 @@ export class CampaignsService {
     return response.id;
   }
 
-  async update(dto: CampaignDto): Promise<CampaignDto> {
+  async update(campaign: Campaign): Promise<CampaignDto> {
+    const dto = CampaignDto.map(campaign);
+
     const request: ICampaignUpdateRequest = {
       dto: dto,
     };

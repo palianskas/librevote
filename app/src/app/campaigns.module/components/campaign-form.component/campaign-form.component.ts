@@ -234,21 +234,19 @@ export class CampaignFormComponent implements OnInit {
   }
 
   private async handleSave(): Promise<string> {
-    const dto = CampaignDto.map(this.campaign);
-
-    if (!!dto.id) {
-      const response = await this.updateRecord(dto);
+    if (!!this.campaign.id) {
+      const response = await this.updateRecord(this.campaign);
 
       return response.id;
     }
 
-    const id = this.createRecord(dto);
+    const id = this.createRecord(this.campaign);
 
     return id;
   }
 
-  private async createRecord(dto: CampaignDto): Promise<string> {
-    const id = await this.campaignsService.create(dto);
+  private async createRecord(campaign: Campaign): Promise<string> {
+    const id = await this.campaignsService.create(campaign);
 
     this.createPublicLink(id);
     this.createCandidates(id);
@@ -258,7 +256,7 @@ export class CampaignFormComponent implements OnInit {
   private updateRecord(dto: CampaignDto): Promise<CampaignDto> {
     this.updatePublicLink();
 
-    return this.campaignsService.update(dto);
+    return this.campaignsService.update(this.campaign);
   }
 
   private flushFormDataToRecord(): void {
