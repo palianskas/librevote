@@ -1,0 +1,18 @@
+<div class="container d-flex flex-column justify-content-center">
+  <h3>Jump to a campaign via public link:</h3>
+  <input
+    type="text"
+    class="form-control"
+    id="public-link"
+    required
+    [(ngModel)]="publicLink"
+    name="public link"
+  />
+  <button
+    *ngIf="!!publicLink"
+    class="btn btn-outline-primary mt-3"
+    (click)="goToLink()"
+  >
+    Go
+  </button>
+</div>

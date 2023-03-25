@@ -1,43 +1,51 @@
-<div class="d-flex flex-column border rounded-3 p-3" *ngIf="!!campaignOverview">
-  <h3>Your campaigns overview:</h3>
-  <div class="row">
-    <div class="col-6">
-      <h4>Total: {{ campaignOverview.totalCount }}</h4>
-    </div>
-    <div class="col-6">
-      <h4>In progress: {{ campaignOverview.inProgressCount }}</h4>
-    </div>
-    <div class="container">
-      <hr />
-    </div>
+<div>
+  <div class="container mb-3">
+    <h1>Hey, {{ user.name }}</h1>
+  </div>
+  <div
+    class="d-flex flex-column border rounded-3 p-3"
+    *ngIf="!!campaignOverview"
+  >
+    <h3>Your campaigns overview:</h3>
     <div class="row">
-      <h4>In progress campaigns:</h4>
+      <div class="col-6">
+        <h4>Total: {{ campaignOverview.totalCount }}</h4>
+      </div>
+      <div class="col-6">
+        <h4>In progress: {{ campaignOverview.inProgressCount }}</h4>
+      </div>
       <div class="container">
-        <table class="table w-100">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Voting start date</th>
-              <th scope="col">Voting end date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let campaign of campaignOverview.inProgressCampaigns">
-              <td>{{ campaign.name }}</td>
-              <td>{{ campaign.startDate.toLocaleString() }}</td>
-              <td>{{ campaign.endDate.toLocaleString() }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <hr />
+      </div>
+      <div class="row">
+        <h4>In progress campaigns:</h4>
+        <div class="container">
+          <table class="table w-100">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Voting start date</th>
+                <th scope="col">Voting end date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let campaign of campaignOverview.inProgressCampaigns">
+                <td>{{ campaign.name }}</td>
+                <td>{{ campaign.startDate.toLocaleString() }}</td>
+                <td>{{ campaign.endDate.toLocaleString() }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-  <div>
-    <a
-      class="btn btn-primary"
-      [routerLink]="routeNames.campaigns.index"
-      aria-current="page"
-      >Go to Campaigns</a
-    >
+    <div>
+      <a
+        class="btn btn-primary"
+        [routerLink]="routeNames.campaigns.index"
+        aria-current="page"
+        >Go to Campaigns</a
+      >
+    </div>
   </div>
 </div>

@@ -2,25 +2,9 @@
   class="container d-flex justify-content-center align-items-center flex-grow-1 mt-5"
 >
   <div *ngIf="!!user" class="w-100">
-    <div class="container mb-3">
-      <h1>Hey, {{ user.name }}</h1>
-    </div>
-    <app-dashboard></app-dashboard>
+    <app-dashboard [user]="user"></app-dashboard>
   </div>
   <div *ngIf="!user">
-    <div class="container">
-      <a
-        class="btn btn-primary"
-        [routerLink]="routeNames.login.index"
-        aria-current="page"
-        >Login</a
-      >
-      <a
-        class="btn btn-primary"
-        [routerLink]="routeNames.register.index"
-        aria-current="page"
-        >Register</a
-      >
-    </div>
+    <app-no-auth-dashboard></app-no-auth-dashboard>
   </div>
 </div>

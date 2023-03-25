@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/users.module/models/user.model';
 import { CampaignsService } from 'src/app/campaigns.module/services/campaigns.service';
 import { RouteNames } from 'src/app/app.module/app.routes';
@@ -19,6 +19,8 @@ export class DashboardComponent implements OnInit {
   campaignOverview: CampaignOverviewContainer;
 
   routeNames = RouteNames;
+
+  @Input() user: User;
 
   constructor(private readonly campaignsService: CampaignsService) {}
 
