@@ -86,6 +86,8 @@ export class CampaignDto {
       dto.publicLink = CampaignPublicLinkDto.map(data.publicLink);
     }
 
+    dto.candidates = CampaignCandidateDto.mapList(data.candidates);
+
     dto.settings = !!data.settings
       ? CampaignSettingsDto.map(data.settings)
       : CampaignSettingsDto.default;
