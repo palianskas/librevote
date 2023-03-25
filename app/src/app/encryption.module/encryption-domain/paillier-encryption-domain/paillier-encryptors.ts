@@ -3,7 +3,7 @@ import { BigInteger } from 'big-integer';
 import { RngService } from '../../services/rng.service';
 import { IDecryptor, IEncryptor } from '../encryption.domain';
 
-export class PaillierEncryptor implements IEncryptor {
+export class PaillierEncryptor implements IEncryptor<BigInteger> {
   encrypt(message: BigInteger, pubKey: BigInteger): BigInteger {
     if (!this.validate(message, pubKey)) {
       throw new Error(`Cannot encrypt message ${message} with mod ${pubKey}`);
@@ -29,17 +29,17 @@ export class PaillierEncryptor implements IEncryptor {
   }
 
   validate(message: BigInteger, mod: BigInteger): boolean {
-    return message >= bigInt.zero && message < mod;
+    return message.geq(bigInt.zero) && message.lesser(mod);
   }
 }
 
-export class PaillierDecryptor implements IDecryptor {
+export class PaillierDecryptor implements IDecryptor<BigInteger> {
   decrypt(
     cipher: BigInteger,
     privKey: BigInteger,
     mod: BigInteger
   ): BigInteger {
-    if (!this.validate(cipher, privKey)) {
+    if (!this.validate(cipher, mod)) {
       throw new Error(`Cannot decrypt message ${cipher} with mod ${privKey}`);
     }
 
@@ -55,6 +55,6 @@ export class PaillierDecryptor implements IDecryptor {
   }
 
   validate(cipher: BigInteger, mod: BigInteger): boolean {
-    return cipher > bigInt.zero && cipher.lt(mod.pow(2));
+    return cipher.greater(bigInt.zero) && cipher.lt(mod.pow(2));
   }
 }

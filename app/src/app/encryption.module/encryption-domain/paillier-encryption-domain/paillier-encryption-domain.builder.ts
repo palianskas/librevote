@@ -4,7 +4,7 @@ import { PaillierEncryptionDomain } from './paillier-encryption.domain';
 import { PaillierDecryptor, PaillierEncryptor } from './paillier-encryptors';
 
 export class PaillierEncryptionDomainBuilder
-  implements IEncryptionDomainBuilder
+  implements IEncryptionDomainBuilder<BigInteger>
 {
   private domain: PaillierEncryptionDomain;
 

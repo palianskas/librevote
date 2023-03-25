@@ -3,21 +3,17 @@ import { BigInteger } from 'big-integer';
 import { DiscreteNumber } from '../../discrete-number.type';
 import { EncryptionDomain } from '../encryption.domain';
 
-export class PaillierEncryptionDomain extends EncryptionDomain {
-  public override encrypt(message: DiscreteNumber): BigInteger {
-    return this.encryptor.encrypt(
-      this.toBigInteger(message),
-      this.pubKey,
-      this.mod
-    );
+export class PaillierEncryptionDomain extends EncryptionDomain<BigInteger> {
+  override encrypt(message: DiscreteNumber): BigInteger {
+    message = this.toBigInteger(message);
+
+    return super.encrypt(message);
   }
 
-  public override decrypt(cipher: DiscreteNumber): BigInteger {
-    return this.decryptor.decrypt(
-      this.toBigInteger(cipher),
-      this.privKey,
-      this.mod
-    );
+  override decrypt(cipher: DiscreteNumber): BigInteger {
+    cipher = this.toBigInteger(cipher);
+
+    return super.decrypt(cipher);
   }
 
   private toBigInteger(number: DiscreteNumber): BigInteger {
