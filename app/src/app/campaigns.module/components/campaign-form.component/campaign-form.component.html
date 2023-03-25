@@ -4,6 +4,9 @@
       <h1>Campaign form</h1>
       <div>
         <button (click)="save()" class="btn btn-outline-primary">Save</button>
+        <span *ngIf="isFormSubmitError" class="text-danger ms-3"
+          >Error while saving campaign</span
+        >
       </div>
     </div>
     <div class="row mt-3">

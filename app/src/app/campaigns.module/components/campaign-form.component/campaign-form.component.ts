@@ -59,6 +59,8 @@ export class CampaignFormComponent implements OnInit {
 
   paramsSubscription: Subscription;
 
+  isFormSubmitError = false;
+
   constructor(
     private readonly campaignsService: CampaignsService,
     private readonly campaignPublicLinksService: CampaignPublicLinksService,
@@ -108,9 +110,15 @@ export class CampaignFormComponent implements OnInit {
 
     this.flushFormDataToRecord();
 
-    const id = await this.handleSave();
+    try {
+      const id = await this.handleSave();
 
-    this.router.navigate([RouteNames.campaigns.index, id]);
+      this.isFormSubmitError = false;
+
+      this.router.navigate([RouteNames.campaigns.index, id]);
+    } catch {
+      this.isFormSubmitError = true;
+    }
   }
 
   async onPublicLinkSubmit(): Promise<void> {
