@@ -46,7 +46,7 @@ export class CampaignEncryptionKeysComponent {
   save(storageOption: KeyStorageOption, password?: string): void {
     this.campaign.pubKey = this.keyPair.n.toString();
 
-    this.campaignsService.update(CampaignDto.map(this.campaign));
+    this.campaignsService.savePubKey(this.campaign);
 
     if (storageOption === KeyStorageOption.DoNotStore) {
       this.downloadPrivateKey();

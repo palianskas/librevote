@@ -6,6 +6,8 @@ import { ConfigService } from 'src/app/common.module/services/config.service';
 import {
   ICampaignCreateRequest,
   ICampaignCreateResponse,
+  ICampaignPubKeySaveRequest,
+  ICampaignPubKeySaveResponse,
   ICampaignSearchRequest,
   ICampaignSearchResponse,
   ICampaignUpdateRequest,
@@ -67,6 +69,20 @@ export class CampaignsService {
     const campaigns = response.rows.map((row) => Campaign.map(row));
 
     return campaigns;
+  }
+
+  async savePubKey(campaign: Campaign): Promise<string | null> {
+    if (!campaign.pubKey) {
+      return null;
+    }
+
+    const request: ICampaignPubKeySaveRequest = {
+      pubKey: campaign.pubKey,
+    };
+
+    const response = await this.campaignsApi.savePubKey(campaign.id, request);
+
+    return response.pubKey;
   }
 
   async fetchUserCampaigns(): Promise<Campaign[]> {
@@ -131,6 +147,19 @@ export class CampaignsService {
 
         return firstValueFrom(request);
       },
+      savePubKey: async (campaignId, saveRequest) => {
+        const url = apiUrl + campaignId + '/pubkey';
+
+        const request = this.httpClient.post<ICampaignPubKeySaveResponse>(
+          url,
+          saveRequest,
+          {
+            observe: 'body',
+          }
+        );
+
+        return firstValueFrom(request);
+      },
     };
 
     return api;
@@ -142,4 +171,8 @@ interface ICampaignsApi {
   create(request: ICampaignCreateRequest): Promise<ICampaignCreateResponse>;
   update(request: ICampaignUpdateRequest): Promise<ICampaignUpdateResponse>;
   search(request: ICampaignSearchRequest): Promise<ICampaignSearchResponse>;
+  savePubKey(
+    campaignId: string,
+    request: ICampaignPubKeySaveRequest
+  ): Promise<ICampaignPubKeySaveResponse>;
 }

@@ -21,3 +21,11 @@ export interface ICampaignUpdateRequest {
 export interface ICampaignUpdateResponse {
   dto: CampaignDto;
 }
+
+export interface ICampaignPubKeySaveRequest {
+  pubKey: string;
+}
+
+export interface ICampaignPubKeySaveResponse {
+  pubKey: string;
+}
