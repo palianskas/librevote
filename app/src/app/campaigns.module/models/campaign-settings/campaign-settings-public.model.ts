@@ -6,6 +6,8 @@ export class CampaignSettingsPublic {
   static map(dto: CampaignSettingsPublicDto): CampaignSettingsPublic {
     const entity = new CampaignSettingsPublic();
 
+    entity.votingMechanism = dto.votingMechanism;
+
     return entity;
   }
 }
