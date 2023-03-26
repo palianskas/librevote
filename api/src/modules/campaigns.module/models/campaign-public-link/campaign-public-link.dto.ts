@@ -1,5 +1,5 @@
 import { CampaignPublicLink } from './campaign-public-link.model';
-import { CampaignDto } from '../campaign/campaign.dto';
+import { CampaignPublicDto } from '../campaign/campaign.dto';
 
 export class CampaignPublicLinkDto {
   id?: string;
@@ -7,7 +7,7 @@ export class CampaignPublicLinkDto {
   link: string;
   validFrom?: Date;
   validUntil?: Date;
-  campaign?: CampaignDto;
+  campaign?: CampaignPublicDto;
 
   static map(entity: CampaignPublicLink): CampaignPublicLinkDto {
     const dto = new CampaignPublicLinkDto();
@@ -24,7 +24,7 @@ export class CampaignPublicLinkDto {
     }
 
     if (!!entity.campaign) {
-      dto.campaign = CampaignDto.map(entity.campaign);
+      dto.campaign = CampaignPublicDto.map(entity.campaign);
     }
 
     return dto;

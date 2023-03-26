@@ -43,3 +43,15 @@ export class CampaignSettingsDto {
     return defaultSettings;
   }
 }
+
+export class CampaignSettingsPublicDto {
+  votingMechanism: VotingMechanism;
+
+  static map(entity: CampaignSettings): CampaignSettingsPublicDto {
+    const dto = new CampaignSettingsPublicDto();
+
+    dto.votingMechanism = VotingMechanism[entity.votingMechanism];
+
+    return dto;
+  }
+}

@@ -68,7 +68,10 @@ export class CampaignPublicLinksRepository {
     const query: IPrismaQuery = {
       where: filter,
       include: {
-        campaign: true,
+        campaign: {
+          settings: true,
+          candidates: true,
+        },
       },
     };
 
