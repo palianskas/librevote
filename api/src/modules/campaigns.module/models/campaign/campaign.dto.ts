@@ -82,7 +82,8 @@ export class CampaignPublicDto {
     dto.candidates = CampaignCandidatePublicDto.mapList(entity.candidates);
 
     dto.settings =
-      entity.settings && CampaignSettingsPublicDto.map(entity.settings);
+      (entity.settings && CampaignSettingsPublicDto.map(entity.settings)) ??
+      null;
 
     return dto;
   }

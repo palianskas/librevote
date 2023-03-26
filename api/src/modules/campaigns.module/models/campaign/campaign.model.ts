@@ -8,5 +8,5 @@ export type Campaign = CampaignEntity & {
   campaignUsers?: CampaignUser[];
   publicLinks?: CampaignPublicLink[];
   candidates?: CampaignCandidate[];
-  settings: CampaignSettings | null;
+  settings?: CampaignSettings | null;
 };

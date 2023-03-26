@@ -69,8 +69,10 @@ export class CampaignPublicLinksRepository {
       where: filter,
       include: {
         campaign: {
-          settings: true,
-          candidates: true,
+          select: {
+            settings: true,
+            candidates: true,
+          },
         },
       },
     };
