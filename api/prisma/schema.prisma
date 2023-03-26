@@ -74,6 +74,7 @@ model VotingVoucher {
   validUntilDate   DateTime?
   designatedUserId String?
   designatedUser   User?     @relation(fields: [designatedUserId], references: [id])
+  isSpent          Boolean   @default(false)
 }
 
 model District {
