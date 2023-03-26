@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import * as bigInt from 'big-integer';
 import { BigInteger } from 'big-integer';
-import { jsbn, pki } from 'node-forge';
+import { jsbn, pki, random } from 'node-forge';
 
 @Injectable({ providedIn: 'root' })
 export class RngService {
   static getRandomInt(bits = 2048): BigInteger {
-    const array = new Uint32Array(Math.ceil(bits / 32));
+    const string = random.getBytesSync(Math.ceil(bits / 32));
+    const buffer = this.toArrayBuffer(string);
+    const array = new Uint32Array(buffer);
+
     window.crypto.getRandomValues(array);
 
     let res = bigInt.one;
 
     array.forEach((val) => {
-      res.multiply(val);
+      res = res.multiply(val);
     });
 
     return res;
@@ -67,5 +70,15 @@ export class RngService {
 
   private static toBigInteger(integer: jsbn.BigInteger): BigInteger {
     return bigInt(integer.toString(10));
+  }
+
+  private static toArrayBuffer(string: string) {
+    const buffer = new ArrayBuffer(string.length * 2);
+    let bufferView = new Uint16Array(buffer);
+
+    for (let i = 0; i < string.length; i++) {
+      bufferView[i] = string.charCodeAt(i);
+    }
+    return buffer;
   }
 }
