@@ -54,7 +54,7 @@ export class VotesService {
   }
 
   private initApi(): void {
-    const apiUrl = this.configService.API_URL + 'users/';
+    const apiUrl = this.configService.API_URL + 'votes/';
 
     this.votesApi = {
       get: async (id) => {
