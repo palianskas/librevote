@@ -1,4 +1,4 @@
-import { Campaign, CampaignDto } from '../campaign.model';
+import { CampaignPublic, CampaignPublicDto } from '../campaign-public.model';
 
 export class CampaignPublicLink {
   id: string;
@@ -7,7 +7,7 @@ export class CampaignPublicLink {
   validFrom?: Date;
   validUntil?: Date;
 
-  campaign?: Campaign;
+  campaign?: CampaignPublic;
 
   static map(dto: CampaignPublicLinkDto): CampaignPublicLink {
     const entity = new CampaignPublicLink();
@@ -24,7 +24,7 @@ export class CampaignPublicLink {
     }
 
     if (!!dto.campaign) {
-      entity.campaign = Campaign.map(dto.campaign);
+      entity.campaign = CampaignPublic.map(dto.campaign);
     }
 
     return entity;
@@ -38,7 +38,7 @@ export class CampaignPublicLinkDto {
   validFrom?: Date;
   validUntil?: Date;
 
-  campaign?: CampaignDto;
+  campaign?: CampaignPublicDto;
 
   static map(entity: CampaignPublicLink): CampaignPublicLinkDto {
     const dto = new CampaignPublicLinkDto();
@@ -55,7 +55,7 @@ export class CampaignPublicLinkDto {
     }
 
     if (!!entity.campaign) {
-      dto.campaign = CampaignDto.map(entity.campaign);
+      dto.campaign = CampaignPublicDto.map(entity.campaign);
     }
 
     return dto;
