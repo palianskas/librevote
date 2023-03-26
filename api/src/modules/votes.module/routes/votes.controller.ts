@@ -46,7 +46,7 @@ export class VotesController {
     const voteId = await this.voteCastHandler.handle(voteCastRequest, user);
 
     const response: IVoteCastResponse = {
-      voteId: voteId,
+      id: voteId,
     };
 
     return response;

@@ -2,26 +2,33 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  NotImplementedException,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CampaignsService } from 'src/modules/campaigns.module/campaigns.service';
 import { VotingMechanism } from 'src/modules/campaigns.module/models/campaign-settings/campaign-settings.model';
 import { Campaign } from 'src/modules/campaigns.module/models/campaign/campaign.model';
 import { IVoteCastRequest } from '../models/votes-contracts.model';
+import { VotesService } from '../../votes.service';
 
 @Injectable()
 export class VoteCastHandler {
-  constructor(private readonly campaignsService: CampaignsService) {}
+  constructor(
+    private readonly campaignsService: CampaignsService,
+    private readonly votesService: VotesService,
+  ) {}
 
   async handle(
     request: IVoteCastRequest,
     user: User | undefined,
   ): Promise<string> {
-    const campaign = await this.campaignsService.get(request.campaignId);
+    const campaign = await this.campaignsService.get(request.dto.campaignId);
 
     this.validateRequest(request, campaign, user);
 
-    return '';
+    const result = await this.votesService.create(request.dto);
+
+    return result.id;
   }
 
   private validateRequest(
@@ -31,7 +38,7 @@ export class VoteCastHandler {
   ): void {
     if (!campaign) {
       throw new NotFoundException(
-        `Campaign not found by id: ${request.campaignId}`,
+        `Campaign not found by id: ${request.dto.campaignId}`,
       );
     }
 
@@ -75,12 +82,14 @@ export class VoteCastHandler {
       );
     }
 
+    throw new NotImplementedException();
     // TODO: check if user is invited
   }
 
   private async validateVoucherVoting(
     request: IVoteCastRequest,
   ): Promise<void> {
+    throw new NotImplementedException();
     // TODO: try to load voucher and check if it exists and is valid
   }
 }

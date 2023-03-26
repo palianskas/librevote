@@ -1,13 +1,11 @@
 import { VoteDto } from '../../models/vote.model';
 
 export interface IVoteCastRequest {
-  campaignId: string;
-  voucherId?: string;
-  vote: string;
+  dto: VoteDto;
 }
 
 export interface IVoteCastResponse {
-  voteId: string;
+  id: string;
 }
 
 export interface IVoteSearchRequest {
