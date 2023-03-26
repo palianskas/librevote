@@ -3,11 +3,9 @@ import { CampaignCandidate } from '../campaign-candidate/campaign-candidate.mode
 import { CampaignPublicLink } from '../campaign-public-link/campaign-public-link.model';
 import { CampaignSettings } from '../campaign-settings/campaign-settings.model';
 import { CampaignUser } from '../campaign-user/campaign-user.model';
-import { District } from '../district/district.model';
 
 export type Campaign = CampaignEntity & {
   campaignUsers?: CampaignUser[];
-  districts?: District[];
   publicLinks?: CampaignPublicLink[];
   candidates?: CampaignCandidate[];
   settings?: CampaignSettings | null;
