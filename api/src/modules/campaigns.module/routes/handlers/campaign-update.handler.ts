@@ -37,7 +37,7 @@ export class CampaignUpdateHandler {
   }
 
   private validateRequest(user: User, entity: Campaign): void {
-    if (this.campaignsService.isWriteAccessDenied(user, entity)) {
+    if (!this.campaignsService.hasWriteAccess(user, entity)) {
       throw new ForbiddenException();
     }
 

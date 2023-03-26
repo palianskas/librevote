@@ -27,26 +27,26 @@ export class CampaignsService {
     return campaign;
   }
 
-  isReadAccessDenied(user: User, campaign: Campaign) {
-    if (!campaign.campaignUsers) {
-      return true;
-    }
-
-    return !campaign.campaignUsers.some(
+  hasReadAccess(user: User, campaign: Campaign): boolean {
+    return !!campaign.campaignUsers?.some(
       (campaignUser) => campaignUser.userId === user.id,
     );
   }
 
-  isWriteAccessDenied(user: User, campaign: Campaign) {
-    if (!campaign.campaignUsers) {
-      return true;
-    }
-
-    const campaignUser = campaign.campaignUsers.find(
+  hasWriteAccess(user: User, campaign: Campaign): boolean {
+    const campaignUser = campaign.campaignUsers?.find(
       (campaignUser) => campaignUser.userId === user.id,
     );
 
-    return campaignUser?.role !== CampaignUserRole.Admin;
+    return campaignUser?.role === CampaignUserRole.Admin;
+  }
+
+  hasVoteReadAccess(user: User, campaign: Campaign): boolean {
+    const campaignUser = campaign.campaignUsers?.find(
+      (campaignUser) => campaignUser.userId === user.id,
+    );
+
+    return campaignUser?.role === CampaignUserRole.Admin;
   }
 
   isEditDisabled(campaign: Campaign): boolean {

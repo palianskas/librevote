@@ -49,7 +49,7 @@ export class CampaignsController {
 
     const user = request.user;
 
-    if (this.campaignService.isReadAccessDenied(user, campaign)) {
+    if (!this.campaignService.hasReadAccess(user, campaign)) {
       throw new ForbiddenException();
     }
 
@@ -96,7 +96,7 @@ export class CampaignsController {
 
     const user = request.user;
 
-    if (this.campaignService.isWriteAccessDenied(user, campaign)) {
+    if (!this.campaignService.hasWriteAccess(user, campaign)) {
       throw new ForbiddenException();
     }
 
