@@ -34,5 +34,6 @@ import { CampaignUpdateHandler } from './routes/handlers/campaign-update.handler
     CampaignPublicLinksController,
     CampaignCandidatesController,
   ],
+  exports: [CampaignsService],
 })
 export class CampaignsModule {}

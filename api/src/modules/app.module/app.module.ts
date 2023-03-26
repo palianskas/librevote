@@ -8,9 +8,17 @@ import { CoreModule } from '../core.module/core.module';
 import { StatusService } from '../core.module/status/status.service';
 import { DataModule } from '../data.module/data.module';
 import { UsersModule } from '../users.module/users.module';
+import { VotesModule } from '../votes.module/votes.module';
 
 @Module({
-  imports: [CoreModule, AuthModule, UsersModule, DataModule, CampaignsModule],
+  imports: [
+    CoreModule,
+    AuthModule,
+    UsersModule,
+    DataModule,
+    CampaignsModule,
+    VotesModule,
+  ],
   controllers: [StatusController],
   providers: [
     StatusService,

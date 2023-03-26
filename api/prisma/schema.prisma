@@ -77,6 +77,15 @@ model VotingVoucher {
   isSpent          Boolean   @default(false)
 }
 
+model Vote {
+  id         String   @id @default(cuid())
+  campaignId String
+  voucherId  String?
+  value      String
+  createDate DateTime
+  isInvalid  Boolean  @default(false)
+}
+
 model District {
   id               String         @id @default(cuid())
   name             String
