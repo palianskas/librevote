@@ -60,6 +60,7 @@ export class CampaignPublicDto {
   pubKey: string | null;
   startDate: Date | null;
   endDate: Date | null;
+  publicLink: string | null;
   candidates: CampaignCandidatePublicDto[];
   settings: CampaignSettingsPublicDto | null;
 
@@ -71,6 +72,12 @@ export class CampaignPublicDto {
     dto.pubKey = entity.pubKey;
     dto.startDate = entity.startDate && new Date(entity.startDate);
     dto.endDate = entity.endDate && new Date(entity.endDate);
+
+    const publicLink =
+      entity.publicLinks &&
+      CampaignPublicLinkDto.getAndMapActiveLink(entity.publicLinks)?.link;
+
+    dto.publicLink = publicLink ?? null;
 
     dto.candidates = CampaignCandidatePublicDto.mapList(entity.candidates);
 
