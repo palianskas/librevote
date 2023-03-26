@@ -1,7 +1,7 @@
 export class Vote {
   id?: string;
   campaignId: string;
-  voucherId: string | null;
+  voucherId?: string;
   value: string;
   createDate: Date;
   isInvalid: boolean;
@@ -27,7 +27,7 @@ export class Vote {
 export class VoteDto {
   id?: string;
   campaignId: string;
-  voucherId: string | null;
+  voucherId?: string;
   value: string;
   createDate: Date;
   isInvalid: boolean;
