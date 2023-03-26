@@ -9,6 +9,7 @@ import { TokenExpiredError } from 'jsonwebtoken';
 import { AuthError } from '../models/auth-errors.enum';
 import {
   IS_CREDENTIALS_KEY,
+  IS_OPTIONAL_JWT,
   IS_PUBLIC_KEY,
 } from './guard-activators.decorator';
 
@@ -40,8 +41,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       IS_CREDENTIALS_KEY,
       [context.getHandler(), context.getClass()],
     );
+    const isOptionalJwtEndpoint = this.reflector.getAllAndOverride<boolean>(
+      IS_OPTIONAL_JWT,
+      [context.getHandler(), context.getClass()],
+    );
 
-    if (isPublicEndpoint || isCredentialsEndpoint) {
+    if (isPublicEndpoint || isCredentialsEndpoint || isOptionalJwtEndpoint) {
       return true;
     }
 
