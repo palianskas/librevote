@@ -10,8 +10,6 @@ import { CampaignPublicLinksService } from './campaign-public-links/campaign-pub
 import { CampaignUsersRepository } from './campaign-users/campaign-users.repository';
 import { CampaignsRepository } from './campaigns.repository';
 import { CampaignsService } from './campaigns.service';
-import { DistrictsRepository } from './districts/districts.repository';
-import { DistrictsService } from './districts/districts.service';
 import { CampaignCandidatesController } from './routes/campaign-candidates.controller';
 import { CampaignPublicLinksController } from './routes/campaign-public-links.controller';
 import { CampaignsController } from './routes/campaigns.controller';
@@ -28,8 +26,6 @@ import { CampaignUpdateHandler } from './routes/handlers/campaign-update.handler
     CampaignUpdateHandler,
     CampaignPublicLinksService,
     CampaignPublicLinksRepository,
-    DistrictsService,
-    DistrictsRepository,
     CampaignCandidatesRepository,
     CampaignCandidatesService,
   ],

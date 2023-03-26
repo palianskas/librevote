@@ -3,7 +3,6 @@ import { User } from '@prisma/client';
 import { CampaignsService } from 'src/modules/campaigns.module/campaigns.service';
 import { CampaignUserRole } from 'src/modules/campaigns.module/models/campaign-user/campaign-user-role.enum';
 import { CampaignDto } from 'src/modules/campaigns.module/models/campaign/campaign.dto';
-import { DistrictsService } from '../../districts/districts.service';
 import { CampaignSettingsDto } from '../../models/campaign-settings/campaign-settings.model';
 import {
   ICampaignCreateRequest,
@@ -12,10 +11,7 @@ import {
 
 @Injectable()
 export class CampaignCreateHandler {
-  constructor(
-    private readonly campaignsService: CampaignsService,
-    private readonly districtsService: DistrictsService,
-  ) {}
+  constructor(private readonly campaignsService: CampaignsService) {}
 
   async handle(
     user: User,
