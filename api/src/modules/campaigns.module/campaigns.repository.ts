@@ -65,7 +65,7 @@ export class CampaignsRepository {
       index: candidate.index,
     }));
 
-    // ensure values get deleted instead of ignored
+    // ensure nullable values get deleted instead of ignored
     dto.startDate ??= null;
     dto.endDate ??= null;
     dto.pubKey ??= null;

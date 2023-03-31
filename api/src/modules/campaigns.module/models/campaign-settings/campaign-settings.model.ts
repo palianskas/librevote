@@ -18,6 +18,7 @@ export class CampaignSettingsDto {
   campaign?: CampaignDto;
   votingMechanism: VotingMechanism;
   isManualVoteStartEndEnabled: boolean;
+  maxVoterCount: number;
 
   static map(entity: CampaignSettings): CampaignSettingsDto {
     const dto = new CampaignSettingsDto();
@@ -26,6 +27,7 @@ export class CampaignSettingsDto {
     dto.campaignId = entity.campaignId;
     dto.votingMechanism = VotingMechanism[entity.votingMechanism];
     dto.isManualVoteStartEndEnabled = entity.isManualVoteStartEndEnabled;
+    dto.maxVoterCount = Number(entity.maxVoterCount);
 
     if (!!entity.campaign) {
       dto.campaign = CampaignDto.map(entity.campaign);
@@ -38,6 +40,7 @@ export class CampaignSettingsDto {
     const defaultSettings: CampaignSettingsDto = {
       votingMechanism: VotingMechanism.Public,
       isManualVoteStartEndEnabled: false,
+      maxVoterCount: 100,
     };
 
     return defaultSettings;
@@ -46,11 +49,13 @@ export class CampaignSettingsDto {
 
 export class CampaignSettingsPublicDto {
   votingMechanism: VotingMechanism;
+  maxVoterCount: number;
 
   static map(entity: CampaignSettings): CampaignSettingsPublicDto {
     const dto = new CampaignSettingsPublicDto();
 
     dto.votingMechanism = VotingMechanism[entity.votingMechanism];
+    dto.maxVoterCount = Number(entity.maxVoterCount);
 
     return dto;
   }

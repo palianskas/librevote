@@ -64,6 +64,7 @@ model CampaignSettings {
   campaign                    Campaign @relation(fields: [campaignId], references: [id])
   votingMechanism             String
   isManualVoteStartEndEnabled Boolean
+  maxVoterCount               BigInt
 }
 
 model VotingVoucher {
