@@ -48,7 +48,8 @@ export class VotesRepository {
     if (!!fieldSelect) {
       query.select = fieldSelect;
     } else {
-      query.include = {};
+      // currently no explicit relations
+      query.include = null;
     }
 
     return query;

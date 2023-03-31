@@ -54,7 +54,7 @@ export class VotesController {
 
   @Get(':id')
   async get(
-    @Param() id: string,
+    @Param('id') id: string,
     @Req() request: IAuthenticatedRequest,
   ): Promise<VoteDto> {
     const vote = await this.votesService.get(id);
