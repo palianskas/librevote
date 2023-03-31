@@ -1,9 +1,12 @@
+import { User, UserDto } from 'src/app/users.module/models/user.model';
+
 export class VotingVoucher {
   id?: string;
   campaignId: string;
   issueDate: Date;
   validUntilDate?: Date;
   designatedUserId?: string;
+  designatedUser?: User;
 
   get isValid(): boolean {
     const now = new Date();
@@ -23,6 +26,8 @@ export class VotingVoucher {
     entity.validUntilDate = dto.validUntilDate && new Date(dto.validUntilDate);
     entity.designatedUserId = dto.designatedUserId;
 
+    entity.designatedUser = dto.designatedUser && User.map(dto.designatedUser);
+
     return entity;
   }
 }
@@ -33,6 +38,7 @@ export class VotingVoucherDto {
   issueDate: Date;
   validUntilDate?: Date;
   designatedUserId?: string;
+  designatedUser?: UserDto;
 
   static map(data: any): VotingVoucherDto {
     const dto = new VotingVoucherDto();
@@ -42,6 +48,9 @@ export class VotingVoucherDto {
     dto.issueDate = data.issueDate;
     dto.validUntilDate = data.validUntilDate && new Date(data.validUntilDate);
     dto.designatedUserId = data.designatedUserId;
+
+    dto.designatedUser =
+      data.designatedUser && UserDto.map(data.designatedUser);
 
     return dto;
   }
