@@ -1,7 +1,7 @@
 <h3>Configuration</h3>
 <div class="row">
-  <div class="col-6">
-    <label for="ettings-voting-mechanism" class="form-label">
+  <div class="col-4">
+    <label for="settings-voting-mechanism" class="form-label">
       Voting mechanism
     </label>
     <div *ngFor="let entry of votingMechanismOptions">
@@ -17,7 +17,7 @@
       </span>
     </div>
   </div>
-  <div class="col-6">
+  <div class="col-4">
     <div class="form-check form-switch">
       <input
         class="form-check-input"
@@ -34,5 +34,20 @@
         >Manually start/stop voting</label
       >
     </div>
+  </div>
+  <div class="col-4">
+    <label for="max-voter-count" class="form-label">Max voter count</label>
+    <select
+      id="max-voter-count"
+      class="form-control form-select"
+      [(ngModel)]="settings.maxVoterCount"
+    >
+      <option
+        *ngFor="let option of maxVoterCountOptions"
+        [ngValue]="option.key"
+      >
+        {{ option.value }}
+      </option>
+    </select>
   </div>
 </div>

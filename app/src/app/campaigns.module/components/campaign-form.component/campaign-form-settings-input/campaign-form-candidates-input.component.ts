@@ -19,6 +19,15 @@ export class CampaignFormSettingsInputComponent {
     { key: VotingMechanism.InviteOnly, value: 'Invite only' },
   ];
 
+  maxVoterCountOptions = [
+    { key: 100, value: 100 },
+    { key: 1000, value: 1000 },
+    { key: 10000, value: 10000 },
+    { key: 100000, value: 100000 },
+    { key: 1000000, value: 1000000 },
+    { key: 10000000, value: 10000000 },
+  ];
+
   onChange(): void {
     this.onChangeCallback();
   }
