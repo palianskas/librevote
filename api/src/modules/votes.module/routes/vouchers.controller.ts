@@ -1,11 +1,75 @@
-import { Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Req,
+} from '@nestjs/common';
+import { IAuthenticatedRequest } from 'src/modules/auth.module/routes/models/auth-contracts.model';
+import { VotingVoucherDto } from '../models/voting-voucher.model';
+import { VouchersService } from '../vouchers.service';
+import { VoucherCreateHandler } from './handlers/voucher-create.handler';
+import {
+  IBulkVoteVoucherCreateRequest,
+  IBulkVoteVoucherCreateResponse,
+  IVoteVoucherCreateRequest,
+  IVoteVoucherCreateResponse,
+} from './models/vote-vouchers-contracts.model';
 
 @Controller('vouchers')
 export class VouchersController {
-  // TODO: implement
+  constructor(
+    private readonly voucherService: VouchersService,
+    private readonly voucherCreateHandler: VoucherCreateHandler,
+  ) {}
 
-  constructor() {}
+  @Get(':id')
+  async get(@Param() id: string): Promise<VotingVoucherDto> {
+    const voucher = await this.voucherService.get(id);
+
+    if (!voucher) {
+      throw new NotFoundException(`Voting voucher not found by id ${id}`);
+    }
+
+    const dto = VotingVoucherDto.map(voucher);
+
+    return dto;
+  }
 
   @Post()
-  async create() {}
+  async create(
+    @Body() createRequest: IVoteVoucherCreateRequest,
+    @Req() request: IAuthenticatedRequest,
+  ): Promise<IVoteVoucherCreateResponse> {
+    const user = request.user;
+
+    const id = await this.voucherCreateHandler.handle(createRequest, user);
+
+    const response: IVoteVoucherCreateResponse = {
+      id: id,
+    };
+
+    return response;
+  }
+
+  @Post('bulk')
+  async createMany(
+    @Body() createRequest: IBulkVoteVoucherCreateRequest,
+    @Req() request: IAuthenticatedRequest,
+  ): Promise<IBulkVoteVoucherCreateResponse> {
+    const user = request.user;
+
+    const result = await this.voucherCreateHandler.handleForBulkAction(
+      createRequest,
+      user,
+    );
+
+    const response: IBulkVoteVoucherCreateResponse = {
+      count: result,
+    };
+
+    return response;
+  }
 }
