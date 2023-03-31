@@ -14,8 +14,6 @@ import { VotesService } from './votes.service';
   providedIn: 'root',
 })
 export class VotingService {
-  private static readonly _maxCampaignVoterCount = Math.pow(2, 32); // TODO: add a selection to campaign form?
-
   constructor(private readonly votesService: VotesService) {}
 
   public async castVote(
@@ -35,6 +33,8 @@ export class VotingService {
 
       return id;
     } catch (e) {
+      console.error(e);
+
       return null;
     }
   }
@@ -48,7 +48,10 @@ export class VotingService {
     vote.campaignId = campaign.id;
     vote.createDate = new Date();
 
-    const voteValue = this.resolveVoteValue(candidate.index);
+    const voteValue = this.resolveVoteValue(
+      candidate.index,
+      campaign.settings.maxVoterCount
+    );
 
     const pubKey = bigInt(campaign.pubKey!);
 
@@ -62,10 +65,11 @@ export class VotingService {
     return vote;
   }
 
-  private resolveVoteValue(candidateIndex: number): BigInteger {
-    const value = bigInt(VotingService._maxCampaignVoterCount).pow(
-      candidateIndex
-    );
+  private resolveVoteValue(
+    candidateIndex: number,
+    maxVoterCount: number
+  ): BigInteger {
+    const value = bigInt(maxVoterCount).pow(candidateIndex);
 
     return value;
   }
