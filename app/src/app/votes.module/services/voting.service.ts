@@ -14,7 +14,10 @@ import { VotesService } from './votes.service';
   providedIn: 'root',
 })
 export class VotingService {
-  constructor(private readonly votesService: VotesService) {}
+  constructor(
+    private readonly votesService: VotesService,
+    private readonly encryptionService: EncryptionService
+  ) {}
 
   public async castVote(
     campaign: CampaignPublic,
@@ -55,7 +58,7 @@ export class VotingService {
 
     const pubKey = bigInt(campaign.pubKey!);
 
-    const encryptedVoteValue = EncryptionService.encryptPaillier(
+    const encryptedVoteValue = this.encryptionService.paillierEncrypt(
       voteValue,
       pubKey
     );
