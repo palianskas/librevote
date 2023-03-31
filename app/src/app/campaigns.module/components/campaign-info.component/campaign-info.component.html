@@ -21,9 +21,10 @@
         [campaign]="campaign"
       ></app-campaign-encryption-keys>
     </div>
-    <div class="col-lg-6">
-      <h3>Voter registration</h3>
-      <hr />
+    <div class="col-lg-6" *ngIf="isInviteOnlyCampaign">
+      <app-campaign-voter-input
+        [campaign]="campaign"
+      ></app-campaign-voter-input>
     </div>
   </div>
 </div>

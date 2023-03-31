@@ -1,0 +1,62 @@
+<div>
+  <h3>Voter registration</h3>
+  <hr />
+
+  <button
+    class="btn btn-outline-primary mb-3"
+    *ngIf="enteredVoterEmails.length > 0"
+    (click)="onSubmit()"
+  >
+    Register voters
+  </button>
+  <div class="input-group mb-3">
+    <span for="voter-email-input" class="input-group-text">Voter email</span>
+    <input
+      id="voter-email-input"
+      class="form-control"
+      type="email"
+      [(ngModel)]="voterEmailInputValue"
+      [ngClass]="{ 'is-invalid': isEmailInputInvalid }"
+    />
+    <button
+      class="btn btn-outline-primary"
+      (click)="onEmailInput()"
+      [disabled]="!voterEmailInputValue"
+    >
+      Add
+    </button>
+  </div>
+
+  <div class="mb-3">
+    <label for="file-input" class="form-label"
+      >Upload multiple voter emails from a csv file</label
+    >
+    <input
+      id="file-input"
+      class="form-control"
+      type="file"
+      name="file input"
+      multiple
+      (input)="onFilesInput($event)"
+    />
+  </div>
+  <div class="d-flex flex-column">
+    <div
+      class="text-break overflow-hidden"
+      [ngStyle]="{ 'max-height': isEmailChipDisplayHidden ? '210px' : 'unset' }"
+    >
+      <span
+        class="badge rounded-pill bg-primary fs-6 fw-normal m-1"
+        *ngFor="let email of enteredVoterEmails"
+        >{{ email }}&nbsp;</span
+      >
+    </div>
+    <i
+      *ngIf="enteredVoterEmails.length > 20"
+      class="clickable"
+      (click)="isEmailChipDisplayHidden = !isEmailChipDisplayHidden"
+    >
+      {{ isEmailChipDisplayHidden ? "More..." : "Less..." }}
+    </i>
+  </div>
+</div>

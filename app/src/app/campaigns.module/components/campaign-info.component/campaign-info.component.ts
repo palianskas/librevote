@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RouteNames } from 'src/app/app.module/app.routes';
+import { VotingMechanism } from '../../models/campaign-settings/campaign-settings.model';
 import { Campaign } from '../../models/campaign.model';
 import { CampaignsService } from '../../services/campaigns.service';
 
@@ -14,6 +15,7 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
   routeNames = RouteNames;
 
   campaign: Campaign;
+  isInviteOnlyCampaign = false;
 
   constructor(
     private readonly campaignsService: CampaignsService,
@@ -21,8 +23,11 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.paramsSubscription = this.route.params.subscribe((params) => {
-      this.fetchCampaign(params['id']);
+    this.paramsSubscription = this.route.params.subscribe(async (params) => {
+      await this.fetchCampaign(params['id']);
+
+      this.isInviteOnlyCampaign =
+        this.campaign.settings.votingMechanism === VotingMechanism.InviteOnly;
     });
   }
 
