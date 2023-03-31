@@ -6,7 +6,7 @@ import {
 
 @Component({
   selector: 'app-campaign-form-settings-input',
-  templateUrl: './campaign-form-candidates-input.component.html',
+  templateUrl: './campaign-form-settings-input.component.html',
 })
 export class CampaignFormSettingsInputComponent {
   @Input() onChangeCallback: Function;
