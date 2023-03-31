@@ -6,6 +6,10 @@ import { KeyContainer, KeyContainerContext } from './key.container';
 export class KeyContainerService {
   private static _containerLocationPrefix = 'KEY-CONTAINER:';
 
+  constructor(
+    private readonly encryptionDomainFactory: EncryptionDomainFactory
+  ) {}
+
   extractKey(container: KeyContainer, password?: string): string | null {
     if (!container.canAccessKey(password)) {
       return null;
@@ -17,7 +21,8 @@ export class KeyContainerService {
       return key;
     }
 
-    const domain = EncryptionDomainFactory.getAesEncryptionDomain(password);
+    const domain =
+      this.encryptionDomainFactory.getAesEncryptionDomain(password);
 
     const decryptedKey = domain.decrypt(key);
 
@@ -34,7 +39,8 @@ export class KeyContainerService {
     };
 
     if (!!password) {
-      const domain = EncryptionDomainFactory.getAesEncryptionDomain(password);
+      const domain =
+        this.encryptionDomainFactory.getAesEncryptionDomain(password);
       key = domain.encrypt(key);
     }
 
