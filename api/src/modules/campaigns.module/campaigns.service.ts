@@ -49,11 +49,35 @@ export class CampaignsService {
     return campaignUser?.role === CampaignUserRole.Admin;
   }
 
+  hasVoucherCreateAccess(user: User, campaign: Campaign): boolean {
+    const permittedRoles = [CampaignUserRole.Admin, CampaignUserRole.Overseer];
+
+    const campaignUser = campaign.campaignUsers?.find(
+      (campaignUser) => campaignUser.userId === user.id,
+    );
+
+    if (!campaignUser) {
+      return false;
+    }
+
+    return permittedRoles.includes(CampaignUserRole[campaignUser.role]);
+  }
+
   isEditDisabled(campaign: Campaign): boolean {
     const now = new Date();
 
     const isBeforeVotingStart = !campaign.startDate || campaign.startDate > now;
 
     return !isBeforeVotingStart;
+  }
+
+  isVotingActive(campaign: Campaign): boolean {
+    const now = new Date();
+
+    if (!campaign.startDate || !campaign.endDate) {
+      return false;
+    }
+
+    return now > campaign.startDate && now < campaign.endDate;
   }
 }
