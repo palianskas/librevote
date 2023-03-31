@@ -7,9 +7,9 @@ export class VotesService {
   constructor(private readonly votesRepository: VotesRepository) {}
 
   async get(id: string): Promise<Vote | null> {
-    const user = this.votesRepository.get(id);
+    const vote = this.votesRepository.get(id);
 
-    return user;
+    return vote;
   }
 
   async create(dto: VoteDto): Promise<Vote> {
