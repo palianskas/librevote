@@ -68,12 +68,18 @@ export class VoucherCreateHandler {
 
     const now = new Date();
 
-    const dtos: VotingVoucherDto[] = usernames.map((username) => {
-      return {
+    const dtos: VotingVoucherDto[] = [];
+
+    usernames.forEach((username) => {
+      if (!usersMap[username]) {
+        return;
+      }
+
+      dtos.push({
         campaignId: campaignId,
         designatedUserId: usersMap[username].id,
         issueDate: now,
-      };
+      });
     });
 
     return dtos;
