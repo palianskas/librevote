@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -90,5 +91,26 @@ export class VouchersController {
     );
 
     return response;
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<void> {
+    const entity = await this.voucherService.get(id);
+
+    if (!entity) {
+      throw new NotFoundException(`Voucher not found by id ${id}`);
+    }
+
+    if (!!entity.deleteDate) {
+      return;
+    }
+
+    entity.deleteDate = new Date();
+
+    const dto = VotingVoucherDto.map(entity);
+
+    // console.log(entity, dto);
+
+    await this.voucherService.update(dto);
   }
 }

@@ -40,8 +40,10 @@ export class VoucherSearchHandler {
 
     const result = await this.vouchersService.search(filter);
 
+    const vouchers = result.filter((voucher) => !voucher.deleteDate);
+
     const response: IVoteVoucherSearchResponse = {
-      rows: VotingVoucherDto.mapList(result),
+      rows: VotingVoucherDto.mapList(vouchers),
     };
 
     return response;

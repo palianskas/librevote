@@ -44,6 +44,27 @@ export class VouchersRepository {
     return result;
   }
 
+  async update(dto: VotingVoucherDto): Promise<VotingVoucher> {
+    const data = {
+      campaignId: dto.campaignId,
+      issueDate: dto.issueDate,
+      validUntilDate: dto.validUntilDate ?? null,
+      designatedUserId: dto.designatedUserId ?? null,
+      deleteDate: dto.deleteDate ?? null,
+    };
+
+    const result = await this.dataService.votingVoucher.update({
+      where: { id: dto.id },
+      data: data,
+      include: {
+        campaign: true,
+        designatedUser: true,
+      },
+    });
+
+    return result;
+  }
+
   async createMany(dtos: VotingVoucherDto[]): Promise<number> {
     const data = dtos.map((dto) => ({
       campaignId: dto.campaignId,

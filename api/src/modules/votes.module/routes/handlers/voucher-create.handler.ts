@@ -79,6 +79,7 @@ export class VoucherCreateHandler {
         campaignId: campaignId,
         designatedUserId: usersMap[username].id,
         issueDate: now,
+        deleteDate: null,
       });
     });
 

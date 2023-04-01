@@ -76,6 +76,7 @@ model VotingVoucher {
   designatedUserId String?
   designatedUser   User?     @relation(fields: [designatedUserId], references: [id])
   isSpent          Boolean   @default(false)
+  deleteDate       DateTime?
 }
 
 model Vote {

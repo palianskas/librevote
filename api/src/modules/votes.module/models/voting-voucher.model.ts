@@ -14,6 +14,7 @@ export class VotingVoucherDto {
   validUntilDate?: Date;
   designatedUserId?: string;
   designatedUser?: UserDto;
+  deleteDate: Date | null;
 
   static map(entity: VotingVoucher): VotingVoucherDto {
     const dto = new VotingVoucherDto();
@@ -30,6 +31,9 @@ export class VotingVoucherDto {
     }
     if (!!entity.designatedUser) {
       dto.designatedUser = UserDto.map(entity.designatedUser);
+    }
+    if (!!entity.deleteDate) {
+      dto.deleteDate = new Date(entity.deleteDate);
     }
 
     return dto;

@@ -12,6 +12,12 @@ export class VouchersService {
     return voucher;
   }
 
+  async update(dto: VotingVoucherDto): Promise<VotingVoucher> {
+    const voucher = this.vouchersRepository.update(dto);
+
+    return voucher;
+  }
+
   async create(dto: VotingVoucherDto): Promise<VotingVoucher> {
     return this.vouchersRepository.create(dto);
   }
