@@ -26,7 +26,9 @@ export class CampaignSearchHandler {
 
     const campaigns = await this.campaignsRepository.search(filter);
 
-    const dtos = campaigns.map((campaign) => CampaignDto.map(campaign));
+    const dtos = campaigns
+      .filter((campaign) => !campaign.deleteDate)
+      .map((campaign) => CampaignDto.map(campaign));
 
     const response: ICampaignSearchResponse = {
       rows: dtos,

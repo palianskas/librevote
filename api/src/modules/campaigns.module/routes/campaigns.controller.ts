@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   ForbiddenException,
   Get,
   NotFoundException,
@@ -46,7 +47,7 @@ export class CampaignsController {
   ): Promise<CampaignDto> {
     const campaign = await this.campaignService.get(id);
 
-    if (!campaign) {
+    if (!campaign || !!campaign.deleteDate) {
       throw new NotFoundException();
     }
 
@@ -93,7 +94,7 @@ export class CampaignsController {
   ): Promise<ICampaignPubKeySaveResponse> {
     const campaign = await this.campaignService.get(id);
 
-    if (!campaign) {
+    if (!campaign || !!campaign.deleteDate) {
       throw new NotFoundException(`Campaign not found by id: ${id}`);
     }
 
@@ -150,5 +151,35 @@ export class CampaignsController {
     const user = request.user;
 
     return this.campaignVotingControlHandler.handleStopVoting(user, id);
+  }
+
+  @Delete(':id')
+  async delete(
+    @Param('id') id: string,
+    @Request() request: IAuthenticatedRequest,
+  ): Promise<void> {
+    const user = request.user;
+
+    const campaign = await this.campaignService.get(id);
+
+    if (!campaign) {
+      throw new NotFoundException(`Campaign not found by id ${id}`);
+    }
+
+    if (!this.campaignService.hasWriteAccess(user, campaign)) {
+      throw new ForbiddenException();
+    }
+
+    if (!!campaign.deleteDate) {
+      return;
+    }
+
+    campaign.deleteDate = new Date();
+
+    const dto = CampaignDto.map(campaign, true);
+
+    const res = await this.campaignService.update(dto);
+
+    return;
   }
 }

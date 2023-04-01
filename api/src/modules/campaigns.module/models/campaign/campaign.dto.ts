@@ -16,6 +16,7 @@ export class CampaignDto {
   pubKey: string | null;
   startDate: Date | null;
   endDate: Date | null;
+  deleteDate: Date | null;
   campaignUsers: CampaignUserDto[];
   publicLink: CampaignPublicLinkDto;
   candidates: CampaignCandidateDto[];
@@ -28,6 +29,7 @@ export class CampaignDto {
     dto.name = entity.name;
     dto.startDate = entity.startDate;
     dto.endDate = entity.endDate;
+    dto.deleteDate = entity.deleteDate;
 
     dto.campaignUsers = CampaignUserDto.mapList(entity.campaignUsers);
     dto.candidates = CampaignCandidateDto.mapList(entity.candidates);
@@ -60,6 +62,7 @@ export class CampaignPublicDto {
   pubKey: string | null;
   startDate: Date | null;
   endDate: Date | null;
+  deleteDate: Date | null;
   publicLink: string | null;
   candidates: CampaignCandidatePublicDto[];
   settings: CampaignSettingsPublicDto | null;
@@ -72,6 +75,7 @@ export class CampaignPublicDto {
     dto.pubKey = entity.pubKey;
     dto.startDate = entity.startDate && new Date(entity.startDate);
     dto.endDate = entity.endDate && new Date(entity.endDate);
+    dto.deleteDate = entity.deleteDate && new Date(entity.deleteDate);
 
     const publicLink =
       entity.publicLinks &&

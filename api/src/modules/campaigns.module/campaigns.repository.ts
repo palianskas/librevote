@@ -69,6 +69,7 @@ export class CampaignsRepository {
     dto.startDate ??= null;
     dto.endDate ??= null;
     dto.pubKey ??= null;
+    dto.deleteDate ??= null;
 
     const { campaignId, ...settings } = dto.settings;
 
@@ -81,6 +82,7 @@ export class CampaignsRepository {
         pubKey: dto.pubKey,
         startDate: dto.startDate,
         endDate: dto.endDate,
+        deleteDate: dto.deleteDate,
         campaignUsers: {
           deleteMany: {},
           createMany: {

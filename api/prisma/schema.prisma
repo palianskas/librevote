@@ -22,6 +22,7 @@ model Campaign {
   pubKey         String?
   startDate      DateTime?
   endDate        DateTime?
+  deleteDate     DateTime?
   campaignUsers  CampaignUser[]
   publicLinks    CampaignPublicLink[]
   districts      District[]

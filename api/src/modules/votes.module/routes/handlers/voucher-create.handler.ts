@@ -91,7 +91,7 @@ export class VoucherCreateHandler {
     campaign: Campaign | null,
     user: User,
   ): void {
-    if (!campaign) {
+    if (!campaign || !!campaign.deleteDate) {
       throw new NotFoundException(
         `Campaign not found by id: ${request.campaignId}`,
       );

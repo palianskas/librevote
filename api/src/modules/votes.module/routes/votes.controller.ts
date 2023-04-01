@@ -91,7 +91,7 @@ export class VotesController {
 
     const campaign = await this.campaignsService.get(campaignId);
 
-    if (!campaign) {
+    if (!campaign || !!campaign.deleteDate) {
       throw new NotFoundException(`Campaign not found by id ${campaignId}`);
     }
 

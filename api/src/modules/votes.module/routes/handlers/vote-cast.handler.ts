@@ -39,7 +39,7 @@ export class VoteCastHandler {
     campaign: Campaign | null,
     user: User | undefined,
   ): Promise<void> {
-    if (!campaign) {
+    if (!campaign || !!campaign.deleteDate) {
       throw new NotFoundException(
         `Campaign not found by id: ${request.dto.campaignId}`,
       );

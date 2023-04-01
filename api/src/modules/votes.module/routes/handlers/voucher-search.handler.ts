@@ -26,7 +26,7 @@ export class VoucherSearchHandler {
   ): Promise<IVoteVoucherSearchResponse> {
     const campaign = await this.campaignsService.get(request.campaignId);
 
-    if (!campaign) {
+    if (!campaign || !!campaign.deleteDate) {
       throw new NotFoundException(
         `Campaign not found by id: ${request.campaignId}`,
       );
