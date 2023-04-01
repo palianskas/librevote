@@ -25,7 +25,9 @@ import {
   ICampaignSaveResponse,
   ICampaignSearchRequest,
   ICampaignSearchResponse,
+  ICampaignStartResponse,
 } from './models/campaign-contracts.model';
+import { CampaignVotingControlHandler } from './handlers/campaign-voting-control.handler';
 
 @Controller('campaigns')
 export class CampaignsController {
@@ -34,6 +36,7 @@ export class CampaignsController {
     private readonly campaignSearchHandler: CampaignSearchHandler,
     private readonly campaignCreateHandler: CampaignCreateHandler,
     private readonly campaignSaveHandler: CampaignUpdateHandler,
+    private readonly campaignVotingControlHandler: CampaignVotingControlHandler,
   ) {}
 
   @Get(':id')
@@ -127,5 +130,25 @@ export class CampaignsController {
     const response = await this.campaignSearchHandler.handle(user, body);
 
     return response;
+  }
+
+  @Post(':id/start')
+  async startVoting(
+    @Param('id') id: string,
+    @Request() request: IAuthenticatedRequest,
+  ): Promise<ICampaignStartResponse> {
+    const user = request.user;
+
+    return this.campaignVotingControlHandler.handleStartVoting(user, id);
+  }
+
+  @Post(':id/stop')
+  async stopVoting(
+    @Param('id') id: string,
+    @Request() request: IAuthenticatedRequest,
+  ) {
+    const user = request.user;
+
+    return this.campaignVotingControlHandler.handleStopVoting(user, id);
   }
 }
