@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/users.module/models/user.model';
 import { AuthService } from 'src/app/auth.module/services/auth.service';
 import { RouteNames } from '../../app.routes';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -13,6 +14,8 @@ export class NavigationComponent implements OnInit {
   user: User = null;
   routeNames = RouteNames;
 
+  userSubscription: Subscription;
+
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router
@@ -21,9 +24,11 @@ export class NavigationComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.user = await this.authService.getUser();
 
-    this.authService.userObservable.subscribe((user) => {
-      this.user = user;
-    });
+    this.userSubscription = this.authService.userObservable.subscribe(
+      (user) => {
+        this.user = user;
+      }
+    );
   }
 
   logOut(): void {
@@ -31,5 +36,9 @@ export class NavigationComponent implements OnInit {
 
     //reload
     this.router.navigate(['.']);
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
   }
 }

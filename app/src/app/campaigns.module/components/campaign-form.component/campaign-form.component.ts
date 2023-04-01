@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -43,7 +43,7 @@ function toDateString(date: Date): string {
   selector: 'app-campaign-form',
   templateUrl: './campaign-form.component.html',
 })
-export class CampaignFormComponent implements OnInit {
+export class CampaignFormComponent implements OnInit, OnDestroy {
   campaign: Campaign;
 
   campaignFormSubmitted = false;
@@ -84,6 +84,10 @@ export class CampaignFormComponent implements OnInit {
         dateIntervalValidator(this.startDate, this.endDate)
       );
     });
+  }
+
+  ngOnDestroy(): void {
+    this.paramsSubscription.unsubscribe();
   }
 
   get name(): FormControl<string> {
