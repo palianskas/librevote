@@ -34,4 +34,12 @@ export class VotingVoucherDto {
 
     return dto;
   }
+
+  static mapList(entities: VotingVoucher[] | undefined): VotingVoucherDto[] {
+    if (!entities) {
+      return [];
+    }
+
+    return entities.map(VotingVoucherDto.map);
+  }
 }

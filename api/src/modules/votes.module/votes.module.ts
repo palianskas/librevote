@@ -10,6 +10,7 @@ import { VotesRepository } from './votes.repository';
 import { VotesService } from './votes.service';
 import { VouchersRepository } from './vouchers.repository';
 import { VouchersService } from './vouchers.service';
+import { VoucherSearchHandler } from './routes/handlers/voucher-search.handler';
 
 @Module({
   imports: [CampaignsModule, DataModule, UsersModule],
@@ -21,6 +22,7 @@ import { VouchersService } from './vouchers.service';
     VouchersService,
     VouchersRepository,
     VoucherCreateHandler,
+    VoucherSearchHandler,
   ],
 })
 export class VotesModule {}

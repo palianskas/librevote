@@ -16,13 +16,17 @@ import {
   IBulkVoteVoucherCreateResponse,
   IVoteVoucherCreateRequest,
   IVoteVoucherCreateResponse,
+  IVoteVoucherSearchRequest,
+  IVoteVoucherSearchResponse,
 } from './models/vote-vouchers-contracts.model';
+import { VoucherSearchHandler } from './handlers/voucher-search.handler';
 
 @Controller('vouchers')
 export class VouchersController {
   constructor(
     private readonly voucherService: VouchersService,
     private readonly voucherCreateHandler: VoucherCreateHandler,
+    private readonly voucherSearchHandler: VoucherSearchHandler,
   ) {}
 
   @Get(':id')
@@ -69,6 +73,21 @@ export class VouchersController {
     const response: IBulkVoteVoucherCreateResponse = {
       count: result,
     };
+
+    return response;
+  }
+
+  @Post('search')
+  async search(
+    @Body() searchRequest: IVoteVoucherSearchRequest,
+    @Req() request: IAuthenticatedRequest,
+  ): Promise<IVoteVoucherSearchResponse> {
+    const user = request.user;
+
+    const response = await this.voucherSearchHandler.handle(
+      searchRequest,
+      user,
+    );
 
     return response;
   }
