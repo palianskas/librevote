@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="p-0">
+      <button
+        (click)="vote()"
+        class="btn btn-outline-primary"
+        [ngClass]="
+          !!selectedCandidate ? 'btn-outline-primary' : 'btn-outline-secondary'
+        "
+        [disabled]="!selectedCandidate"
+      >
+        Vote
+      </button>
+      <button
+        (click)="selectedCandidate = null"
+        class="btn btn-primary ms-2"
+        *ngIf="selectedCandidate"
+      >
+        Clear selection
+      </button>
+    </div>
+  </div>
+  <div
+    class="row border border-3 rounded-3 p-3 my-3 clickable clickable-bg"
+    [ngClass]="{
+      'border-primary': selectedCandidate?.id === candidate.id
+    }"
+    *ngFor="let candidate of campaign.candidates"
+    (click)="selectCandidate(candidate)"
+  >
+    <div class="col-3">
+      <b>{{ candidate.name }}</b>
+    </div>
+    <div class="col-9">
+      <span>{{ candidate.description }}</span>
+    </div>
+  </div>
+</div>

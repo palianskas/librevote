@@ -17,6 +17,7 @@ import { CampaignEncryptionKeysComponent } from './components/campaign-info.comp
 import { CampaignEncryptionKeysModalComponent } from './components/campaign-info.component/campaign-encryption-keys.component/campaign-encryption-keys-modal.component/campaign-encryption-keys-modal.component';
 import { CampaignPrivateKeyRevealModalComponent } from './components/campaign-info.component/campaign-encryption-keys.component/campaign-key-reveal-modal.component/campaign-key-reveal-modal.component';
 import { CampaignVoterInputComponent } from './components/campaign-info.component/campaign-voter-input.component/campaign-voter-input.component';
+import { VotesModule } from '../votes.module/votes.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { CampaignVoterInputComponent } from './components/campaign-info.componen
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
+    VotesModule,
   ],
   providers: [
     CampaignsService,

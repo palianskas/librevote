@@ -7,7 +7,24 @@
     </h5>
   </div>
   <div *ngIf="!!campaignPublicLink" class="d-flex flex-column">
-    <h1>Link: {{ campaignPublicLink.link }}</h1>
-    <h1>Campaign name:{{ campaignPublicLink.campaign.name }}</h1>
+    <h1>Campaign:{{ campaignPublicLink.campaign.name }}</h1>
+    <app-voting
+      *ngIf="isVotingAllowed"
+      [campaign]="campaignPublicLink.campaign"
+      [voucherId]="voucherId"
+      [user]="user"
+    ></app-voting>
+    <div
+      class="w-100 d-flex flex-column align-items-center"
+      *ngIf="!isVotingAllowed"
+    >
+      <h5 class="text-danger">
+        Permissions to vote in this campaign not found
+      </h5>
+      <p>
+        Please make sure you have the correct link or contact the campaign's
+        administrator
+      </p>
+    </div>
   </div>
 </div>
