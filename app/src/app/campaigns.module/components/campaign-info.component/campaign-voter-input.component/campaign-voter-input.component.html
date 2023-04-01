@@ -43,29 +43,47 @@
   <div class="d-flex flex-column">
     <div
       class="text-break overflow-hidden"
-      [ngStyle]="{ 'max-height': isEmailChipDisplayHidden ? '210px' : 'unset' }"
+      [ngStyle]="{ 'max-height': isEmailChipDisplayHidden ? '225px' : 'unset' }"
     >
       <span
         title="Pending"
         class="badge rounded-pill bg-info fs-6 fw-normal m-1 clickable"
-        (click)="pendingRegistrations.splice(index, 1)"
         *ngFor="let registration; index as index; of: pendingRegistrations"
-        >{{ registration.username }}&nbsp;</span
       >
+        {{ registration.username }}
+        <img
+          src="./assets/bootstrap-icons/x.svg"
+          alt="Close"
+          class="clickable"
+          (click)="pendingRegistrations.splice(index, 1)"
+        />
+      </span>
       <span
         title="Invalid"
-        class="badge rounded-pill bg-danger fs-6 fw-normal m-1 clickable"
-        (click)="invalidRegistrations.splice(index, 1)"
+        class="badge rounded-pill bg-danger fs-6 fw-normal m-1"
         *ngFor="let registration; index as index; of: invalidRegistrations"
-        >{{ registration.username }}&nbsp;</span
       >
+        {{ registration.username }}
+        <img
+          src="./assets/bootstrap-icons/x.svg"
+          alt="Close"
+          class="clickable"
+          (click)="invalidRegistrations.splice(index, 1)"
+        />
+      </span>
       <span
         title="Saved"
         class="badge rounded-pill bg-primary fs-6 fw-normal m-1"
-        (click)="deleteSavedRegistration(index)"
         *ngFor="let registration; index as index; of: savedRegistrations"
-        >{{ registration.username }}&nbsp;</span
       >
+        {{ registration.username }}
+        <img
+          src="./assets/bootstrap-icons/x.svg"
+          alt="Close"
+          class="clickable"
+          (click)="deleteSavedRegistration(index)"
+        />
+      </span>
     </div>
     <i
       *ngIf="

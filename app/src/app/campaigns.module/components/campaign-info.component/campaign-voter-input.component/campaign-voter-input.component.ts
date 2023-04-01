@@ -98,6 +98,9 @@ export class CampaignVoterInputComponent implements OnInit {
       return;
     }
 
+    if (!confirm('Delete this voucher?')) {
+      return;
+    }
 
     await this.vouchersService.delete(entry.voucherId);
 
