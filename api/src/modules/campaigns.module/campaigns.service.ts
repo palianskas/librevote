@@ -74,10 +74,9 @@ export class CampaignsService {
   isVotingActive(campaign: Campaign): boolean {
     const now = new Date();
 
-    if (!campaign.startDate || !campaign.endDate) {
-      return false;
-    }
+    const isAfterVotingStart = !!campaign.startDate && now > campaign.startDate;
+    const isAfterVotingEnd = !!campaign.endDate && now > campaign.endDate;
 
-    return now > campaign.startDate && now < campaign.endDate;
+    return isAfterVotingStart && !isAfterVotingEnd;
   }
 }
