@@ -98,7 +98,8 @@ export class CampaignVoterInputComponent implements OnInit {
       return;
     }
 
-    await this.vouchersService.detele(entry.voucherId);
+
+    await this.vouchersService.delete(entry.voucherId);
 
     this.savedRegistrations.splice(index, 1);
   }

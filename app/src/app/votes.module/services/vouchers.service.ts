@@ -74,7 +74,7 @@ export class VotingVouchersService {
     return vouchers;
   }
 
-  public async detele(id): Promise<void> {
+  public async delete(id): Promise<void> {
     return this.vouchersApi.delete(id);
   }
 
