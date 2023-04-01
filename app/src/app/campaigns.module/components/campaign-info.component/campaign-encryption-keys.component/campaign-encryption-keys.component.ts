@@ -113,7 +113,7 @@ export class CampaignEncryptionKeysComponent {
   private savePrivateKey(password?: string): void {
     const key = this.keyPair.lambda.toString();
 
-    const container = this.keyContainerService.buildContainer(
+    const container = this.keyContainerService.build(
       key,
       this.campaign.id,
       password
