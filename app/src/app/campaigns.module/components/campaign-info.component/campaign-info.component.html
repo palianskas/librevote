@@ -8,7 +8,7 @@
         routeNames.campaigns.form.index,
         campaign.id
       ]"
-      *ngIf="!campaign.isActive()"
+      *ngIf="campaign.isBeforeVotingStart()"
       aria-current="page"
       >Edit</a
     >
