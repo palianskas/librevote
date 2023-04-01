@@ -7,7 +7,6 @@ import { VotingMechanism } from 'src/app/campaigns.module/models/campaign-settin
 import { EncryptionService } from 'src/app/encryption.module/services/encryption.service';
 import { User } from 'src/app/users.module/models/user.model';
 import { Vote } from '../models/vote.model';
-import { VotingVoucher } from '../models/voting-voucher.model';
 import { VotesService } from './votes.service';
 
 @Injectable({
@@ -22,14 +21,14 @@ export class VotingService {
   public async castVote(
     campaign: CampaignPublic,
     candidate: CampaignCandidatePublic,
-    voucher?: VotingVoucher,
+    voucherId?: string,
     user?: User
   ): Promise<string | null> {
-    if (!this.canCastVote(campaign, voucher, user)) {
+    if (!this.canCastVote(campaign, voucherId, user)) {
       return null;
     }
 
-    const vote = this.buildVote(campaign, candidate);
+    const vote = this.buildVote(campaign, candidate, voucherId);
 
     try {
       const id = await this.votesService.create(vote);
@@ -42,14 +41,39 @@ export class VotingService {
     }
   }
 
+  canCastVote(
+    campaign: CampaignPublic,
+    voucherId?: string,
+    user?: User
+  ): boolean {
+    const votingMechanism = campaign.settings?.votingMechanism;
+
+    switch (votingMechanism) {
+      case VotingMechanism.Public: {
+        return true;
+      }
+      case VotingMechanism.Voucher: {
+        return this.canCastVoucherVote(voucherId);
+      }
+      case VotingMechanism.InviteOnly: {
+        return this.canCastInviteOnlyVote(user);
+      }
+      default: {
+        return false;
+      }
+    }
+  }
+
   private buildVote(
     campaign: CampaignPublic,
-    candidate: CampaignCandidatePublic
+    candidate: CampaignCandidatePublic,
+    voucherId: string
   ): Vote {
     const vote = new Vote();
 
     vote.campaignId = campaign.id;
     vote.createDate = new Date();
+    vote.voucherId = voucherId;
 
     const voteValue = this.resolveVoteValue(
       candidate.index,
@@ -77,53 +101,11 @@ export class VotingService {
     return value;
   }
 
-  private canCastVote(
-    campaign: CampaignPublic,
-    voucher?: VotingVoucher,
-    user?: User
-  ): boolean {
-    const votingMechanism = campaign.settings?.votingMechanism;
-
-    switch (votingMechanism) {
-      case VotingMechanism.Public: {
-        return true;
-      }
-      case VotingMechanism.Voucher: {
-        return this.canCastVoucherVote(campaign, voucher);
-      }
-      case VotingMechanism.InviteOnly: {
-        return this.canCastInviteOnlyVote(campaign, voucher, user);
-      }
-      default: {
-        return false;
-      }
-    }
+  private canCastVoucherVote(voucherId?: string): boolean {
+    return !!voucherId;
   }
 
-  private canCastVoucherVote(
-    campaign: CampaignPublic,
-    voucher?: VotingVoucher
-  ): boolean {
-    return voucher.isValid && voucher?.campaignId === campaign.id;
-  }
-
-  private canCastInviteOnlyVote(
-    campaign: CampaignPublic,
-    voucher?: VotingVoucher,
-    user?: User
-  ): boolean {
-    if (!user) {
-      return false;
-    }
-
-    if (!voucher?.designatedUserId) {
-      return false;
-    }
-
-    return (
-      voucher.isValid &&
-      voucher.campaignId === campaign.id &&
-      voucher.designatedUserId === user.id
-    );
+  private canCastInviteOnlyVote(user?: User): boolean {
+    return !!user;
   }
 }
