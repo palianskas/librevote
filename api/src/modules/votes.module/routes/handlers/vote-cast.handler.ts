@@ -45,6 +45,12 @@ export class VoteCastHandler {
       );
     }
 
+    if (!this.campaignsService.isVotingActive(campaign)) {
+      throw new BadRequestException(
+        `Voting is not active for campaign ${campaign.id}`,
+      );
+    }
+
     const votingMechanism = campaign.settings?.votingMechanism;
 
     if (!votingMechanism) {
