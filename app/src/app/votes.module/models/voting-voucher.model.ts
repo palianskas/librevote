@@ -7,6 +7,7 @@ export class VotingVoucher {
   validUntilDate?: Date;
   designatedUserId?: string;
   designatedUser?: User;
+  deleteDate?: Date;
 
   get isValid(): boolean {
     const now = new Date();
@@ -25,6 +26,7 @@ export class VotingVoucher {
     entity.issueDate = dto.issueDate;
     entity.validUntilDate = dto.validUntilDate && new Date(dto.validUntilDate);
     entity.designatedUserId = dto.designatedUserId;
+    entity.deleteDate = dto.deleteDate && new Date(dto.deleteDate);
 
     entity.designatedUser = dto.designatedUser && User.map(dto.designatedUser);
 
@@ -47,6 +49,7 @@ export class VotingVoucherDto {
   validUntilDate?: Date;
   designatedUserId?: string;
   designatedUser?: UserDto;
+  deleteDate?: Date;
 
   static map(data: any): VotingVoucherDto {
     const dto = new VotingVoucherDto();
@@ -56,6 +59,7 @@ export class VotingVoucherDto {
     dto.issueDate = data.issueDate;
     dto.validUntilDate = data.validUntilDate && new Date(data.validUntilDate);
     dto.designatedUserId = data.designatedUserId;
+    dto.deleteDate = data.deleteDate && new Date(data.deleteDate);
 
     dto.designatedUser =
       data.designatedUser && UserDto.map(data.designatedUser);

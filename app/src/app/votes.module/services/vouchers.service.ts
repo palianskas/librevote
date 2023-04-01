@@ -74,6 +74,10 @@ export class VotingVouchersService {
     return vouchers;
   }
 
+  public async detele(id): Promise<void> {
+    return this.vouchersApi.delete(id);
+  }
+
   private initApi(): void {
     const apiUrl = this.configService.API_URL + 'vouchers/';
 
@@ -126,6 +130,15 @@ export class VotingVouchersService {
 
         return firstValueFrom(request);
       },
+      delete: async (id) => {
+        const url = apiUrl + id;
+
+        const request = this.httpClient.delete<void>(url, {
+          observe: 'body',
+        });
+
+        return firstValueFrom(request);
+      },
     };
   }
 }
@@ -141,4 +154,5 @@ interface IVotingVouchersApi {
   search(
     request: IVoteVoucherSearchRequest
   ): Promise<IVoteVoucherSearchResponse>;
+  delete(id: string): Promise<void>;
 }
