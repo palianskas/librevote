@@ -63,20 +63,14 @@ export class CampaignsService {
     return permittedRoles.includes(CampaignUserRole[campaignUser.role]);
   }
 
-  isEditDisabled(campaign: Campaign): boolean {
-    const now = new Date();
-
-    const isBeforeVotingStart = !campaign.startDate || campaign.startDate > now;
-
-    return !isBeforeVotingStart;
+  isBeforeVotingStart(campaign: Campaign, now = new Date()): boolean {
+    return !campaign.startDate || now < campaign.startDate;
   }
 
-  isVotingActive(campaign: Campaign): boolean {
-    const now = new Date();
+  isVotingActive(campaign: Campaign, now = new Date()): boolean {
+    const isBeforeVotingStart = this.isBeforeVotingStart(campaign, now);
+    const isBeforeVotingEnd = !campaign.endDate || now < campaign.endDate;
 
-    const isAfterVotingStart = !!campaign.startDate && now > campaign.startDate;
-    const isAfterVotingEnd = !!campaign.endDate && now > campaign.endDate;
-
-    return isAfterVotingStart && !isAfterVotingEnd;
+    return !isBeforeVotingStart && isBeforeVotingEnd;
   }
 }

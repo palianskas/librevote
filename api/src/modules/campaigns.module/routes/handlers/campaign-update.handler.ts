@@ -41,7 +41,7 @@ export class CampaignUpdateHandler {
       throw new ForbiddenException();
     }
 
-    if (this.campaignsService.isEditDisabled(entity)) {
+    if (!this.campaignsService.isBeforeVotingStart(entity)) {
       throw new BadRequestException('This campaign cannot be edited');
     }
   }
