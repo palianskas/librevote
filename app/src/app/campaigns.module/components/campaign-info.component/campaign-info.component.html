@@ -1,7 +1,7 @@
 <div class="m-5 d-flex flex-column" *ngIf="!!campaign">
   <div>
     <a
-      class="btn btn-outline-primary my-3"
+      class="btn btn-outline-primary m-3 ms-0"
       [routerLink]="[
         '/',
         routeNames.campaigns.index,
@@ -12,6 +12,7 @@
       aria-current="page"
       >Edit</a
     >
+    <button class="btn btn-outline-danger" (click)="delete()">Delete</button>
   </div>
   <h1>Campaign: {{ campaign.name }}</h1>
   <div class="row">

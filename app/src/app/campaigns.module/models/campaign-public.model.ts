@@ -13,6 +13,7 @@ export class CampaignPublic {
   pubKey?: string;
   startDate?: Date;
   endDate?: Date;
+  deleteDate?: Date;
   publicLink?: string;
 
   candidates: CampaignCandidatePublic[];
@@ -26,6 +27,7 @@ export class CampaignPublic {
     entity.pubKey = dto.pubKey;
     entity.startDate = dto.startDate && new Date(dto.startDate);
     entity.endDate = dto.endDate && new Date(dto.endDate);
+    entity.deleteDate = dto.deleteDate && new Date(dto.deleteDate);
     entity.publicLink = dto.publicLink;
 
     entity.candidates = CampaignCandidatePublic.mapList(dto.candidates);
@@ -42,6 +44,7 @@ export class CampaignPublicDto {
   pubKey?: string;
   startDate?: Date;
   endDate?: Date;
+  deleteDate?: Date;
   publicLink?: string;
 
   candidates: CampaignCandidatePublicDto[];
@@ -55,6 +58,7 @@ export class CampaignPublicDto {
     dto.pubKey = data.pubKey;
     dto.startDate = data.startDate && new Date(data.startDate);
     dto.endDate = data.endDate && new Date(data.endDate);
+    dto.deleteDate = data.deleteDate && new Date(data.deleteDate);
 
     dto.candidates = CampaignCandidatePublicDto.mapList(data.candidates);
 

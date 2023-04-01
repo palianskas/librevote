@@ -19,7 +19,8 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly campaignsService: CampaignsService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -43,8 +44,15 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
     this.init(this.campaign.id);
   }
 
-  private async fetchCampaign(id: string): Promise<void> {
-    this.campaign = await this.campaignsService.get(id);
+  async delete(): Promise<void> {
+    if (!confirm('Delete campaign?')) {
+      return;
+    }
+
+    await this.campaignsService.delete(this.campaign.id);
+
+    this.router.navigate([RouteNames.campaigns.index]);
+  }
 
   private async fetchCampaign(id: string): Promise<Campaign> {
     return this.campaignsService.get(id);

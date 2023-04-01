@@ -112,6 +112,11 @@ export class CampaignsService {
 
     return response.endDate;
   }
+
+  async delete(campaignId: string): Promise<void> {
+    return this.campaignsApi.delete(campaignId);
+  }
+
   private initApi(): ICampaignsApi {
     const apiUrl = this.configService.API_URL + 'campaigns/';
 
@@ -197,6 +202,15 @@ export class CampaignsService {
 
         return firstValueFrom(request);
       },
+      delete: async (campaignId) => {
+        const url = apiUrl + campaignId;
+
+        const request = this.httpClient.delete<void>(url, {
+          observe: 'body',
+        });
+
+        return firstValueFrom(request);
+      },
     };
 
     return api;
@@ -214,4 +228,5 @@ interface ICampaignsApi {
   ): Promise<ICampaignPubKeySaveResponse>;
   startVoting(campaignId: string): Promise<ICampaignStartResponse>;
   stopVoting(campaignId: string): Promise<ICampaignStopResponse>;
+  delete(campaignId: string): Promise<void>;
 }
