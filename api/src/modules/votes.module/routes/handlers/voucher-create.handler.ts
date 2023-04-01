@@ -90,12 +90,6 @@ export class VoucherCreateHandler {
       );
     }
 
-    if (!this.campaignsService.isVotingActive(campaign)) {
-      throw new BadRequestException(
-        `Voting is not active for campaign ${campaign.id}`,
-      );
-    }
-
     if (!this.campaignsService.hasVoucherCreateAccess(user, campaign)) {
       throw new ForbiddenException(
         `User does not have access to create voting vouchers for campaign ${campaign.id}`,
