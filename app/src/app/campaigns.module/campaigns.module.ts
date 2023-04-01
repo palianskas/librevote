@@ -18,6 +18,7 @@ import { CampaignEncryptionKeysModalComponent } from './components/campaign-info
 import { CampaignPrivateKeyRevealModalComponent } from './components/campaign-info.component/campaign-encryption-keys.component/campaign-key-reveal-modal.component/campaign-key-reveal-modal.component';
 import { CampaignVoterInputComponent } from './components/campaign-info.component/campaign-voter-input.component/campaign-voter-input.component';
 import { VotesModule } from '../votes.module/votes.module';
+import { CampaignVotingStartComponent } from './components/campaign-info.component/campaign-voting-start.component/campaign-voting-start.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { VotesModule } from '../votes.module/votes.module';
     CampaignEncryptionKeysModalComponent,
     CampaignPrivateKeyRevealModalComponent,
     CampaignVoterInputComponent,
+    CampaignVotingStartComponent,
   ],
   imports: [
     CommonModule,

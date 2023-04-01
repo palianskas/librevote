@@ -10,6 +10,8 @@ import {
   ICampaignPubKeySaveResponse,
   ICampaignSearchRequest,
   ICampaignSearchResponse,
+  ICampaignStartResponse,
+  ICampaignStopResponse,
   ICampaignUpdateRequest,
   ICampaignUpdateResponse,
 } from '../models/campaigns-contracts.model';
@@ -99,6 +101,17 @@ export class CampaignsService {
     return campaigns;
   }
 
+  async start(campaignId: string): Promise<Date> {
+    const response = await this.campaignsApi.startVoting(campaignId);
+
+    return response.startDate;
+  }
+
+  async stop(campaignId: string): Promise<Date> {
+    const response = await this.campaignsApi.stopVoting(campaignId);
+
+    return response.endDate;
+  }
   private initApi(): ICampaignsApi {
     const apiUrl = this.configService.API_URL + 'campaigns/';
 
@@ -162,6 +175,28 @@ export class CampaignsService {
 
         return firstValueFrom(request);
       },
+      startVoting: async (campaignId) => {
+        const url = apiUrl + campaignId + '/start/';
+
+        const request = this.httpClient.post<ICampaignStartResponse>(
+          url,
+          null,
+          {
+            observe: 'body',
+          }
+        );
+
+        return firstValueFrom(request);
+      },
+      stopVoting: async (campaignId) => {
+        const url = apiUrl + campaignId + '/stop/';
+
+        const request = this.httpClient.post<ICampaignStopResponse>(url, null, {
+          observe: 'body',
+        });
+
+        return firstValueFrom(request);
+      },
     };
 
     return api;
@@ -177,4 +212,6 @@ interface ICampaignsApi {
     campaignId: string,
     request: ICampaignPubKeySaveRequest
   ): Promise<ICampaignPubKeySaveResponse>;
+  startVoting(campaignId: string): Promise<ICampaignStartResponse>;
+  stopVoting(campaignId: string): Promise<ICampaignStopResponse>;
 }

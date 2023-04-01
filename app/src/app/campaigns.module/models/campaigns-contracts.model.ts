@@ -29,3 +29,13 @@ export interface ICampaignPubKeySaveRequest {
 export interface ICampaignPubKeySaveResponse {
   pubKey: string;
 }
+
+export interface ICampaignStartResponse {
+  campaignId: string;
+  startDate: Date;
+}
+
+export interface ICampaignStopResponse {
+  campaignId: string;
+  endDate: Date;
+}

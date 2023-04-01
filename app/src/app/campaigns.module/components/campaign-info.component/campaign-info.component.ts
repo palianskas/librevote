@@ -23,11 +23,8 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.paramsSubscription = this.route.params.subscribe(async (params) => {
-      await this.fetchCampaign(params['id']);
-
-      this.isInviteOnlyCampaign =
-        this.campaign.settings.votingMechanism === VotingMechanism.InviteOnly;
+    this.paramsSubscription = this.route.params.subscribe((params) => {
+      this.init(params['id']);
     });
   }
 
@@ -35,7 +32,21 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
     this.paramsSubscription.unsubscribe();
   }
 
+  async init(campaignId: string): Promise<void> {
+    this.campaign = await this.fetchCampaign(campaignId);
+
+    this.isInviteOnlyCampaign =
+      this.campaign.settings.votingMechanism === VotingMechanism.InviteOnly;
+  }
+
+  onVotingStartStopCallback(): void {
+    this.init(this.campaign.id);
+  }
+
   private async fetchCampaign(id: string): Promise<void> {
     this.campaign = await this.campaignsService.get(id);
+
+  private async fetchCampaign(id: string): Promise<Campaign> {
+    return this.campaignsService.get(id);
   }
 }

@@ -28,4 +28,13 @@
       ></app-campaign-voter-input>
     </div>
   </div>
+  <div class="row">
+    <div class="col-6">
+      <app-campaign-voting-start
+        *ngIf="!!this.campaign.settings?.isManualVoteStartEndEnabled"
+        [campaign]="this.campaign"
+        [onStartStopCallback]="onVotingStartStopCallback.bind(this)"
+      ></app-campaign-voting-start>
+    </div>
+  </div>
 </div>

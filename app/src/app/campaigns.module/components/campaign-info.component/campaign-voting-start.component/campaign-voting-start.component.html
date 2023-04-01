@@ -1,0 +1,18 @@
+<div>
+  <h3>Voting control</h3>
+  <hr />
+  <button
+    class="btn btn-outline-danger"
+    (click)="start()"
+    [disabled]="!!campaign.startDate"
+  >
+    Start voting
+  </button>
+  <button
+    class="btn btn-outline-danger ms-3"
+    (click)="stop()"
+    [disabled]="!!campaign.endDate"
+  >
+    Stop voting
+  </button>
+</div>
