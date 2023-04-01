@@ -18,7 +18,8 @@ export class KeyContainer {
   constructor(
     key: string,
     context: KeyContainerContext,
-    password: string | null | { value: string; salt: string }
+    password: string | null | { value: string; salt: string },
+    private readonly encryptionService: EncryptionService
   ) {
     this._key = key;
     this.context = context;
@@ -44,7 +45,7 @@ export class KeyContainer {
       return true;
     }
 
-    return EncryptionService.isMatch(password, this._password, this._salt);
+    return this.encryptionService.isMatch(password, this._password, this._salt);
   }
 
   get isPasswordProtected(): boolean {
@@ -52,35 +53,10 @@ export class KeyContainer {
   }
 
   private _saveSaltedPassword(password: string): void {
-    const { saltedPassword, salt } = EncryptionService.saltPassword(password);
+    const { saltedPassword, salt } =
+      this.encryptionService.saltPassword(password);
 
     this._password = saltedPassword;
     this._salt = salt;
-  }
-
-  static map(data: any): KeyContainer | null {
-    const isValid = this.isValidContainer(data);
-
-    if (!isValid) {
-      return null;
-    }
-
-    const container = new KeyContainer(
-      data._key,
-      data.context as KeyContainerContext,
-      {
-        value: data._password,
-        salt: data._salt,
-      }
-    );
-
-    return container;
-  }
-
-  private static isValidContainer(data: any): boolean {
-    const isValid =
-      !!data && !!data._key && KeyContainerContext.isValidContext(data.context);
-
-    return isValid;
   }
 }

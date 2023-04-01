@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { EncryptionDomainFactory } from '../encryption-domain/encryption-domain.factory';
 import { KeyContainer, KeyContainerContext } from './key.container';
+import { EncryptionService } from '../services/encryption.service';
 
 @Injectable({ providedIn: 'root' })
 export class KeyContainerService {
   private static _containerLocationPrefix = 'KEY-CONTAINER:';
 
   constructor(
-    private readonly encryptionDomainFactory: EncryptionDomainFactory
+    private readonly encryptionDomainFactory: EncryptionDomainFactory,
+    private readonly encryptionService: EncryptionService
   ) {}
 
   extractKey(container: KeyContainer, password?: string): string | null {
@@ -29,11 +31,7 @@ export class KeyContainerService {
     return decryptedKey;
   }
 
-  buildContainer(
-    key: string,
-    campaignId: string,
-    password?: string
-  ): KeyContainer {
+  build(key: string, campaignId: string, password?: string): KeyContainer {
     const context: KeyContainerContext = {
       campaignId: campaignId,
     };
@@ -44,7 +42,12 @@ export class KeyContainerService {
       key = domain.encrypt(key);
     }
 
-    const container = new KeyContainer(key, context, password);
+    const container = new KeyContainer(
+      key,
+      context,
+      password,
+      this.encryptionService
+    );
 
     return container;
   }
@@ -69,12 +72,39 @@ export class KeyContainerService {
     try {
       const rawContainer: KeyContainer = JSON.parse(item);
 
-      const container = KeyContainer.map(rawContainer);
+      const container = this.tryCopy(rawContainer);
 
       return container;
     } catch {
       return null;
     }
+  }
+
+  private tryCopy(data: any): KeyContainer | null {
+    const isValid = this.isValidContainer(data);
+
+    if (!isValid) {
+      return null;
+    }
+
+    const container = new KeyContainer(
+      data._key,
+      data.context as KeyContainerContext,
+      {
+        value: data._password,
+        salt: data._salt,
+      },
+      this.encryptionService
+    );
+
+    return container;
+  }
+
+  private isValidContainer(data: any): boolean {
+    const isValid =
+      !!data && !!data._key && KeyContainerContext.isValidContext(data.context);
+
+    return isValid;
   }
 
   private getContainerLocationKey(campaignId): string {

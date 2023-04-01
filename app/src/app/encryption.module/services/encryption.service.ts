@@ -7,7 +7,7 @@ import { PaillierEncryptor } from '../encryption-domain/paillier-encryption-doma
   providedIn: 'root',
 })
 export class EncryptionService {
-  static saltPassword(
+  saltPassword(
     password: string,
     salt?: string
   ): {
@@ -20,15 +20,12 @@ export class EncryptionService {
     return { saltedPassword, salt };
   }
 
-  static isMatch(
+  isMatch(
     password: string,
     saltedPasswordOther: string,
     salt: string
   ): boolean {
-    const { saltedPassword, ..._ } = EncryptionService.saltPassword(
-      password,
-      salt
-    );
+    const { saltedPassword, ..._ } = this.saltPassword(password, salt);
 
     return saltedPassword === saltedPasswordOther;
   }
