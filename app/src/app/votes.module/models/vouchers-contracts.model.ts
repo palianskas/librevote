@@ -17,3 +17,11 @@ export interface IBulkVotingVoucherCreateRequest {
 export interface IBulkVotingVoucherCreateResponse {
   count: number;
 }
+
+export interface IVoteVoucherSearchRequest {
+  campaignId: string;
+}
+
+export interface IVoteVoucherSearchResponse {
+  rows: VotingVoucherDto[];
+}

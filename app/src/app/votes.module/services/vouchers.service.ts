@@ -10,6 +10,8 @@ import {
 import {
   IBulkVotingVoucherCreateRequest,
   IBulkVotingVoucherCreateResponse,
+  IVoteVoucherSearchRequest,
+  IVoteVoucherSearchResponse,
   IVotingVoucherCreateRequest,
   IVotingVoucherCreateResponse,
 } from '../models/vouchers-contracts.model';
@@ -49,13 +51,27 @@ export class VotingVouchersService {
   public async createMany(
     campaign: Campaign,
     usernames: string[]
-  ): Promise<void> {
+  ): Promise<number> {
     const request: IBulkVotingVoucherCreateRequest = {
       campaignId: campaign.id,
       usernames: usernames,
     };
 
-    await this.vouchersApi.createMany(request);
+    const response = await this.vouchersApi.createMany(request);
+
+    return response.count;
+  }
+
+  public async search(campaignId): Promise<VotingVoucher[]> {
+    const request: IVoteVoucherSearchRequest = {
+      campaignId: campaignId,
+    };
+
+    const response = await this.vouchersApi.search(request);
+
+    const vouchers = VotingVoucher.mapList(response.rows);
+
+    return vouchers;
   }
 
   private initApi(): void {
@@ -97,6 +113,19 @@ export class VotingVouchersService {
 
         return firstValueFrom(request);
       },
+      search: async (searchRequest) => {
+        const url = apiUrl + 'search';
+
+        const request = this.httpClient.post<IVoteVoucherSearchResponse>(
+          url,
+          searchRequest,
+          {
+            observe: 'body',
+          }
+        );
+
+        return firstValueFrom(request);
+      },
     };
   }
 }
@@ -109,4 +138,7 @@ interface IVotingVouchersApi {
   createMany(
     request: IBulkVotingVoucherCreateRequest
   ): Promise<IBulkVotingVoucherCreateResponse>;
+  search(
+    request: IVoteVoucherSearchRequest
+  ): Promise<IVoteVoucherSearchResponse>;
 }
