@@ -24,16 +24,15 @@ export class Campaign {
   candidates: CampaignCandidate[];
   settings: CampaignSettings;
 
-  isActive(): boolean {
-    const now = new Date();
+  isVotingActive(now = new Date()): boolean {
+    const isBeforeVotingStart = this.isBeforeVotingStart(now);
+    const isBeforeVotingEnd = !this.endDate || now < this.endDate;
 
-    return this.startDate < now && this.endDate > now;
+    return !isBeforeVotingStart && isBeforeVotingEnd;
   }
 
-  isBeforeVotingStart(): boolean {
-    const now = new Date();
-
-    return !this.startDate || this.startDate > now;
+  isBeforeVotingStart(now = new Date()): boolean {
+    return !this.startDate || now < this.startDate;
   }
 
   static map(dto: CampaignDto): Campaign {
