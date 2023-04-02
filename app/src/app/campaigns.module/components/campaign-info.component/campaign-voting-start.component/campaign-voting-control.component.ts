@@ -3,10 +3,10 @@ import { Campaign } from 'src/app/campaigns.module/models/campaign.model';
 import { CampaignsService } from 'src/app/campaigns.module/services/campaigns.service';
 
 @Component({
-  selector: 'app-campaign-voting-start',
-  templateUrl: './campaign-voting-start.component.html',
+  selector: 'app-campaign-voting-control',
+  templateUrl: './campaign-voting-control.component.html',
 })
-export class CampaignVotingStartComponent {
+export class CampaignVotingControlComponent {
   @Input() campaign: Campaign;
   @Input() onStartStopCallback: Function;
 

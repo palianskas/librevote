@@ -31,11 +31,11 @@
   </div>
   <div class="row">
     <div class="col-6">
-      <app-campaign-voting-start
+      <app-campaign-voting-control
         *ngIf="!!this.campaign.settings?.isManualVoteStartEndEnabled"
         [campaign]="this.campaign"
         [onStartStopCallback]="onVotingStartStopCallback.bind(this)"
-      ></app-campaign-voting-start>
+      ></app-campaign-voting-control>
     </div>
   </div>
 </div>
