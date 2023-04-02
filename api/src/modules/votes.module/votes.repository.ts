@@ -5,6 +5,7 @@ import {
   IPrismaQuery,
 } from '../data.module/models/prisma-query.model';
 import { Vote, VoteDto } from './models/vote.model';
+import { ISearchQueryResponse } from '../data.module/models/search-query-response.model';
 
 @Injectable()
 export class VotesRepository {
@@ -20,10 +21,25 @@ export class VotesRepository {
     return this.dataService.vote.findFirst(query);
   }
 
-  search(filter: any, cursor: IPrismaCursor): Promise<Vote[]> {
+  async search(
+    filter: any,
+    cursor: IPrismaCursor,
+  ): Promise<ISearchQueryResponse<Vote>> {
     const query = this.buildQuery(filter, null, cursor);
 
-    return this.dataService.vote.findMany(query);
+    const votes = await this.dataService.vote.findMany(query);
+
+    query.skip = undefined;
+    query.take = undefined;
+
+    const count = await this.dataService.vote.count(query);
+
+    const response: ISearchQueryResponse<Vote> = {
+      rows: votes,
+      totalRows: count,
+    };
+
+    return response;
   }
 
   create(dto: VoteDto): Promise<Vote> {

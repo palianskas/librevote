@@ -3,6 +3,7 @@ import { Vote, VoteDto } from './models/vote.model';
 import { VotesRepository } from './votes.repository';
 import { IPrismaCursor } from '../data.module/models/prisma-query.model';
 import { DataAccessService } from '../data.module/data.service';
+import { ISearchQueryResponse } from '../data.module/models/search-query-response.model';
 
 @Injectable()
 export class VotesService {
@@ -18,7 +19,10 @@ export class VotesService {
     return this.votesRepository.create(dto);
   }
 
-  search(filter: any, cursor: IPrismaCursor): Promise<Vote[]> {
+  search(
+    filter: any,
+    cursor: IPrismaCursor,
+  ): Promise<ISearchQueryResponse<Vote>> {
     return this.votesRepository.search(filter, cursor);
   }
 
@@ -26,7 +30,10 @@ export class VotesService {
     return this.votesRepository.count(filter);
   }
 
-  getVotesForCampaign(campaignId: string, page: number): Promise<Vote[]> {
+  getVotesForCampaign(
+    campaignId: string,
+    page: number,
+  ): Promise<ISearchQueryResponse<Vote>> {
     const filter = {
       campaignId: campaignId,
     };

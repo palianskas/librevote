@@ -100,15 +100,16 @@ export class VotesController {
       );
     }
 
-    const votes = await this.votesService.getVotesForCampaign(
+    const result = await this.votesService.getVotesForCampaign(
       campaignId,
       searchRequest.page,
     );
 
-    const dtos = VoteDto.mapList(votes);
+    const dtos = VoteDto.mapList(result.rows);
 
     const response: IVoteSearchResponse = {
       rows: dtos,
+      totalRows: result.totalRows,
     };
 
     return response;
