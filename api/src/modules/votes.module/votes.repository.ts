@@ -34,6 +34,12 @@ export class VotesRepository {
     });
   }
 
+  count(filter: any): Promise<number> {
+    const query = this.buildQuery(filter);
+
+    return this.dataService.vote.count(query);
+  }
+
   private buildQuery(filter: any, fieldSelect: any = null): IPrismaQuery {
     const query: IPrismaQuery = {
       where: filter,

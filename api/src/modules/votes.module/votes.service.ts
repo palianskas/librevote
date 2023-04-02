@@ -19,4 +19,16 @@ export class VotesService {
   search(filter: any): Promise<Vote[]> {
     return this.votesRepository.search(filter);
   }
+
+  count(filter: any): Promise<number> {
+    return this.votesRepository.count(filter);
+  }
+
+  getVoteCountForCampaign(campaignId: string): Promise<number> {
+    const filter = {
+      campaignId: campaignId,
+    };
+
+    return this.votesRepository.count(filter);
+  }
 }

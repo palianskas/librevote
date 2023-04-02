@@ -22,6 +22,7 @@ import { VoteCastHandler } from './handlers/vote-cast.handler';
 import {
   IVoteCastRequest,
   IVoteCastResponse,
+  IVoteCountSearchResponse,
   IVoteSearchRequest,
   IVoteSearchResponse,
 } from './models/votes-contracts.model';
@@ -105,6 +106,32 @@ export class VotesController {
 
     const response: IVoteSearchResponse = {
       rows: dtos,
+    };
+
+    return response;
+  }
+
+  @Get(':campaignId/count')
+  async count(
+    @Req() request: IAuthenticatedRequest,
+    @Param('campaignId') campaignId: string,
+  ): Promise<IVoteCountSearchResponse> {
+    const campaign = await this.campaignsService.get(campaignId);
+
+    if (!campaign || !!campaign.deleteDate) {
+      throw new NotFoundException(`Campaign not found by id ${campaignId}`);
+    }
+
+    if (!this.campaignsService.hasVoteReadAccess(request.user, campaign)) {
+      throw new ForbiddenException(
+        `User does not have access to votes for campaign ${campaign.id}`,
+      );
+    }
+
+    const count = await this.votesService.getVoteCountForCampaign(campaignId);
+
+    const response: IVoteCountSearchResponse = {
+      count: count,
     };
 
     return response;

@@ -15,3 +15,7 @@ export interface IVoteSearchRequest {
 export interface IVoteSearchResponse {
   rows: VoteDto[];
 }
+
+export interface IVoteCountSearchResponse {
+  count: number;
+}
