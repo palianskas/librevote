@@ -64,7 +64,7 @@ export class CampaignPublicLinkViewComponent implements OnInit, OnDestroy {
 
   private checkIsVotingAllowed() {
     this.isVotingAllowed = this.votingService.canCastVote(
-      this.campaignPublicLink.campaign,
+      this.campaignPublicLink?.campaign,
       this.voucherId,
       this.user
     );

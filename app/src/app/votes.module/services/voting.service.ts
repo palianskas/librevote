@@ -42,11 +42,11 @@ export class VotingService {
   }
 
   canCastVote(
-    campaign: CampaignPublic,
+    campaign?: CampaignPublic,
     voucherId?: string,
     user?: User
   ): boolean {
-    const votingMechanism = campaign.settings?.votingMechanism;
+    const votingMechanism = campaign?.settings?.votingMechanism;
 
     switch (votingMechanism) {
       case VotingMechanism.Public: {
