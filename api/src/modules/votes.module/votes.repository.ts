@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DataAccessService } from '../data.module/data.service';
-import { IPrismaQuery } from '../data.module/models/prisma-query.model';
+import {
+  IPrismaCursor,
+  IPrismaQuery,
+} from '../data.module/models/prisma-query.model';
 import { Vote, VoteDto } from './models/vote.model';
 
 @Injectable()
@@ -17,8 +20,8 @@ export class VotesRepository {
     return this.dataService.vote.findFirst(query);
   }
 
-  search(filter: any): Promise<Vote[]> {
-    const query = this.buildQuery(filter);
+  search(filter: any, cursor: IPrismaCursor): Promise<Vote[]> {
+    const query = this.buildQuery(filter, null, cursor);
 
     return this.dataService.vote.findMany(query);
   }
@@ -40,9 +43,20 @@ export class VotesRepository {
     return this.dataService.vote.count(query);
   }
 
-  private buildQuery(filter: any, fieldSelect: any = null): IPrismaQuery {
+  private buildQuery(
+    filter: any,
+    fieldSelect: any = null,
+    cursor: IPrismaCursor | null = null,
+  ): IPrismaQuery {
+    const queryCursor = cursor ?? {
+      skip: 0,
+      take: DataAccessService.DEFAULT_PAGE_SIZE,
+    };
+
     const query: IPrismaQuery = {
       where: filter,
+      skip: queryCursor.skip,
+      take: queryCursor.take,
     };
 
     if (!!fieldSelect) {

@@ -10,6 +10,7 @@ export interface IVoteCastResponse {
 
 export interface IVoteSearchRequest {
   campaignId: string;
+  page: number;
 }
 
 export interface IVoteSearchResponse {
