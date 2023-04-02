@@ -61,7 +61,7 @@ export class CampaignPublicLinksController {
 
     const entity = await this.campaignPublicLinksService.getByLink(dto.link);
 
-    if (entity?.campaign?.deleteDate !== null) {
+    if (entity?.campaign?.deleteDate != null) {
       throw new BadRequestException(
         `Cannot create duplicate link: ${dto.link}`,
       );
