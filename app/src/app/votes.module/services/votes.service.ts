@@ -42,9 +42,13 @@ export class VotesService {
     return response.id;
   }
 
-  public async getCampaignVotes(campaignId: string): Promise<Vote[]> {
+  public async getCampaignVotes(
+    campaignId: string,
+    page: number
+  ): Promise<Vote[]> {
     const request: IVoteSearchRequest = {
       campaignId: campaignId,
+      page: page,
     };
 
     const response = await this.votesApi.search(request);
