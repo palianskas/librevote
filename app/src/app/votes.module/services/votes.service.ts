@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import { Vote, VoteDto } from '../models/vote.model';
 import {
+  IVoteCountSearchResponse,
   IVoteCreateRequest,
   IVoteCreateResponse,
   IVoteSearchRequest,
@@ -53,6 +54,12 @@ export class VotesService {
     return votes;
   }
 
+  public async getCampaignVoteCount(campaignId: string): Promise<number> {
+    const response = await this.votesApi.count(campaignId);
+
+    return response.count;
+  }
+
   private initApi(): void {
     const apiUrl = this.configService.API_URL + 'votes/';
 
@@ -92,6 +99,15 @@ export class VotesService {
 
         return firstValueFrom(request);
       },
+      count: async (campaignId) => {
+        const url = apiUrl + campaignId + '/count';
+
+        const request = this.httpClient.get<IVoteCountSearchResponse>(url, {
+          observe: 'body',
+        });
+
+        return firstValueFrom(request);
+      },
     };
   }
 }
@@ -100,4 +116,5 @@ interface IVotesApi {
   get(id: string): Promise<VoteDto | null>;
   create(request: IVoteCreateRequest): Promise<IVoteCreateResponse>;
   search(request: IVoteSearchRequest): Promise<IVoteSearchResponse>;
+  count(campaignId: string): Promise<IVoteCountSearchResponse>;
 }

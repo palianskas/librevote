@@ -1,0 +1,22 @@
+<div>
+  <h3>Vote audit</h3>
+  <hr />
+  <div class="d-flex align-items-center">
+    <span>
+      Total vote count: <b>{{ voteCount }}</b>
+    </span>
+    <button
+      class="btn btn-outline-primary ms-3"
+      (click)="refreshVoteCount()"
+      [disabled]="isRefreshInProgress"
+    >
+      <span *ngIf="!isRefreshInProgress"> Refresh </span>
+      <img
+        src="./assets/bootstrap-icons/arrow-repeat.svg"
+        alt="Close"
+        class="loading-indicator"
+        *ngIf="isRefreshInProgress"
+      />
+    </button>
+  </div>
+</div>

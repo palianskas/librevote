@@ -36,6 +36,12 @@ export class Campaign {
     return !this.startDate || now < this.startDate;
   }
 
+  isAfterVotingEnd(now = new Date()): boolean {
+    return (
+      !this.isBeforeVotingStart(now) && !!this.endDate && now > this.endDate
+    );
+  }
+
   static map(dto: CampaignDto): Campaign {
     const entity = new Campaign();
 
