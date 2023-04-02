@@ -13,31 +13,25 @@ export class CampaignPublicLinksRepository {
       id: id,
     };
 
-    const campaignPublicLink = await this._get(filter);
-
-    return campaignPublicLink;
-  }
-
-  async getByLink(link: string): Promise<CampaignPublicLink | null> {
-    const filter = {
-      link: link,
-    };
-
-    const campaignPublicLink = await this._get(filter);
-
-    return campaignPublicLink;
-  }
-
-  private async _get(filter: {
-    id?: string;
-    link?: string;
-  }): Promise<CampaignPublicLink | null> {
     const query = this.buildQuery(filter);
 
     const campaignPublicLink =
       await this.dataService.campaignPublicLink.findFirst(query);
 
     return campaignPublicLink;
+  }
+
+  async getByLink(link: string): Promise<CampaignPublicLink[]> {
+    const filter = {
+      link: link,
+    };
+
+    const query = this.buildQuery(filter);
+
+    const campaignPublicLinks =
+      await this.dataService.campaignPublicLink.findMany(query);
+
+    return campaignPublicLinks;
   }
 
   async create(dto: CampaignPublicLinkDto): Promise<CampaignPublicLink> {

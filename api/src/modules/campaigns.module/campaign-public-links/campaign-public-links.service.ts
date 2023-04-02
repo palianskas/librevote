@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CampaignPublicLink } from '@prisma/client';
+import { CampaignPublicLink } from '../models/campaign-public-link/campaign-public-link.model';
 import { CampaignPublicLinkDto } from '../models/campaign-public-link/campaign-public-link.dto';
 import { CampaignPublicLinksRepository } from './campaign-public-links.repository';
 
@@ -16,10 +16,13 @@ export class CampaignPublicLinksService {
   }
 
   async getByLink(link: string): Promise<CampaignPublicLink | null> {
-    const campaignPublicLink =
-      await this.campaignPublicLinksRepository.getByLink(link);
+    const links = await this.campaignPublicLinksRepository.getByLink(link);
 
-    return campaignPublicLink;
+    const validLink = links.find(
+      (publicLink) => publicLink.campaign?.deleteDate === null, // strict check to fail on `undefined`
+    );
+
+    return validLink ?? null;
   }
 
   async create(dto: CampaignPublicLinkDto): Promise<string> {

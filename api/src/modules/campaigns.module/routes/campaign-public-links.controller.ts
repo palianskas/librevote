@@ -44,7 +44,7 @@ export class CampaignPublicLinksController {
       link,
     );
 
-    if (!campaignPublicLink) {
+    if (!campaignPublicLink || !!campaignPublicLink.campaign?.deleteDate) {
       throw new NotFoundException();
     }
 
@@ -58,6 +58,14 @@ export class CampaignPublicLinksController {
     @Body() request: ICampaignPublicLinkCreateRequest,
   ): Promise<ICampaignPublicLinkCreateResponse> {
     const dto = request.dto;
+
+    const entity = await this.campaignPublicLinksService.getByLink(dto.link);
+
+    if (entity?.campaign?.deleteDate !== null) {
+      throw new BadRequestException(
+        `Cannot create duplicate link: ${dto.link}`,
+      );
+    }
 
     const id = await this.campaignPublicLinksService.create(dto);
 
