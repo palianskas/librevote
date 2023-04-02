@@ -87,8 +87,6 @@ export class VotesController {
   ): Promise<IVoteSearchResponse> {
     const campaignId = searchRequest.campaignId;
 
-    const votes = await this.votesService.search(campaignId);
-
     const campaign = await this.campaignsService.get(campaignId);
 
     if (!campaign || !!campaign.deleteDate) {
@@ -100,6 +98,8 @@ export class VotesController {
         `User does not have access to votes for campaign ${campaign.id}`,
       );
     }
+
+    const votes = await this.votesService.search(campaignId);
 
     const dtos = VoteDto.mapList(votes);
 
