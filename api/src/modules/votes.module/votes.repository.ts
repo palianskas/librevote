@@ -7,28 +7,24 @@ import { Vote, VoteDto } from './models/vote.model';
 export class VotesRepository {
   constructor(private readonly dataService: DataAccessService) {}
 
-  async get(id: string): Promise<Vote | null> {
+  get(id: string): Promise<Vote | null> {
     const filter = {
       id: id,
     };
 
     const query = this.buildQuery(filter);
 
-    const vote = await this.dataService.vote.findFirst(query);
-
-    return vote;
+    return this.dataService.vote.findFirst(query);
   }
 
-  async search(filter: any): Promise<Vote[]> {
+  search(filter: any): Promise<Vote[]> {
     const query = this.buildQuery(filter);
 
-    const votes = await this.dataService.vote.findMany(query);
-
-    return votes;
+    return this.dataService.vote.findMany(query);
   }
 
-  async create(dto: VoteDto): Promise<Vote> {
-    const result = await this.dataService.vote.create({
+  create(dto: VoteDto): Promise<Vote> {
+    return this.dataService.vote.create({
       data: {
         campaignId: dto.campaignId,
         value: dto.value,
@@ -36,8 +32,6 @@ export class VotesRepository {
         createDate: dto.createDate,
       },
     });
-
-    return result;
   }
 
   private buildQuery(filter: any, fieldSelect: any = null): IPrismaQuery {
@@ -47,9 +41,6 @@ export class VotesRepository {
 
     if (!!fieldSelect) {
       query.select = fieldSelect;
-    } else {
-      // currently no explicit relations
-      query.include = null;
     }
 
     return query;

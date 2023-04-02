@@ -6,17 +6,17 @@ import { VotesRepository } from './votes.repository';
 export class VotesService {
   constructor(private readonly votesRepository: VotesRepository) {}
 
-  async get(id: string): Promise<Vote | null> {
+  get(id: string): Promise<Vote | null> {
     const vote = this.votesRepository.get(id);
 
     return vote;
   }
 
-  async create(dto: VoteDto): Promise<Vote> {
+  create(dto: VoteDto): Promise<Vote> {
     return this.votesRepository.create(dto);
   }
 
-  async search(filter: any): Promise<Vote[]> {
+  search(filter: any): Promise<Vote[]> {
     return this.votesRepository.search(filter);
   }
 }
