@@ -15,15 +15,20 @@ export class VotingComponent {
 
   selectedCandidate?: CampaignCandidatePublic;
 
+  isVoteCastDone = false;
+
   constructor(private readonly votingService: VotingService) {}
 
   async vote() {
-    this.votingService.castVote(
+    await this.votingService.castVote(
       this.campaign,
       this.selectedCandidate,
       this.voucherId,
       this.user
     );
+
+    this.selectedCandidate = null;
+    this.isVoteCastDone = true;
   }
 
   selectCandidate(candidate: CampaignCandidatePublic): void {
