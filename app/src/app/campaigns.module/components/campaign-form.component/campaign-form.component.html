@@ -3,7 +3,13 @@
     <div class="">
       <h1>Campaign form</h1>
       <div>
-        <button (click)="save()" class="btn btn-outline-primary">Save</button>
+        <button
+          (click)="save()"
+          class="btn btn-outline-primary"
+          [disabled]="isSaveDisabled"
+        >
+          Save
+        </button>
         <span *ngIf="isFormSubmitError" class="text-danger ms-3"
           >Error while saving campaign</span
         >

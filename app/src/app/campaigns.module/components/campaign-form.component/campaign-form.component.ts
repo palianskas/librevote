@@ -103,6 +103,13 @@ export class CampaignFormComponent implements OnInit, OnDestroy {
     return this.campaignForm.controls.endDate;
   }
 
+  get isSaveDisabled(): boolean {
+    return (
+      this.campaign.campaignUsers.length < 1 ||
+      this.campaign.candidates.length < 1
+    );
+  }
+
   isInputInvalid(control: FormControl): boolean {
     return control.touched && control.invalid;
   }
