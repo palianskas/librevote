@@ -16,19 +16,25 @@ export class VotingComponent {
   selectedCandidate?: CampaignCandidatePublic;
 
   isVoteCastDone = false;
+  isVoteCastSuccessful = false;
 
   constructor(private readonly votingService: VotingService) {}
 
   async vote() {
-    await this.votingService.castVote(
-      this.campaign,
-      this.selectedCandidate,
-      this.voucherId,
-      this.user
-    );
-
-    this.selectedCandidate = null;
-    this.isVoteCastDone = true;
+    try {
+      const response = await this.votingService.castVote(
+        this.campaign,
+        this.selectedCandidate,
+        this.voucherId,
+        this.user
+      );
+      this.isVoteCastSuccessful = !!response;
+    } catch {
+      this.isVoteCastSuccessful = false;
+    } finally {
+      this.selectedCandidate = null;
+      this.isVoteCastDone = true;
+    }
   }
 
   selectCandidate(candidate: CampaignCandidatePublic): void {

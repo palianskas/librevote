@@ -40,6 +40,15 @@
     </div>
   </div>
   <div *ngIf="isVoteCastDone" class="d-flex justify-content-center">
-    <h3 class="text-success">Voting successful!</h3>
+    <h3 class="text-success" *ngIf="isVoteCastSuccessful">
+      Voting successful!
+    </h3>
+    <div
+      class="d-flex flex-column align-items-center"
+      *ngIf="!isVoteCastSuccessful"
+    >
+      <h3 class="text-danger">Voting failed!</h3>
+      <p>Please try again or contact the campaign's administrator</p>
+    </div>
   </div>
 </div>
