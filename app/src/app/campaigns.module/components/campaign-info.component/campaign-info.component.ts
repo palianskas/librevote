@@ -16,6 +16,8 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
   routeNames = RouteNames;
 
   campaign: Campaign;
+  publicLink: string;
+
   isInviteOnlyCampaign = false;
   isUserAdmin = false;
 
@@ -43,6 +45,10 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
       this.campaign.settings.votingMechanism === VotingMechanism.InviteOnly;
 
     this.isUserAdmin = this.campaignPermissionsService.isAdmin(this.campaign);
+
+    this.publicLink = this.buildQualifiedPublicLink(
+      this.campaign.publicLink.link
+    );
   }
 
   onVotingStartStopCallback(): void {
@@ -61,5 +67,13 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
 
   private async fetchCampaign(id: string): Promise<Campaign> {
     return this.campaignsService.get(id);
+  }
+
+  private buildQualifiedPublicLink(campaignPublicLink: string): string {
+    const rootUrl = location.host;
+
+    const publicLink = rootUrl + '/vote/' + campaignPublicLink;
+
+    return publicLink;
   }
 }
