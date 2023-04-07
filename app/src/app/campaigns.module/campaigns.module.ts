@@ -20,6 +20,7 @@ import { CampaignVoterInputComponent } from './components/campaign-info.componen
 import { VotesModule } from '../votes.module/votes.module';
 import { CampaignVotingControlComponent } from './components/campaign-info.component/campaign-voting-start.component/campaign-voting-control.component';
 import { CampaignVoteAuditComponent } from './components/campaign-info.component/campaign-vote-audit.component/campaign-vote-audit.component';
+import { CampaignPermissionsService } from './services/campaign-permissions.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { CampaignVoteAuditComponent } from './components/campaign-info.component
     CampaignsService,
     CampaignPublicLinksService,
     CampaignCandidatesService,
+    CampaignPermissionsService,
   ],
 })
 export class CampaignsModule {}

@@ -1,5 +1,5 @@
 <div class="m-5 d-flex flex-column" *ngIf="!!campaign">
-  <div>
+  <div *ngIf="this.isUserAdmin">
     <a
       class="btn btn-outline-primary m-3 ms-0"
       [routerLink]="[
@@ -14,30 +14,41 @@
     >
     <button class="btn btn-outline-danger" (click)="delete()">Delete</button>
   </div>
-  <h1>Campaign: {{ campaign.name }}</h1>
+  <div class="mb-3">
+    <h1>Campaign: {{ campaign.name }}</h1>
+    <div class="d-flex flex-column">
+      <span>
+        Voting starts:
+        {{ campaign.startDate?.toLocaleString() ?? "(Manual start)" }}
+      </span>
+      <span>
+        Voting ends: {{ campaign.endDate?.toLocaleString() ?? "(Manual stop)" }}
+      </span>
+    </div>
+  </div>
+
   <div class="row">
-    <div class="col-lg-6">
-      <h3>Encryption keys</h3>
-      <hr />
+    <div class="col-lg-6" *ngIf="this.isUserAdmin">
+      
       <app-campaign-encryption-keys
         [campaign]="campaign"
       ></app-campaign-encryption-keys>
     </div>
-    <div class="col-lg-6" *ngIf="isInviteOnlyCampaign">
-      <app-campaign-voter-input
-        [campaign]="campaign"
-      ></app-campaign-voter-input>
-    </div>
-    <div
+    <app-campaign-voter-input
+      class="col-lg-6"
+      *ngIf="isInviteOnlyCampaign && campaign.isBeforeVotingStart()"
+      [campaign]="campaign"
+    ></app-campaign-voter-input>
+    <app-campaign-voting-control
       class="col-6"
-      *ngIf="!!this.campaign.settings?.isManualVoteStartEndEnabled"
-    >
-      <app-campaign-voting-control
-        [campaign]="this.campaign"
-        [onStartStopCallback]="onVotingStartStopCallback.bind(this)"
-      ></app-campaign-voting-control>
-    </div>
-    <div class="col-6">
+      *ngIf="
+        !!this.campaign.settings?.isManualVoteStartEndEnabled &&
+        this.isUserAdmin
+      "
+      [campaign]="this.campaign"
+      [onStartStopCallback]="onVotingStartStopCallback.bind(this)"
+    ></app-campaign-voting-control>
+    <div class="col-6" *ngIf="this.isUserAdmin">
       <app-campaign-vote-audit
         *ngIf="!this.campaign.isBeforeVotingStart()"
         [campaign]="this.campaign"

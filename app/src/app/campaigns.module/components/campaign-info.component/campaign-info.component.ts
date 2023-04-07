@@ -5,6 +5,7 @@ import { RouteNames } from 'src/app/app.module/app.routes';
 import { VotingMechanism } from '../../models/campaign-settings/campaign-settings.model';
 import { Campaign } from '../../models/campaign.model';
 import { CampaignsService } from '../../services/campaigns.service';
+import { CampaignPermissionsService } from '../../services/campaign-permissions.service';
 
 @Component({
   selector: 'app-campaign-info',
@@ -16,9 +17,11 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
 
   campaign: Campaign;
   isInviteOnlyCampaign = false;
+  isUserAdmin = false;
 
   constructor(
     private readonly campaignsService: CampaignsService,
+    private readonly campaignPermissionsService: CampaignPermissionsService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {}
@@ -38,6 +41,8 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
 
     this.isInviteOnlyCampaign =
       this.campaign.settings.votingMechanism === VotingMechanism.InviteOnly;
+
+    this.isUserAdmin = this.campaignPermissionsService.isAdmin(this.campaign);
   }
 
   onVotingStartStopCallback(): void {

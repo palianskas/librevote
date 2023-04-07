@@ -98,7 +98,7 @@ export class CampaignVoterInputComponent implements OnInit {
       return;
     }
 
-    if (!confirm('Delete this voucher?')) {
+    if (!confirm('Delete this voting invite?')) {
       return;
     }
 
