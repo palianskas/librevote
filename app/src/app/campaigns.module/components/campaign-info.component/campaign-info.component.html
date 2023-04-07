@@ -28,12 +28,11 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-6" *ngIf="this.isUserAdmin">
-      
-      <app-campaign-encryption-keys
-        [campaign]="campaign"
-      ></app-campaign-encryption-keys>
-    </div>
+    <app-campaign-encryption-keys
+      class="col-lg-6"
+      *ngIf="this.isUserAdmin"
+      [campaign]="campaign"
+    ></app-campaign-encryption-keys>
     <app-campaign-voter-input
       class="col-lg-6"
       *ngIf="isInviteOnlyCampaign && campaign.isBeforeVotingStart()"
@@ -48,11 +47,10 @@
       [campaign]="this.campaign"
       [onStartStopCallback]="onVotingStartStopCallback.bind(this)"
     ></app-campaign-voting-control>
-    <div class="col-6" *ngIf="this.isUserAdmin">
-      <app-campaign-vote-audit
-        *ngIf="!this.campaign.isBeforeVotingStart()"
-        [campaign]="this.campaign"
-      ></app-campaign-vote-audit>
-    </div>
+    <app-campaign-vote-audit
+      class="col-6"
+      *ngIf="!this.campaign.isBeforeVotingStart()"
+      [campaign]="this.campaign"
+    ></app-campaign-vote-audit>
   </div>
 </div>
