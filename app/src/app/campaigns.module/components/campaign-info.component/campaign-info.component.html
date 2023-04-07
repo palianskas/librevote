@@ -16,7 +16,7 @@
   </div>
   <div class="mb-3">
     <h1>Campaign: {{ campaign.name }}</h1>
-    <h5>
+    <h5 *ngIf="!!campaign.publicLink">
       Public link:
       <span class="btn-link h5 clickable" (click)="openCampaignPublicLink()">{{
         this.qualifiedPublicLink
