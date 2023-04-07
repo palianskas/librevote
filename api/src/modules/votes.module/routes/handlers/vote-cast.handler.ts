@@ -45,6 +45,12 @@ export class VoteCastHandler {
       );
     }
 
+    if (!campaign.pubKey) {
+      throw new NotFoundException(
+        `Campaign ${request.dto.campaignId} does not have a public key`,
+      );
+    }
+
     if (!this.campaignsService.isVotingActive(campaign)) {
       throw new BadRequestException(
         `Voting is not active for campaign ${campaign.id}`,
