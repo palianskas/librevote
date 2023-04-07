@@ -20,3 +20,8 @@ export interface IVoteSearchResponse {
 export interface IVoteCountSearchResponse {
   count: number;
 }
+
+export interface IPublicVotingStatusResponse {
+  campaignId: string;
+  isAcceptingVotes: boolean;
+}

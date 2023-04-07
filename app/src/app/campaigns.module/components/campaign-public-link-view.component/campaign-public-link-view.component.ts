@@ -6,6 +6,8 @@ import { User } from 'src/app/users.module/models/user.model';
 import { VotingService } from 'src/app/votes.module/services/voting.service';
 import { CampaignPublicLink } from '../../models/campaign-public-links/campaign-public-link.model';
 import { CampaignPublicLinksService } from '../../services/campaign-public-links.service';
+import { VotesService } from 'src/app/votes.module/services/votes.service';
+import { IPublicVotingStatusResponse } from 'src/app/votes.module/models/votes-contracts.model';
 
 @Component({
   selector: 'app-campaign-public-link-view',
@@ -17,7 +19,8 @@ export class CampaignPublicLinkViewComponent implements OnInit, OnDestroy {
   voucherId?: string;
   user?: User;
 
-  isVotingAllowed: boolean;
+  isVotingAllowed = false;
+  isCampaignAcceptingVotes = false;
 
   paramsSubscription: Subscription;
   queryParamsSubscription: Subscription;
@@ -26,7 +29,8 @@ export class CampaignPublicLinkViewComponent implements OnInit, OnDestroy {
     private readonly campaignPublicLinksService: CampaignPublicLinksService,
     private readonly votingService: VotingService,
     private readonly authService: AuthService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly votesService: VotesService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -34,6 +38,12 @@ export class CampaignPublicLinkViewComponent implements OnInit, OnDestroy {
       const publicLink = params['link'];
 
       this.campaignPublicLink = await this.fetchCampaignPublicLink(publicLink);
+
+      const campaignStatus = await this.fetchCampaignStatus(
+        this.campaignPublicLink.campaignId
+      );
+
+      this.isCampaignAcceptingVotes = campaignStatus.isAcceptingVotes;
 
       this.checkIsVotingAllowed();
     });
@@ -60,6 +70,12 @@ export class CampaignPublicLinkViewComponent implements OnInit, OnDestroy {
     publicLink: string
   ): Promise<CampaignPublicLink> {
     return this.campaignPublicLinksService.getByLink(publicLink);
+  }
+
+  private fetchCampaignStatus(
+    campaignId: string
+  ): Promise<IPublicVotingStatusResponse> {
+    return this.votesService.status(campaignId);
   }
 
   private checkIsVotingAllowed() {

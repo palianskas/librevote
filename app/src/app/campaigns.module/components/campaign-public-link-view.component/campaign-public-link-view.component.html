@@ -9,7 +9,7 @@
   <div *ngIf="!!campaignPublicLink" class="d-flex flex-column">
     <h1>Campaign:{{ campaignPublicLink.campaign.name }}</h1>
     <app-voting
-      *ngIf="isVotingAllowed"
+      *ngIf="isVotingAllowed && isCampaignAcceptingVotes"
       [campaign]="campaignPublicLink.campaign"
       [voucherId]="voucherId"
       [user]="user"
@@ -21,6 +21,16 @@
       <h5 class="text-danger">
         Permissions to vote in this campaign not found
       </h5>
+      <p>
+        Please make sure you have the correct link or contact the campaign's
+        administrator
+      </p>
+    </div>
+    <div
+      class="w-100 d-flex flex-column align-items-center"
+      *ngIf="!isCampaignAcceptingVotes"
+    >
+      <h5 class="text-danger">Campaign is not accepting votes anymore</h5>
       <p>
         Please make sure you have the correct link or contact the campaign's
         administrator
