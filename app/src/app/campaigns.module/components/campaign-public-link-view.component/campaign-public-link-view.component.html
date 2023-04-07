@@ -1,13 +1,14 @@
 <div class="m-5">
-  <div *ngIf="!campaignPublicLink">
-    <h3>Campaign not found</h3>
-    <h5>
-      Please make sure you have the correct link or contact the campaign's
-      administrator
-    </h5>
+  <div
+    class="d-flex flex-column align-items-center"
+    *ngIf="!campaignPublicLink"
+  >
+    <h3 class="text-danger">Campaign not found</h3>
   </div>
   <div *ngIf="!!campaignPublicLink" class="d-flex flex-column">
-    <h1>Campaign:{{ campaignPublicLink.campaign.name }}</h1>
+    <div class="mb-5">
+      <h1>Campaign:{{ campaignPublicLink.campaign.name }}</h1>
+    </div>
     <app-voting
       *ngIf="isVotingAllowed && isCampaignAcceptingVotes"
       [campaign]="campaignPublicLink.campaign"
@@ -16,25 +17,23 @@
     ></app-voting>
     <div
       class="w-100 d-flex flex-column align-items-center"
-      *ngIf="!isVotingAllowed"
+      *ngIf="!isVotingAllowed || !isCampaignAcceptingVotes"
     >
-      <h5 class="text-danger">
+      <h5 class="text-danger" *ngIf="!isVotingAllowed">
         Permissions to vote in this campaign not found
       </h5>
-      <p>
-        Please make sure you have the correct link or contact the campaign's
-        administrator
-      </p>
+      <h5 class="text-danger" *ngIf="!isCampaignAcceptingVotes">
+        Campaign is not accepting votes anymore
+      </h5>
     </div>
-    <div
-      class="w-100 d-flex flex-column align-items-center"
-      *ngIf="!isCampaignAcceptingVotes"
-    >
-      <h5 class="text-danger">Campaign is not accepting votes anymore</h5>
-      <p>
-        Please make sure you have the correct link or contact the campaign's
-        administrator
-      </p>
-    </div>
+  </div>
+  <div
+    class="w-100 d-flex flex-column align-items-center"
+    *ngIf="!campaignPublicLink || !isVotingAllowed || !isCampaignAcceptingVotes"
+  >
+    <p>
+      Please make sure you have the correct link or contact the campaign's
+      administrator
+    </p>
   </div>
 </div>
