@@ -126,12 +126,6 @@ export class VotesController {
       throw new NotFoundException(`Campaign not found by id ${campaignId}`);
     }
 
-    if (!this.campaignsService.hasVoteReadAccess(request.user, campaign)) {
-      throw new ForbiddenException(
-        `User does not have access to votes for campaign ${campaign.id}`,
-      );
-    }
-
     const count = await this.votesService.getVoteCountForCampaign(campaignId);
 
     const response: IVoteCountSearchResponse = {
