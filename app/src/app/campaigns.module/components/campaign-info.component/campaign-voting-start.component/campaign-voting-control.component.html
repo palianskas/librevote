@@ -11,7 +11,7 @@
   <button
     class="btn btn-outline-danger ms-3"
     (click)="stop()"
-    [disabled]="!!campaign.endDate"
+    [disabled]="!campaign.startDate || !!campaign.endDate"
   >
     Stop voting
   </button>
