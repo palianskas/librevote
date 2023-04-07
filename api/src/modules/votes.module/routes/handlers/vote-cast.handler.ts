@@ -51,13 +51,21 @@ export class VoteCastHandler {
       );
     }
 
-    const votingMechanism = campaign.settings?.votingMechanism;
+    const campaignVoteCount = await this.votesService.getVoteCountForCampaign(
+      campaign.id,
+    );
 
-    if (!votingMechanism) {
-      throw new Error(
-        `Cannot determine voting settings for campaign ${campaign.id}`,
+    if (!campaign.settings) {
+      throw new Error(`Cannot determine settings for campaign ${campaign.id}`);
+    }
+
+    if (campaignVoteCount >= campaign.settings.maxVoterCount) {
+      throw new BadRequestException(
+        `Max vote count reached for campaign ${campaign.id}`,
       );
     }
+
+    const votingMechanism = campaign.settings.votingMechanism;
 
     switch (VotingMechanism[votingMechanism]) {
       case VotingMechanism.InviteOnly: {
@@ -68,14 +76,13 @@ export class VoteCastHandler {
         await this.validateVoucherVoting(request);
         break;
       }
-      case undefined: {
+      case VotingMechanism.Public:
+        break;
+      default: {
         throw new Error(
-          `Cannot determine voting settings for campaign ${campaign.id}`,
+          `Cannot determine voting mechanism for campaign ${campaign.id}`,
         );
       }
-      default:
-        // no validation
-        break;
     }
   }
 
