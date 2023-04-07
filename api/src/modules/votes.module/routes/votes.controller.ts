@@ -9,7 +9,10 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { OptionalJwt } from 'src/modules/auth.module/guards/guard-activators.decorator';
+import {
+  OptionalJwt,
+  Public,
+} from 'src/modules/auth.module/guards/guard-activators.decorator';
 import { OptionalJwtAuthGuard } from 'src/modules/auth.module/guards/optional-jwt-auth.guard';
 import {
   IAuthenticatedRequest,
@@ -20,6 +23,7 @@ import { VoteDto } from '../models/vote.model';
 import { VotesService } from '../votes.service';
 import { VoteCastHandler } from './handlers/vote-cast.handler';
 import {
+  IPublicVotingStatusResponse,
   IVoteCastRequest,
   IVoteCastResponse,
   IVoteCountSearchResponse,
@@ -130,6 +134,18 @@ export class VotesController {
     const response: IVoteCountSearchResponse = {
       count: count,
     };
+
+    return response;
+  }
+
+  @Public()
+  @Get(':id/status')
+  async status(@Param('id') id: string): Promise<IPublicVotingStatusResponse> {
+    const response = await this.votesService.status(id);
+
+    if (!response) {
+      throw new NotFoundException(`Campaign not found by id ${id}`);
+    }
 
     return response;
   }

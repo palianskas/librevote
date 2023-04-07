@@ -4,10 +4,15 @@ import { VotesRepository } from './votes.repository';
 import { IPrismaCursor } from '../data.module/models/prisma-query.model';
 import { DataAccessService } from '../data.module/data.service';
 import { ISearchQueryResponse } from '../data.module/models/search-query-response.model';
+import { IPublicVotingStatusResponse } from './routes/models/votes-contracts.model';
+import { CampaignsService } from '../campaigns.module/campaigns.service';
 
 @Injectable()
 export class VotesService {
-  constructor(private readonly votesRepository: VotesRepository) {}
+  constructor(
+    private readonly votesRepository: VotesRepository,
+    private readonly campaignService: CampaignsService,
+  ) {}
 
   get(id: string): Promise<Vote | null> {
     const vote = this.votesRepository.get(id);
@@ -49,6 +54,29 @@ export class VotesService {
     };
 
     return this.votesRepository.count(filter);
+  }
+
+  async status(id: string): Promise<IPublicVotingStatusResponse | null> {
+    const campaign = await this.campaignService.get(id);
+
+    if (!campaign || !!campaign.deleteDate) {
+      return null;
+    }
+
+    const currentCampaignVoteCount = await this.getVoteCountForCampaign(
+      campaign.id,
+    );
+
+    const isAcceptingVotes =
+      !!campaign.settings &&
+      campaign.settings.maxVoterCount > currentCampaignVoteCount;
+
+    const response: IPublicVotingStatusResponse = {
+      campaignId: campaign.id,
+      isAcceptingVotes: isAcceptingVotes,
+    };
+
+    return response;
   }
 
   private buildSearchCuror(page: number): IPrismaCursor {
