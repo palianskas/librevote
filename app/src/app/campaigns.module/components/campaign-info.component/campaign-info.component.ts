@@ -16,7 +16,7 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
   routeNames = RouteNames;
 
   campaign: Campaign;
-  publicLink: string;
+  qualifiedPublicLink: string;
 
   isInviteOnlyCampaign = false;
   isUserAdmin = false;
@@ -46,7 +46,7 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
 
     this.isUserAdmin = this.campaignPermissionsService.isAdmin(this.campaign);
 
-    this.publicLink = this.buildQualifiedPublicLink(
+    this.qualifiedPublicLink = this.buildQualifiedPublicLink(
       this.campaign.publicLink.link
     );
   }
@@ -65,12 +65,24 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
     this.router.navigate([RouteNames.campaigns.index]);
   }
 
+  openCampaignPublicLink(): void {
+    const publicLink = this.buildQualifiedPublicLink(
+      this.campaign.publicLink.link,
+      true
+    );
+
+    window.open(publicLink, '_blank');
+  }
+
   private async fetchCampaign(id: string): Promise<Campaign> {
     return this.campaignsService.get(id);
   }
 
-  private buildQualifiedPublicLink(campaignPublicLink: string): string {
-    const rootUrl = location.host;
+  private buildQualifiedPublicLink(
+    campaignPublicLink: string,
+    includeProtocol = false
+  ): string {
+    const rootUrl = includeProtocol ? location.origin : location.host;
 
     const publicLink = rootUrl + '/vote/' + campaignPublicLink;
 
