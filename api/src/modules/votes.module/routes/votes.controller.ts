@@ -117,7 +117,6 @@ export class VotesController {
 
   @Get(':campaignId/count')
   async count(
-    @Req() request: IAuthenticatedRequest,
     @Param('campaignId') campaignId: string,
   ): Promise<IVoteCountSearchResponse> {
     const campaign = await this.campaignsService.get(campaignId);
