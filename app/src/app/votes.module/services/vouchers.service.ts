@@ -37,10 +37,10 @@ export class VotingVouchersService {
     return voucher;
   }
 
-  public async create(vote: VotingVoucher): Promise<string> {
+  public async create(voucher: VotingVoucher): Promise<string> {
     const request: IVotingVoucherCreateRequest = {
-      campaignId: vote.campaignId,
-      dto: VotingVoucherDto.map(vote),
+      campaignId: voucher.campaignId,
+      dto: VotingVoucherDto.map(voucher),
     };
 
     const response = await this.vouchersApi.create(request);
