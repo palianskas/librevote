@@ -64,16 +64,14 @@ export class VotesRepository {
     fieldSelect: any = null,
     cursor: IPrismaCursor | null = null,
   ): IPrismaQuery {
-    const queryCursor = cursor ?? {
-      skip: 0,
-      take: DataAccessService.DEFAULT_PAGE_SIZE,
-    };
-
     const query: IPrismaQuery = {
       where: filter,
-      skip: queryCursor.skip,
-      take: queryCursor.take,
     };
+
+    if (!!cursor) {
+      query.skip = cursor.skip;
+      query.take = cursor.take;
+    }
 
     if (!!fieldSelect) {
       query.select = fieldSelect;
