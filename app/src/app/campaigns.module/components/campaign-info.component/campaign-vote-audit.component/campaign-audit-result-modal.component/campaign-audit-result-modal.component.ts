@@ -6,13 +6,9 @@ import { VotesService } from 'src/app/votes.module/services/votes.service';
   selector: 'app-campaign-audit-result-modal',
   templateUrl: './campaign-audit-result-modal.component.html',
 })
-export class CampaignAuditResultModalComponent implements OnInit {
+export class CampaignAuditResultModalComponent {
   @Input() campaignId: string;
   @Input() auditResult: VoteAuditResult;
-
-  constructor(private readonly votesService: VotesService) {}
-
-  ngOnInit(): void {}
 
   async removeInvalidVotes(): Promise<void> {
     if (!confirm('Remove invalid votes?')) {
