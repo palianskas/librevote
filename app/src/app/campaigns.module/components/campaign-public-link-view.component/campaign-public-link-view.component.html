@@ -7,7 +7,7 @@
   </div>
   <div *ngIf="!!campaignPublicLink" class="d-flex flex-column">
     <div class="mb-5">
-      <h1>Campaign:{{ campaignPublicLink.campaign.name }}</h1>
+      <h1>Campaign: {{ campaignPublicLink.campaign.name }}</h1>
     </div>
     <app-voting
       *ngIf="isVotingAllowed && isCampaignAcceptingVotes"
