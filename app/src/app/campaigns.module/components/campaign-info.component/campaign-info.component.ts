@@ -84,7 +84,7 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
   ): string {
     const rootUrl = includeProtocol ? location.origin : location.host;
 
-    const publicLink = rootUrl + '/vote/' + campaignPublicLink;
+    const publicLink = `${rootUrl}/${RouteNames.vote.index}/${campaignPublicLink}`;
 
     return publicLink;
   }
