@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class DataAccessService extends PrismaClient {
-  static DEFAULT_PAGE_SIZE = 100 as const;
+  static DEFAULT_PAGE_SIZE = 10000 as const;
 
   // see https://docs.nestjs.com/recipes/prisma#issues-with-enableshutdownhooks
   async enableShutdownHooks(app: INestApplication) {
