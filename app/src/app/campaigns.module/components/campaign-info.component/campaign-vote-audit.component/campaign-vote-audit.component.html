@@ -13,10 +13,34 @@
       <span *ngIf="!isRefreshInProgress"> Refresh </span>
       <img
         src="./assets/bootstrap-icons/arrow-repeat.svg"
-        alt="Close"
+        alt="Progress icon"
         class="loading-indicator"
         *ngIf="isRefreshInProgress"
       />
     </button>
+    <button
+      class="btn btn-outline-primary ms-3"
+      *ngIf="isUserAdmin && campaign.isAfterVotingEnd()"
+      [disabled]="isAuditInProgress"
+      (click)="performVoteAudit()"
+    >
+      <span *ngIf="!isAuditInProgress"> Audit </span>
+      <img
+        src="./assets/bootstrap-icons/arrow-repeat.svg"
+        alt="Progress icon"
+        class="loading-indicator"
+        *ngIf="isAuditInProgress"
+      />
+    </button>
   </div>
 </div>
+
+<app-campaign-key-access-modal
+  [campaignId]="campaign.id"
+  [onKeyAccessed]="this.onPrivateKeyAccessed.bind(this)"
+></app-campaign-key-access-modal>
+
+<app-campaign-audit-result-modal
+  [campaignId]="campaign.id"
+  [auditResult]="auditResult"
+></app-campaign-audit-result-modal>

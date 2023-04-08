@@ -57,6 +57,7 @@
       class="col-6"
       *ngIf="!this.campaign.isBeforeVotingStart()"
       [campaign]="this.campaign"
+      [isUserAdmin]="this.isUserAdmin"
     ></app-campaign-vote-audit>
   </div>
 </div>

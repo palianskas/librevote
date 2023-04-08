@@ -43,10 +43,7 @@ export class VotesService {
     return response.id;
   }
 
-  public async getCampaignVotes(
-    campaignId: string,
-    page: number
-  ): Promise<Vote[]> {
+  public async getCampaignVotes(campaignId: string, page = 0): Promise<Vote[]> {
     const request: IVoteSearchRequest = {
       campaignId: campaignId,
       page: page,
@@ -55,6 +52,31 @@ export class VotesService {
     const response = await this.votesApi.search(request);
 
     const votes = Vote.mapList(response.rows);
+
+    return votes;
+  }
+
+  public async getAllCampaignVotes(campaignId: string): Promise<Vote[]> {
+    let votes: Vote[] = [];
+
+    const request: IVoteSearchRequest = {
+      campaignId: campaignId,
+      page: 0,
+    };
+
+    while (true) {
+      const result = await this.votesApi.search(request);
+
+      for (let i = 0; i < result.rows.length; i++) {
+        votes.push(result.rows[i]);
+      }
+
+      if (votes.length >= result.totalRows) {
+        break;
+      }
+
+      request.page++;
+    }
 
     return votes;
   }

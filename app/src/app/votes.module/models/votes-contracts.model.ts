@@ -15,6 +15,7 @@ export interface IVoteSearchRequest {
 
 export interface IVoteSearchResponse {
   rows: VoteDto[];
+  totalRows: number;
 }
 
 export interface IVoteCountSearchResponse {

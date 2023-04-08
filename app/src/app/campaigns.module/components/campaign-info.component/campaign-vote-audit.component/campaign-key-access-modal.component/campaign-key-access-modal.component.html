@@ -1,0 +1,76 @@
+<button
+  id="key-access-modal-open-button"
+  data-bs-toggle="modal"
+  data-bs-target="#private-key-access-modal"
+  style="display: none"
+></button>
+<div
+  class="modal fade"
+  id="private-key-access-modal"
+  tabindex="-1"
+  aria-labelledby="modal-title"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">Private key access</h5>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="!key && !!isPasswordProtected" class="d-flex flex-column">
+          <div class="mt-2">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              [(ngModel)]="password"
+              name="private key encryption password"
+              autocomplete="off"
+            />
+          </div>
+          <button
+            id="password-submit-button"
+            class="btn btn-outline-primary"
+            (click)="submitPassword()"
+          >
+            Submit
+          </button>
+          <span class="text-danger" *ngIf="isPasswordIncorrect"
+            >Password is incorrect</span
+          >
+        </div>
+        <div *ngIf="!container" class="d-flex flex-column">
+          <div class="mt-2">
+            <label for="private-key" class="form-label">Private key</label>
+            <input
+              class="form-control"
+              id="private-key"
+              [(ngModel)]="key"
+              name="private key"
+              autocomplete="off"
+            />
+          </div>
+          <button
+            id="private-key-submit-button"
+            class="btn btn-outline-primary"
+            [disabled]="!key"
+            (click)="submitPrivateKey()"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          id="key-access-modal-close-button"
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

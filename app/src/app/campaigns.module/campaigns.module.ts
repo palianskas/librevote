@@ -21,6 +21,8 @@ import { VotesModule } from '../votes.module/votes.module';
 import { CampaignVotingControlComponent } from './components/campaign-info.component/campaign-voting-start.component/campaign-voting-control.component';
 import { CampaignVoteAuditComponent } from './components/campaign-info.component/campaign-vote-audit.component/campaign-vote-audit.component';
 import { CampaignPermissionsService } from './services/campaign-permissions.service';
+import { CampaignPrivateKeyAccessModalComponent } from './components/campaign-info.component/campaign-vote-audit.component/campaign-key-access-modal.component/campaign-key-access-modal.component';
+import { CampaignAuditResultModalComponent } from './components/campaign-info.component/campaign-vote-audit.component/campaign-audit-result-modal.component/campaign-audit-result-modal.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { CampaignPermissionsService } from './services/campaign-permissions.serv
     CampaignVoterInputComponent,
     CampaignVotingControlComponent,
     CampaignVoteAuditComponent,
+    CampaignPrivateKeyAccessModalComponent,
+    CampaignAuditResultModalComponent,
   ],
   imports: [
     CommonModule,
