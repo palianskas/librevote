@@ -2,9 +2,13 @@
   <h3>Encryption keys</h3>
   <hr />
   <div *ngIf="!!campaign?.pubKey">
-    <h5 title="{{ campaign.pubKey }}" class="text-break">
+    <h5 class="text-break">
       Public key:
-      <span class="clickable" (click)="showFullPubKey = !showFullPubKey">
+      <span
+        class="clickable"
+        title="{{ campaign.pubKey }}"
+        (click)="showFullPubKey = !showFullPubKey"
+      >
         {{ getDisplayableKey(campaign.pubKey, showFullPubKey) }}
       </span>
       <button
