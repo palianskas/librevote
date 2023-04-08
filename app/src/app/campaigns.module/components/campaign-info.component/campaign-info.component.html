@@ -59,5 +59,10 @@
       [campaign]="this.campaign"
       [isUserAdmin]="this.isUserAdmin"
     ></app-campaign-vote-audit>
+    <app-campaign-voucher-dispensery
+      class="col-6"
+      [campaign]="campaign"
+      *ngIf="campaign.isVotingActive()"
+    ></app-campaign-voucher-dispensery>
   </div>
 </div>

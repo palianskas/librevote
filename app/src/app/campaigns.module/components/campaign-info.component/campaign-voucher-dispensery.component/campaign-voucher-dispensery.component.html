@@ -1,0 +1,11 @@
+<div>
+  <h3>Voting vouchers</h3>
+  <hr />
+  <button class="btn btn-outline-primary" (click)="onCreateVoucher()">
+    New voucher
+  </button>
+</div>
+
+<app-campaign-voucher-display-modal
+  [voucherContainer]="voucherContainer"
+></app-campaign-voucher-display-modal>

@@ -1,0 +1,37 @@
+<button
+  id="voucher-display-modal-open-button"
+  data-bs-toggle="modal"
+  data-bs-target="#voucher-display-modal"
+  style="display: none"
+></button>
+<div
+  class="modal fade"
+  id="voucher-display-modal"
+  tabindex="-1"
+  aria-labelledby="modal-title"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">Voucher</h5>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex flex-column" *ngIf="!!voucherContainer">
+          {{ voucherContainer.voucher.id }} <br />
+          {{ voucherContainer.votingLink }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          id="voucher-display-modal-close-button"
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
