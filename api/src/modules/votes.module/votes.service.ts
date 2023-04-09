@@ -41,6 +41,7 @@ export class VotesService {
   ): Promise<ISearchQueryResponse<Vote>> {
     const filter = {
       campaignId: campaignId,
+      isInvalid: false,
     };
 
     const cursor = this.buildSearchCuror(page);
@@ -51,6 +52,7 @@ export class VotesService {
   getVoteCountForCampaign(campaignId: string): Promise<number> {
     const filter = {
       campaignId: campaignId,
+      isInvalid: false,
     };
 
     return this.votesRepository.count(filter);
@@ -77,6 +79,21 @@ export class VotesService {
     };
 
     return response;
+  }
+
+  async invalidate(campaignId: string, voteIds: string[]): Promise<number> {
+    const filter = {
+      campaignId: campaignId,
+      id: {
+        in: voteIds,
+      },
+    };
+
+    const data: Partial<Vote> = {
+      isInvalid: true,
+    };
+
+    return this.votesRepository.bulkUpdate(filter, data);
   }
 
   private buildSearchCuror(page: number): IPrismaCursor {

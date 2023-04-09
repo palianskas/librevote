@@ -59,6 +59,15 @@ export class VotesRepository {
     return this.dataService.vote.count(query);
   }
 
+  async bulkUpdate(filter: any, data: Partial<Vote>): Promise<number> {
+    const result = await this.dataService.vote.updateMany({
+      where: filter,
+      data: data,
+    });
+
+    return result.count;
+  }
+
   private buildQuery(
     filter: any,
     fieldSelect: any = null,

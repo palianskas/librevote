@@ -29,6 +29,8 @@ import {
   IVoteCountSearchResponse,
   IVoteSearchRequest,
   IVoteSearchResponse,
+  IVotesInvalidationRequest,
+  IVotesInvalidationResponse,
 } from './models/votes-contracts.model';
 
 @Controller('votes')
@@ -146,6 +148,39 @@ export class VotesController {
     if (!response) {
       throw new NotFoundException(`Campaign not found by id ${id}`);
     }
+
+    return response;
+  }
+
+  @Post('invalidate')
+  async invalidate(
+    @Req() request: IAuthenticatedRequest,
+    @Body() invalidationRequest: IVotesInvalidationRequest,
+  ): Promise<IVotesInvalidationResponse> {
+    const campaignId = invalidationRequest.campaignId;
+
+    const campaign = await this.campaignsService.get(campaignId);
+
+    if (!campaign || !!campaign.deleteDate) {
+      throw new NotFoundException(`Campaign not found by id ${campaignId}`);
+    }
+
+    if (
+      !this.campaignsService.hasVoteManagementAccess(request.user, campaign)
+    ) {
+      throw new ForbiddenException(
+        `User does not have access to vote management for campaign ${campaign.id}`,
+      );
+    }
+
+    const count = await this.votesService.invalidate(
+      campaignId,
+      invalidationRequest.voteIds,
+    );
+
+    const response: IVotesInvalidationResponse = {
+      count: count,
+    };
 
     return response;
   }
