@@ -32,6 +32,7 @@ export class CampaignVoucherDispenseryComponent {
       votingLink: link,
     };
 
+    this.voucherDisplayModalChild.init(this.voucherContainer);
     this.voucherDisplayModalChild.openModal();
   }
 
@@ -57,7 +58,7 @@ export class CampaignVoucherDispenseryComponent {
   private generateVoucherVotingLink(voucherId: string): string {
     const rootUrl = location.origin;
 
-    const voucherVotingLink = `${rootUrl}/${RouteNames.vote.index}?voucherId=${voucherId}`;
+    const voucherVotingLink = `${rootUrl}/${RouteNames.vote.index}/${this.campaign.publicLink.link}?voucherId=${voucherId}`;
 
     return voucherVotingLink;
   }

@@ -11,15 +11,21 @@
   aria-labelledby="modal-title"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modal-title">Voucher</h5>
       </div>
       <div class="modal-body">
-        <div class="d-flex flex-column" *ngIf="!!voucherContainer">
-          {{ voucherContainer.voucher.id }} <br />
-          {{ voucherContainer.votingLink }}
+        <div class="d-flex flex-column align-items-center">
+          <canvas id="qrcode-canvas" class="w-50 h-auto m-5"></canvas>
+
+          <a
+            href="{{ voucherContainer.votingLink }}"
+            class="h5"
+            *ngIf="!!voucherContainer"
+            >{{ voucherContainer.votingLink }}</a
+          >
         </div>
       </div>
       <div class="modal-footer">
