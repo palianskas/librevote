@@ -46,6 +46,17 @@ export class CampaignsService {
       (campaignUser) => campaignUser.userId === user.id,
     );
 
+    return (
+      campaignUser?.role === CampaignUserRole.Admin ||
+      campaignUser?.role === CampaignUserRole.Overseer
+    );
+  }
+
+  hasVoteManagementAccess(user: User, campaign: Campaign): boolean {
+    const campaignUser = campaign.campaignUsers?.find(
+      (campaignUser) => campaignUser.userId === user.id,
+    );
+
     return campaignUser?.role === CampaignUserRole.Admin;
   }
 
