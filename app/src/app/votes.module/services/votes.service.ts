@@ -10,6 +10,8 @@ import {
   IVoteCreateResponse,
   IVoteSearchRequest,
   IVoteSearchResponse,
+  IVotesInvalidationRequest,
+  IVotesInvalidationResponse,
 } from '../models/votes-contracts.model';
 
 @Injectable({
@@ -87,8 +89,19 @@ export class VotesService {
     return response.count;
   }
 
-  async status(campaignId: string): Promise<IPublicVotingStatusResponse> {
+  status(campaignId: string): Promise<IPublicVotingStatusResponse> {
     return this.votesApi.status(campaignId);
+  }
+
+  async invalidate(campaignId: string, voteIds: string[]): Promise<number> {
+    const request: IVotesInvalidationRequest = {
+      campaignId: campaignId,
+      voteIds: voteIds,
+    };
+
+    const response = await this.votesApi.invalidate(request);
+
+    return response.count;
   }
 
   private initApi(): void {
@@ -148,6 +161,19 @@ export class VotesService {
 
         return firstValueFrom(request);
       },
+      invalidate: async (invalidationRequest) => {
+        const url = apiUrl + 'invalidate/';
+
+        const request = this.httpClient.post<IVotesInvalidationResponse>(
+          url,
+          invalidationRequest,
+          {
+            observe: 'body',
+          }
+        );
+
+        return firstValueFrom(request);
+      },
     };
   }
 }
@@ -158,4 +184,7 @@ interface IVotesApi {
   search(request: IVoteSearchRequest): Promise<IVoteSearchResponse>;
   count(campaignId: string): Promise<IVoteCountSearchResponse>;
   status(campaignId: string): Promise<IPublicVotingStatusResponse>;
+  invalidate(
+    request: IVotesInvalidationRequest
+  ): Promise<IVotesInvalidationResponse>;
 }

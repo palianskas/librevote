@@ -9,13 +9,29 @@ import { VotesService } from 'src/app/votes.module/services/votes.service';
 export class CampaignAuditResultModalComponent {
   @Input() campaignId: string;
   @Input() auditResult: VoteAuditResult;
+  @Input() onInvalidation: (count: number) => void;
+
+  isVoteRemovalDone = false;
+
+  constructor(private readonly votesService: VotesService) {}
 
   async removeInvalidVotes(): Promise<void> {
+    if (this.auditResult.invalidVotes?.length < 1) {
+      return;
+    }
+
     if (!confirm('Remove invalid votes?')) {
       return;
     }
 
-    throw new Error('Not implemented');
+    const count = await this.votesService.invalidate(
+      this.campaignId,
+      this.auditResult.invalidVotes.map((vote) => vote.id)
+    );
+
+    this.isVoteRemovalDone = true;
+
+    this.onInvalidation(count);
   }
 
   openModal(): void {

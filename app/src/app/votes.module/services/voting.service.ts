@@ -96,7 +96,8 @@ export class VotingService {
     candidateIndex: number,
     maxVoterCount: number
   ): BigInteger {
-    const value = bigInt(maxVoterCount).pow(candidateIndex);
+    // const value = bigInt(maxVoterCount).pow(candidateIndex);
+    const value = bigInt(maxVoterCount).pow(candidateIndex).multiply(2);
 
     return value;
   }

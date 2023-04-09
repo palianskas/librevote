@@ -26,3 +26,12 @@ export interface IPublicVotingStatusResponse {
   campaignId: string;
   isAcceptingVotes: boolean;
 }
+
+export interface IVotesInvalidationRequest {
+  campaignId: string;
+  voteIds: string[];
+}
+
+export interface IVotesInvalidationResponse {
+  count: number;
+}

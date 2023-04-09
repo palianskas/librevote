@@ -43,4 +43,5 @@
 <app-campaign-audit-result-modal
   [campaignId]="campaign.id"
   [auditResult]="auditResult"
+  [onInvalidation]="onVoteInvalidation.bind(this)"
 ></app-campaign-audit-result-modal>

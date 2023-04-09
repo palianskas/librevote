@@ -61,6 +61,10 @@ export class CampaignVoteAuditComponent implements OnInit {
     this.auditVotes();
   }
 
+  public async onVoteInvalidation(): Promise<void> {
+    this.voteCount = await this.fetchVoteCount(this.campaign.id);
+  }
+
   private async auditVotes(): Promise<void> {
     this.isAuditInProgress = true;
     this.auditResult = await this.voteAuditService.auditVotes(
