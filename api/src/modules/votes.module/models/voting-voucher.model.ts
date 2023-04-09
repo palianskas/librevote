@@ -10,6 +10,7 @@ export type VotingVoucher = VotingVoucherEntity & {
 export class VotingVoucherDto {
   id?: string;
   campaignId: string;
+  isSpent: boolean;
   issueDate: Date;
   validUntilDate?: Date;
   designatedUserId?: string;
@@ -22,6 +23,7 @@ export class VotingVoucherDto {
     dto.id = entity.id;
     dto.campaignId = entity.campaignId;
     dto.issueDate = entity.issueDate;
+    dto.isSpent = entity.isSpent;
 
     if (!!entity.validUntilDate) {
       dto.validUntilDate = new Date(entity.validUntilDate);

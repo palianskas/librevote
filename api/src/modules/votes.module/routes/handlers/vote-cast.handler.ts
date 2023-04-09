@@ -11,7 +11,10 @@ import { Campaign } from 'src/modules/campaigns.module/models/campaign/campaign.
 import { IVoteCastRequest } from '../models/votes-contracts.model';
 import { VotesService } from '../../votes.service';
 import { VouchersService } from '../../vouchers.service';
-import { VotingVoucher } from '../../models/voting-voucher.model';
+import {
+  VotingVoucher,
+  VotingVoucherDto,
+} from '../../models/voting-voucher.model';
 
 @Injectable()
 export class VoteCastHandler {
@@ -27,7 +30,11 @@ export class VoteCastHandler {
   ): Promise<string> {
     const campaign = await this.campaignsService.get(request.dto.campaignId);
 
-    await this.validateRequest(request, campaign, user);
+    const voucher = await this.validateRequest(request, campaign, user);
+
+    if (!!voucher) {
+      this.spendVoucher(voucher);
+    }
 
     const result = await this.votesService.create(request.dto);
 
@@ -38,7 +45,7 @@ export class VoteCastHandler {
     request: IVoteCastRequest,
     campaign: Campaign | null,
     user: User | undefined,
-  ): Promise<void> {
+  ): Promise<VotingVoucher | null> {
     if (!campaign || !!campaign.deleteDate) {
       throw new NotFoundException(
         `Campaign not found by id: ${request.dto.campaignId}`,
@@ -57,13 +64,13 @@ export class VoteCastHandler {
       );
     }
 
-    const campaignVoteCount = await this.votesService.getVoteCountForCampaign(
-      campaign.id,
-    );
-
     if (!campaign.settings) {
       throw new Error(`Cannot determine settings for campaign ${campaign.id}`);
     }
+
+    const campaignVoteCount = await this.votesService.getVoteCountForCampaign(
+      campaign.id,
+    );
 
     if (campaignVoteCount >= campaign.settings.maxVoterCount) {
       throw new BadRequestException(
@@ -75,15 +82,13 @@ export class VoteCastHandler {
 
     switch (VotingMechanism[votingMechanism]) {
       case VotingMechanism.InviteOnly: {
-        await this.validateInviteOnlyVoting(campaign, user);
-        break;
+        return await this.validateInviteOnlyVoting(campaign, user);
       }
       case VotingMechanism.Voucher: {
-        await this.validateVoucherVoting(request);
-        break;
+        return await this.validateVoucherVoting(request);
       }
       case VotingMechanism.Public:
-        break;
+        return null;
       default: {
         throw new Error(
           `Cannot determine voting mechanism for campaign ${campaign.id}`,
@@ -95,7 +100,7 @@ export class VoteCastHandler {
   private async validateInviteOnlyVoting(
     campaign: Campaign,
     user: User | undefined,
-  ): Promise<void> {
+  ): Promise<VotingVoucher> {
     if (!user) {
       throw new BadRequestException(
         `Campaign ${campaign.id} voting is invite-only`,
@@ -107,16 +112,20 @@ export class VoteCastHandler {
       campaign.id,
     );
 
-    if (!vouchers.some(this.isVoucherValid)) {
+    const voucher = vouchers.find(this.isVoucherValid);
+
+    if (!voucher) {
       throw new ForbiddenException(
         `User ${user.id} does not have permission to vote in campaign ${campaign.id}`,
       );
     }
+
+    return voucher;
   }
 
   private async validateVoucherVoting(
     request: IVoteCastRequest,
-  ): Promise<void> {
+  ): Promise<VotingVoucher> {
     if (!request.dto.voucherId) {
       throw new NotFoundException(
         `Voting voucher is required for campaign ${request.dto.campaignId}`,
@@ -134,6 +143,8 @@ export class VoteCastHandler {
     if (!this.isVoucherValid(voucher)) {
       throw new ForbiddenException(`Voting voucher ${voucher.id} is invalid`);
     }
+
+    return voucher;
   }
 
   private isVoucherValid(voucher: VotingVoucher): boolean {
@@ -152,5 +163,13 @@ export class VoteCastHandler {
     }
 
     return true;
+  }
+
+  private async spendVoucher(voucher: VotingVoucher): Promise<void> {
+    voucher.isSpent = true;
+
+    const dto = VotingVoucherDto.map(voucher);
+
+    await this.vouchersService.update(dto);
   }
 }
