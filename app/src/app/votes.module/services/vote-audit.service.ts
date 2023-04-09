@@ -25,6 +25,7 @@ export class VoteAuditService {
   ): Promise<VoteAuditResult> {
     const campaign = await this.campaignsService.get(campaignId);
 
+    // TODO: implement batch processing
     const votes = await this.votesService.getAllCampaignVotes(campaignId);
 
     try {
@@ -39,7 +40,6 @@ export class VoteAuditService {
         invalidVotes: invalidVotes,
       };
 
-      console.log(invalidVotes.length, votes.length);
       return result;
     } catch {
       return { isSuccessful: false };

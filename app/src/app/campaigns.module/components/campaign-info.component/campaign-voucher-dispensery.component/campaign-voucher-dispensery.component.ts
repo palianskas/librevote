@@ -32,7 +32,6 @@ export class CampaignVoucherDispenseryComponent {
       votingLink: link,
     };
 
-    console.log(this.voucherContainer);
     this.voucherDisplayModalChild.openModal();
   }
 
