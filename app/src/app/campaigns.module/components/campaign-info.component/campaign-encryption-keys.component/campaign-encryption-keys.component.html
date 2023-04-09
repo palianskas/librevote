@@ -33,8 +33,8 @@
         Reveal key
       </button>
     </h5>
-    <span *ngIf="!canTryRevealPrivateKey" class="text-danger"
-      >Key was not stored in the system
+    <span *ngIf="!canTryRevealPrivateKey" class="text-danger">
+      Couldn't find a key stored locally
     </span>
   </div>
   <div *ngIf="!campaign?.pubKey">
