@@ -8,6 +8,8 @@ import { CampaignPublicLink } from '../../models/campaign-public-links/campaign-
 import { CampaignPublicLinksService } from '../../services/campaign-public-links.service';
 import { VotesService } from 'src/app/votes.module/services/votes.service';
 import { IPublicVotingStatusResponse } from 'src/app/votes.module/models/votes-contracts.model';
+import { VotingVouchersService } from 'src/app/votes.module/services/vouchers.service';
+import { VotingVoucher } from 'src/app/votes.module/models/voting-voucher.model';
 
 @Component({
   selector: 'app-campaign-public-link-view',
@@ -17,6 +19,7 @@ import { IPublicVotingStatusResponse } from 'src/app/votes.module/models/votes-c
 export class CampaignPublicLinkViewComponent implements OnInit, OnDestroy {
   campaignPublicLink: CampaignPublicLink;
   voucherId?: string;
+  voucher?: VotingVoucher;
   user?: User;
 
   isVotingAllowed = false;
@@ -30,7 +33,8 @@ export class CampaignPublicLinkViewComponent implements OnInit, OnDestroy {
     private readonly votingService: VotingService,
     private readonly authService: AuthService,
     private readonly route: ActivatedRoute,
-    private readonly votesService: VotesService
+    private readonly votesService: VotesService,
+    private readonly vouchersService: VotingVouchersService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -49,8 +53,12 @@ export class CampaignPublicLinkViewComponent implements OnInit, OnDestroy {
     });
 
     this.queryParamsSubscription = this.route.queryParams.subscribe(
-      (queryParams) => {
+      async (queryParams) => {
         this.voucherId = queryParams['voucherId'];
+
+        if (!!this.voucherId) {
+          this.voucher = await this.fetchVoucher(this.voucherId);
+        }
 
         this.checkIsVotingAllowed();
       }
@@ -78,10 +86,14 @@ export class CampaignPublicLinkViewComponent implements OnInit, OnDestroy {
     return this.votesService.status(campaignId);
   }
 
+  private fetchVoucher(voucherId: string): Promise<VotingVoucher> {
+    return this.vouchersService.get(voucherId);
+  }
+
   private checkIsVotingAllowed() {
     this.isVotingAllowed = this.votingService.canCastVote(
       this.campaignPublicLink?.campaign,
-      this.voucherId,
+      this.voucher,
       this.user
     );
   }

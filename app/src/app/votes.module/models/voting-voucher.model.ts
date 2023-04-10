@@ -3,6 +3,7 @@ import { User, UserDto } from 'src/app/users.module/models/user.model';
 export class VotingVoucher {
   id?: string;
   campaignId: string;
+  isSpent: boolean;
   issueDate: Date;
   validUntilDate?: Date;
   designatedUserId?: string;
@@ -23,7 +24,8 @@ export class VotingVoucher {
 
     entity.id = dto.id;
     entity.campaignId = dto.campaignId;
-    entity.issueDate = dto.issueDate;
+    entity.isSpent = dto.isSpent;
+    entity.issueDate = new Date(dto.issueDate);
     entity.validUntilDate = dto.validUntilDate && new Date(dto.validUntilDate);
     entity.designatedUserId = dto.designatedUserId;
     entity.deleteDate = dto.deleteDate && new Date(dto.deleteDate);
@@ -45,6 +47,7 @@ export class VotingVoucher {
 export class VotingVoucherDto {
   id?: string;
   campaignId: string;
+  isSpent: boolean;
   issueDate: Date;
   validUntilDate?: Date;
   designatedUserId?: string;
@@ -56,7 +59,8 @@ export class VotingVoucherDto {
 
     dto.id = data.id;
     dto.campaignId = data.campaignId;
-    dto.issueDate = data.issueDate;
+    dto.isSpent = data.isSpent;
+    dto.issueDate = new Date(data.issueDate);
     dto.validUntilDate = data.validUntilDate && new Date(data.validUntilDate);
     dto.designatedUserId = data.designatedUserId;
     dto.deleteDate = data.deleteDate && new Date(data.deleteDate);

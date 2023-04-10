@@ -8,6 +8,7 @@ import { EncryptionService } from 'src/app/encryption.module/services/encryption
 import { User } from 'src/app/users.module/models/user.model';
 import { Vote } from '../models/vote.model';
 import { VotesService } from './votes.service';
+import { VotingVoucher } from '../models/voting-voucher.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,14 +22,14 @@ export class VotingService {
   public async castVote(
     campaign: CampaignPublic,
     candidate: CampaignCandidatePublic,
-    voucherId?: string,
+    voucher?: VotingVoucher,
     user?: User
   ): Promise<string | null> {
-    if (!this.canCastVote(campaign, voucherId, user)) {
+    if (!this.canCastVote(campaign, voucher, user)) {
       return null;
     }
 
-    const vote = this.buildVote(campaign, candidate, voucherId);
+    const vote = this.buildVote(campaign, candidate, voucher.id);
 
     try {
       const id = await this.votesService.create(vote);
@@ -43,7 +44,7 @@ export class VotingService {
 
   canCastVote(
     campaign?: CampaignPublic,
-    voucherId?: string,
+    voucher?: VotingVoucher,
     user?: User
   ): boolean {
     const votingMechanism = campaign?.settings?.votingMechanism;
@@ -53,7 +54,7 @@ export class VotingService {
         return true;
       }
       case VotingMechanism.Voucher: {
-        return this.canCastVoucherVote(voucherId);
+        return this.canCastVoucherVote(voucher);
       }
       case VotingMechanism.InviteOnly: {
         return this.canCastInviteOnlyVote(user);
@@ -102,8 +103,8 @@ export class VotingService {
     return value;
   }
 
-  private canCastVoucherVote(voucherId?: string): boolean {
-    return !!voucherId;
+  private canCastVoucherVote(voucher?: VotingVoucher): boolean {
+    return !!voucher && voucher.isSpent === false && voucher.isValid === true;
   }
 
   private canCastInviteOnlyVote(user?: User): boolean {

@@ -50,6 +50,7 @@ export class CampaignVoucherDispenseryComponent {
       issueDate: new Date(),
       isValid: true,
       validUntilDate: voucherExpirationDate,
+      isSpent: false,
     };
 
     return voucher;

@@ -3,6 +3,7 @@ import { CampaignCandidatePublic } from 'src/app/campaigns.module/models/campaig
 import { CampaignPublic } from 'src/app/campaigns.module/models/campaign-public.model';
 import { User } from 'src/app/users.module/models/user.model';
 import { VotingService } from 'src/app/votes.module/services/voting.service';
+import { VotingVoucher } from '../../models/voting-voucher.model';
 
 @Component({
   selector: 'app-voting',
@@ -10,7 +11,7 @@ import { VotingService } from 'src/app/votes.module/services/voting.service';
 })
 export class VotingComponent {
   @Input() campaign: CampaignPublic;
-  @Input() voucherId?: string;
+  @Input() voucher?: VotingVoucher;
   @Input() user?: User;
 
   selectedCandidate?: CampaignCandidatePublic;
@@ -25,7 +26,7 @@ export class VotingComponent {
       const response = await this.votingService.castVote(
         this.campaign,
         this.selectedCandidate,
-        this.voucherId,
+        this.voucher,
         this.user
       );
       this.isVoteCastSuccessful = !!response;
