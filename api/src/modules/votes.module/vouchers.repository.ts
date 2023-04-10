@@ -48,6 +48,7 @@ export class VouchersRepository {
     const data = {
       campaignId: dto.campaignId,
       issueDate: dto.issueDate,
+      isSpent: dto.isSpent,
       validUntilDate: dto.validUntilDate ?? null,
       designatedUserId: dto.designatedUserId ?? null,
       deleteDate: dto.deleteDate ?? null,
