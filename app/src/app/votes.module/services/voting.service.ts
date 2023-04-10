@@ -29,7 +29,7 @@ export class VotingService {
       return null;
     }
 
-    const vote = this.buildVote(campaign, candidate, voucher.id);
+    const vote = this.buildVote(campaign, candidate, voucher?.id);
 
     try {
       const id = await this.votesService.create(vote);
@@ -68,7 +68,7 @@ export class VotingService {
   private buildVote(
     campaign: CampaignPublic,
     candidate: CampaignCandidatePublic,
-    voucherId: string
+    voucherId?: string
   ): Vote {
     const vote = new Vote();
 
