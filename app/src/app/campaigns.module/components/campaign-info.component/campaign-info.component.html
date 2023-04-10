@@ -1,5 +1,5 @@
 <div class="m-5 d-flex flex-column" *ngIf="!!campaign">
-  <div *ngIf="this.isUserAdmin">
+  <div *ngIf="isUserAdmin">
     <a
       class="btn btn-outline-primary m-3 ms-0"
       [routerLink]="[
@@ -19,7 +19,7 @@
     <h5 *ngIf="!!campaign.publicLink">
       Public link:
       <span class="btn-link h5 clickable" (click)="openCampaignPublicLink()">{{
-        this.qualifiedPublicLink
+        qualifiedPublicLink
       }}</span>
     </h5>
     <div class="d-flex flex-column">
@@ -36,7 +36,7 @@
   <div class="row">
     <app-campaign-encryption-keys
       class="col-lg-6"
-      *ngIf="this.isUserAdmin"
+      *ngIf="isUserAdmin"
       [campaign]="campaign"
     ></app-campaign-encryption-keys>
     <app-campaign-voter-input
@@ -46,23 +46,20 @@
     ></app-campaign-voter-input>
     <app-campaign-voting-control
       class="col-6"
-      *ngIf="
-        !!this.campaign.settings?.isManualVoteStartEndEnabled &&
-        this.isUserAdmin
-      "
-      [campaign]="this.campaign"
+      *ngIf="!!campaign.settings?.isManualVoteStartEndEnabled && isUserAdmin"
+      [campaign]="campaign"
       [onStartStopCallback]="onVotingStartStopCallback.bind(this)"
     ></app-campaign-voting-control>
     <app-campaign-vote-audit
       class="col-6"
-      *ngIf="!this.campaign.isBeforeVotingStart()"
-      [campaign]="this.campaign"
-      [isUserAdmin]="this.isUserAdmin"
+      *ngIf="!campaign.isBeforeVotingStart()"
+      [campaign]="campaign"
+      [isUserAdmin]="isUserAdmin"
     ></app-campaign-vote-audit>
     <app-campaign-voucher-dispensery
       class="col-6"
       [campaign]="campaign"
-      *ngIf="campaign.isVotingActive()"
+      *ngIf="isVoucherCampaign && campaign.isVotingActive()"
     ></app-campaign-voucher-dispensery>
   </div>
 </div>

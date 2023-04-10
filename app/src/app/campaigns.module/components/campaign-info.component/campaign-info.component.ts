@@ -19,6 +19,7 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
   qualifiedPublicLink: string;
 
   isInviteOnlyCampaign = false;
+  isVoucherCampaign = false;
   isUserAdmin = false;
 
   constructor(
@@ -43,6 +44,8 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
 
     this.isInviteOnlyCampaign =
       this.campaign.settings.votingMechanism === VotingMechanism.InviteOnly;
+    this.isVoucherCampaign =
+      this.campaign.settings.votingMechanism === VotingMechanism.Voucher;
 
     this.isUserAdmin = this.campaignPermissionsService.isAdmin(this.campaign);
 
