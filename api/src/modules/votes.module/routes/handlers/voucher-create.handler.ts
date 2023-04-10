@@ -80,6 +80,7 @@ export class VoucherCreateHandler {
         designatedUserId: usersMap[username].id,
         issueDate: now,
         deleteDate: null,
+        isSpent: false,
       });
     });
 
