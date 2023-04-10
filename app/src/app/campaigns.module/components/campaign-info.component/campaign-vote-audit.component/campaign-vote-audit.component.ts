@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Campaign } from 'src/app/campaigns.module/models/campaign.model';
-import { VoteAuditService } from 'src/app/votes.module/services/vote-audit.service';
+import { VoteProcessingService } from 'src/app/votes.module/services/vote-processing.service';
 import { VotesService } from 'src/app/votes.module/services/votes.service';
 import { CampaignPrivateKeyAccessModalComponent } from './campaign-key-access-modal.component/campaign-key-access-modal.component';
 import { VoteAuditResult } from 'src/app/votes.module/models/vote-audit-result.model';
@@ -28,7 +28,7 @@ export class CampaignVoteAuditComponent implements OnInit {
 
   constructor(
     private readonly votesService: VotesService,
-    private readonly voteAuditService: VoteAuditService
+    private readonly voteAuditService: VoteProcessingService
   ) {}
 
   async ngOnInit(): Promise<void> {

@@ -12,7 +12,7 @@ import { VoteAuditResult } from '../models/vote-audit-result.model';
 @Injectable({
   providedIn: 'root',
 })
-export class VoteAuditService {
+export class VoteProcessingService {
   constructor(
     private readonly votesService: VotesService,
     private readonly campaignsService: CampaignsService,
@@ -25,7 +25,6 @@ export class VoteAuditService {
   ): Promise<VoteAuditResult> {
     const campaign = await this.campaignsService.get(campaignId);
 
-    // TODO: implement batch processing
     const votes = await this.votesService.getAllCampaignVotes(campaignId);
 
     try {
