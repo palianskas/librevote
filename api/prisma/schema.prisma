@@ -29,6 +29,7 @@ model Campaign {
   candidates     CampaignCandidate[]
   settings       CampaignSettings?
   votingVouchers VotingVoucher[]
+  results        CampaignResults?
 }
 
 model CampaignUser {
@@ -51,12 +52,13 @@ model CampaignPublicLink {
 }
 
 model CampaignCandidate {
-  id          String   @id @default(cuid())
+  id          String            @id @default(cuid())
   name        String
   description String
   index       Int
-  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  campaign    Campaign          @relation(fields: [campaignId], references: [id])
   campaignId  String
+  results     CandidateResults?
 }
 
 model CampaignSettings {
@@ -87,6 +89,23 @@ model Vote {
   value      String
   createDate DateTime
   isInvalid  Boolean  @default(false)
+}
+
+model CampaignResults {
+  id               String             @id @default(cuid())
+  campaignId       String             @unique()
+  totalVoteCount   String
+  candidateResults CandidateResults[]
+  campaign         Campaign           @relation(fields: [campaignId], references: [id])
+}
+
+model CandidateResults {
+  id                String            @id @default(cuid())
+  campaignResultsId String
+  candidateId       String            @unique()
+  voteCount         String
+  candidate         CampaignCandidate @relation(fields: [candidateId], references: [id])
+  campaignResults   CampaignResults   @relation(fields: [campaignResultsId], references: [id])
 }
 
 model District {

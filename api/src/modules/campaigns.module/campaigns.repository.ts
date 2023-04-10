@@ -126,6 +126,15 @@ export class CampaignsRepository {
         publicLinks: true,
         candidates: true,
         settings: true,
+        results: {
+          include: {
+            candidateResults: {
+              include: {
+                candidate: true,
+              },
+            },
+          },
+        },
       };
     }
 

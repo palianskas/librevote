@@ -3,6 +3,7 @@ import {
   CampaignCandidatePublicDto,
 } from '../campaign-candidate/campaign-candidate.dto';
 import { CampaignPublicLinkDto } from '../campaign-public-link/campaign-public-link.dto';
+import { CampaignResultsDto } from '../campaign-results/campaign-results.dto';
 import {
   CampaignSettingsDto,
   CampaignSettingsPublicDto,
@@ -21,6 +22,7 @@ export class CampaignDto {
   publicLink: CampaignPublicLinkDto;
   candidates: CampaignCandidateDto[];
   settings: CampaignSettingsDto;
+  results?: CampaignResultsDto;
 
   static map(entity: Campaign, includePubKey = false): CampaignDto {
     const dto = new CampaignDto();
@@ -51,6 +53,10 @@ export class CampaignDto {
     dto.settings = !!entity.settings
       ? CampaignSettingsDto.map(entity.settings)
       : CampaignSettingsDto.default;
+
+    if (entity.results) {
+      dto.results = CampaignResultsDto.map(entity.results);
+    }
 
     return dto;
   }
