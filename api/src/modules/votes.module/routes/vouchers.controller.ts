@@ -31,7 +31,7 @@ export class VouchersController {
   ) {}
 
   @Get(':id')
-  async get(@Param() id: string): Promise<VotingVoucherDto> {
+  async get(@Param('id') id: string): Promise<VotingVoucherDto> {
     const voucher = await this.voucherService.get(id);
 
     if (!voucher) {
@@ -108,8 +108,6 @@ export class VouchersController {
     entity.deleteDate = new Date();
 
     const dto = VotingVoucherDto.map(entity);
-
-    // console.log(entity, dto);
 
     await this.voucherService.update(dto);
   }
