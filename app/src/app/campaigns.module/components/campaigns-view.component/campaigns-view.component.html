@@ -21,8 +21,8 @@
         class="clickable clickable-bg"
       >
         <td>{{ campaign.name }}</td>
-        <td>{{ campaign.startDate?.toLocaleString() ?? "(Manual start)" }}</td>
-        <td>{{ campaign.endDate?.toLocaleString() ?? "(Manual stop)" }}</td>
+        <td>{{ getDisplayableDate(campaign.startDate) }}</td>
+        <td>{{ getDisplayableDate(campaign.endDate) }}</td>
         <td>
           <span *ngFor="let user of campaign.campaignUsers; let last = last"
             >{{ user.user.name }}{{ !last ? ", " : "" }}</span

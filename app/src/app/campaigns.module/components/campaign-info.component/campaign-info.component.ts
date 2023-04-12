@@ -6,6 +6,7 @@ import { VotingMechanism } from '../../models/campaign-settings/campaign-setting
 import { Campaign } from '../../models/campaign.model';
 import { CampaignsService } from '../../services/campaigns.service';
 import { CampaignPermissionsService } from '../../services/campaign-permissions.service';
+import { StringHelpers } from 'src/app/encryption.module/string.helpers';
 
 @Component({
   selector: 'app-campaign-info',
@@ -75,6 +76,10 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
     );
 
     window.open(publicLink, '_blank');
+  }
+
+  getDisplayableDate(date?: Date): string {
+    return StringHelpers.dateToString(date);
   }
 
   private async fetchCampaign(id: string): Promise<Campaign> {

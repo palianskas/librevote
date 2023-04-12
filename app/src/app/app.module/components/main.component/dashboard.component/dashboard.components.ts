@@ -4,6 +4,7 @@ import { CampaignsService } from 'src/app/campaigns.module/services/campaigns.se
 import { RouteNames } from 'src/app/app.module/app.routes';
 import { Campaign } from 'src/app/campaigns.module/models/campaign.model';
 import { Router } from '@angular/router';
+import { StringHelpers } from 'src/app/encryption.module/string.helpers';
 
 class CampaignOverviewContainer {
   totalCount: number;
@@ -36,6 +37,10 @@ export class DashboardComponent implements OnInit {
 
   openCampaign(id: string): void {
     this.router.navigate([RouteNames.campaigns.index, id]);
+  }
+
+  getDisplayableDate(date?: Date): string {
+    return StringHelpers.dateToString(date);
   }
 
   private buildCampaignOverview(

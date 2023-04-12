@@ -35,8 +35,12 @@
                 class="clickable clickable-bg"
               >
                 <td>{{ campaign.name }}</td>
-                <td>{{ campaign.startDate?.toLocaleString() ?? "" }}</td>
-                <td>{{ campaign.endDate?.toLocaleString() ?? "" }}</td>
+                <td>
+                  {{ getDisplayableDate(campaign.startDate) }}
+                </td>
+                <td>
+                  {{ getDisplayableDate(campaign.endDate) }}
+                </td>
               </tr>
             </tbody>
           </table>

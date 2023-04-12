@@ -4,6 +4,7 @@ import { RouteNames } from 'src/app/app.module/app.routes';
 import { KeyHelpers } from 'src/app/encryption.module/key.helpers';
 import { Campaign } from '../../models/campaign.model';
 import { CampaignsService } from '../../services/campaigns.service';
+import { StringHelpers } from 'src/app/encryption.module/string.helpers';
 
 @Component({
   selector: 'app-campaigns-view',
@@ -30,5 +31,9 @@ export class CampaignsViewComponent implements OnInit {
 
   getDisplayablePubKey(pubKey?: string): string {
     return KeyHelpers.getDisplayableKey(pubKey);
+  }
+
+  getDisplayableDate(date?: Date): string {
+    return StringHelpers.dateToString(date);
   }
 }
