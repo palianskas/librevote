@@ -1,5 +1,5 @@
 export enum CampaignUserRole {
   Admin = 'Admin',
-  Overseer = 'Overseer',
+  Assistant = 'Assistant',
   Volunteer = 'Volunteer',
 }

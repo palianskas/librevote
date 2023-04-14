@@ -42,13 +42,8 @@ export class CampaignsService {
   }
 
   hasVoteReadAccess(user: User, campaign: Campaign): boolean {
-    const campaignUser = campaign.campaignUsers?.find(
+    return !!campaign.campaignUsers?.some(
       (campaignUser) => campaignUser.userId === user.id,
-    );
-
-    return (
-      campaignUser?.role === CampaignUserRole.Admin ||
-      campaignUser?.role === CampaignUserRole.Overseer
     );
   }
 
@@ -61,17 +56,9 @@ export class CampaignsService {
   }
 
   hasVoucherCreateAccess(user: User, campaign: Campaign): boolean {
-    const permittedRoles = [CampaignUserRole.Admin, CampaignUserRole.Overseer];
-
-    const campaignUser = campaign.campaignUsers?.find(
+    return !!campaign.campaignUsers?.some(
       (campaignUser) => campaignUser.userId === user.id,
     );
-
-    if (!campaignUser) {
-      return false;
-    }
-
-    return permittedRoles.includes(CampaignUserRole[campaignUser.role]);
   }
 
   isBeforeVotingStart(campaign: Campaign, now = new Date()): boolean {
