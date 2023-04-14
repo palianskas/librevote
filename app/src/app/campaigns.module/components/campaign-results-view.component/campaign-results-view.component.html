@@ -19,6 +19,11 @@
         [campaign]="campaign"
         [onCountFinished]="onCountFinished.bind(this)"
       ></app-campaign-vote-count>
+      <div *ngIf="!!resultsContainer" class="d-flex align-items-center">
+        <app-campaign-results-save
+          [results]="resultsContainer.results"
+        ></app-campaign-results-save>
+      </div>
     </div>
   </div>
   <div class="row" *ngIf="!!resultsContainer">

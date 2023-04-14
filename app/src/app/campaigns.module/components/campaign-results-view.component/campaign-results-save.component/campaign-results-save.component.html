@@ -1,0 +1,56 @@
+<div>
+  <div *ngIf="isSaveComplete">
+    <span class="text-success">Results saved</span>
+  </div>
+  <div *ngIf="!isSaveComplete">
+    <div *ngIf="!isToggled">
+      <button class="btn btn-outline-primary" (click)="isToggled = true">
+        Save encrypted results
+      </button>
+    </div>
+    <div *ngIf="isToggled">
+      <div class="row">
+        <div class="d-flex align-items-center">
+          <div>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              required
+              [(ngModel)]="password"
+              name="password"
+              placeholder="Password"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-check form-switch flex-shrink-0 ms-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [checked]="isForceSaveEnabled"
+              (change)="isForceSaveEnabled = !isForceSaveEnabled"
+              id="input-is-force-save"
+            />
+            <label class="form-check-label" for="input-is-force-save"
+              >Force save
+            </label>
+          </div>
+          <div class="ms-2">
+            <button
+              class="btn btn-outline-primary"
+              [disabled]="!password"
+              (click)="onConfirm()"
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="isResultAlreadySaved">
+        <span>
+          Results are already saved. 'Force save' is required to overwrite them.
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

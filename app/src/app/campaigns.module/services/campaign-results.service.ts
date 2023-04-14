@@ -36,9 +36,10 @@ export class CampaignResultsService {
     return campaignPublicLink;
   }
 
-  async save(dto: CampaignResultsDto): Promise<string> {
+  async save(dto: CampaignResultsDto, force = false): Promise<string> {
     const request: ICampaignResultsSaveRequest = {
       dto: dto,
+      force: force,
     };
 
     const response = await this.campaignResultsApi.save(request);
