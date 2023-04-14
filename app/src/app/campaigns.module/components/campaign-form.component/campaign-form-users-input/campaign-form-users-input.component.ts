@@ -14,8 +14,7 @@ export class CampaignFormUsersInputComponent implements OnInit {
 
   availableRoles: CampaignUserRole[] = [
     CampaignUserRole.Admin,
-    CampaignUserRole.Overseer,
-    CampaignUserRole.Volunteer,
+    CampaignUserRole.Assistant,
   ];
 
   isNewUserFormSubmitted = false;
