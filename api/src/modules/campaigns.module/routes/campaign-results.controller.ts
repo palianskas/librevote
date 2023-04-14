@@ -1,24 +1,29 @@
 import {
+  BadRequestException,
   Body,
   Controller,
+  ForbiddenException,
   Get,
   NotFoundException,
   Param,
   Post,
+  Req,
 } from '@nestjs/common';
-import { Public } from 'src/modules/auth.module/guards/guard-activators.decorator';
 import { CampaignResultsService } from '../campaign-results/campaign-results.service';
 import {
   ICampaignResultsSaveRequest,
   ICampaignResultsSaveResponse,
 } from './models/campaign-results-contracts.model';
 import { CampaignResultsDto } from '../models/campaign-results/campaign-results.dto';
+import { CampaignsService } from '../campaigns.service';
+import { IAuthenticatedRequest } from 'src/modules/auth.module/routes/models/auth-contracts.model';
+import { User } from '@prisma/client';
 
-@Public()
 @Controller('campaign-results')
 export class CampaignResultsController {
   constructor(
     private readonly campaignResultsService: CampaignResultsService,
+    private readonly campaignsService: CampaignsService,
   ) {}
 
   @Get(':id')
@@ -36,9 +41,14 @@ export class CampaignResultsController {
 
   @Post()
   async save(
-    @Body() request: ICampaignResultsSaveRequest,
+    @Req() request: IAuthenticatedRequest,
+    @Body() saveRequest: ICampaignResultsSaveRequest,
   ): Promise<ICampaignResultsSaveResponse> {
-    const dto = request.dto;
+    const user = request.user;
+
+    await this.validateSaveRequest(user, saveRequest);
+
+    const dto = saveRequest.dto;
 
     const id = await this.campaignResultsService.save(dto);
 
@@ -47,5 +57,28 @@ export class CampaignResultsController {
     };
 
     return response;
+  }
+
+  private async validateSaveRequest(
+    user: User,
+    request: ICampaignResultsSaveRequest,
+  ): Promise<void> {
+    const campaign = await this.campaignsService.get(request.dto.campaignId);
+
+    if (!campaign) {
+      throw new BadRequestException(
+        'Cannot save results for non-existant campaign',
+      );
+    }
+
+    if (!this.campaignsService.hasVoteManagementAccess(user, campaign)) {
+      throw new ForbiddenException();
+    }
+
+    if (!!campaign.results && !request.force) {
+      throw new BadRequestException(
+        `Campaign ${campaign.id} already has saved results`,
+      );
+    }
   }
 }

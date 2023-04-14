@@ -22,7 +22,24 @@ export class CampaignResultsRepository {
     return campaignResults;
   }
 
+  async search(filter: any): Promise<CampaignResults[]> {
+    const query = this.buildQuery(filter);
+
+    const campaignResults = await this.dataService.campaignResults.findMany(
+      query,
+    );
+
+    return campaignResults;
+  }
+
   async save(dto: CampaignResultsDto): Promise<CampaignResults> {
+    const candidateResults =
+      dto.candidateResults?.map((result) => ({
+        id: result.id,
+        voteCount: result.voteCount,
+        candidateId: result.candidateId,
+      })) ?? [];
+
     const result = await this.dataService.campaignResults.upsert({
       where: {
         campaignId: dto.campaignId,
@@ -32,7 +49,7 @@ export class CampaignResultsRepository {
         totalVoteCount: dto.totalVoteCount,
         candidateResults: {
           createMany: {
-            data: dto.candidateResults ?? [],
+            data: candidateResults,
           },
         },
       },
@@ -41,7 +58,7 @@ export class CampaignResultsRepository {
         candidateResults: {
           deleteMany: {},
           createMany: {
-            data: dto.candidateResults ?? [],
+            data: candidateResults,
           },
         },
       },

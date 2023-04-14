@@ -15,6 +15,9 @@ import { CampaignPublicLinksController } from './routes/campaign-public-links.co
 import { CampaignsController } from './routes/campaigns.controller';
 import { CampaignUpdateHandler } from './routes/handlers/campaign-update.handler';
 import { CampaignVotingControlHandler } from './routes/handlers/campaign-voting-control.handler';
+import { CampaignResultsController } from './routes/campaign-results.controller';
+import { CampaignResultsService } from './campaign-results/campaign-results.service';
+import { CampaignResultsRepository } from './campaign-results/campaign-results.repository';
 
 @Module({
   imports: [DataModule, CoreModule],
@@ -30,11 +33,14 @@ import { CampaignVotingControlHandler } from './routes/handlers/campaign-voting-
     CampaignCandidatesRepository,
     CampaignCandidatesService,
     CampaignVotingControlHandler,
+    CampaignResultsService,
+    CampaignResultsRepository,
   ],
   controllers: [
     CampaignsController,
     CampaignPublicLinksController,
     CampaignCandidatesController,
+    CampaignResultsController,
   ],
   exports: [CampaignsService],
 })
