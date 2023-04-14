@@ -36,7 +36,7 @@ export class CampaignResultsRepository {
     const candidateResults =
       dto.candidateResults?.map((result) => ({
         id: result.id,
-        voteCount: Buffer.from(dto.totalVoteCount, 'utf8'),
+        voteCount: Buffer.from(result.voteCount, 'utf8'),
         candidateId: result.candidateId,
       })) ?? [];
 
