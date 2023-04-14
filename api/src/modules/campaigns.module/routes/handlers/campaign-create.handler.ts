@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CampaignsService } from 'src/modules/campaigns.module/campaigns.service';
 import { CampaignUserRole } from 'src/modules/campaigns.module/models/campaign-user/campaign-user-role.enum';
@@ -55,12 +55,14 @@ export class CampaignCreateHandler {
     }
   }
 
-  private validateRequest(request: ICampaignCreateRequest): boolean {
+  private validateRequest(request: ICampaignCreateRequest): void {
     const dto = request.dto;
 
     const isDateOverlap =
       !!dto.startDate && !!dto.endDate && dto.startDate >= dto.endDate;
 
-    return isDateOverlap;
+    if (isDateOverlap) {
+      throw new BadRequestException('Start date cannot be before end date.');
+    }
   }
 }
