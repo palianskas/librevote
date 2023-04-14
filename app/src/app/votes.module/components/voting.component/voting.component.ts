@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CampaignCandidatePublic } from 'src/app/campaigns.module/models/campaign-candidates/campaign-candidate-public.model';
 import { CampaignPublic } from 'src/app/campaigns.module/models/campaign-public.model';
 import { User } from 'src/app/users.module/models/user.model';
@@ -9,17 +9,26 @@ import { VotingVoucher } from '../../models/voting-voucher.model';
   selector: 'app-voting',
   templateUrl: './voting.component.html',
 })
-export class VotingComponent {
+export class VotingComponent implements OnInit {
   @Input() campaign: CampaignPublic;
   @Input() voucher?: VotingVoucher;
   @Input() user?: User;
 
+  candidates: CampaignCandidatePublic[];
   selectedCandidate?: CampaignCandidatePublic;
 
   isVoteCastDone = false;
   isVoteCastSuccessful = false;
 
   constructor(private readonly votingService: VotingService) {}
+
+  ngOnInit(): void {
+    this.candidates = this.campaign.candidates.sort(
+      (x, y) => x.index - y.index
+    );
+
+    console.log(this.candidates, this.campaign.candidates);
+  }
 
   async vote() {
     try {
