@@ -27,7 +27,12 @@ export class CampaignResultsSaveComponent {
       return;
     }
 
-    const dto = CampaignResultsDto.map(this.results);
+    const encryptedResults = this.campaignResultsService.encryptResults(
+      this.results,
+      this.password
+    );
+
+    const dto = CampaignResultsDto.map(encryptedResults);
 
     try {
       await this.campaignResultsService.save(dto, this.isForceSaveEnabled);

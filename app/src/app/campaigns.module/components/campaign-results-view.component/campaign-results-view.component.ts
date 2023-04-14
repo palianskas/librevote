@@ -4,7 +4,11 @@ import { Campaign } from '../../models/campaign.model';
 import { CampaignsService } from '../../services/campaigns.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CampaignResultsContainer } from '../../models/campaign-results/campaign-results-container.model';
+import {
+  CampaignResultsContainer,
+  ResultsSource,
+} from '../../models/campaign-results/campaign-results-container.model';
+import { CampaignResults } from '../../models/campaign-results/campaign-results.model';
 
 @Component({
   selector: 'app-campaign-vote-count-view',
@@ -25,6 +29,10 @@ export class CampaignResultsViewComponent implements OnInit, OnDestroy {
     private readonly router: Router
   ) {}
 
+  get isResultsSaveEnabled(): boolean {
+    return this.resultsContainer.source === ResultsSource.Calculation;
+  }
+
   async ngOnInit(): Promise<void> {
     this.paramsSubscription = this.route.params.subscribe(async (params) => {
       const id = params['id'];
@@ -43,13 +51,27 @@ export class CampaignResultsViewComponent implements OnInit, OnDestroy {
     this.resultsContainer = results;
 
     if (this.resultsContainer.isCountSuccessful) {
+      this.resultsContainer.source = ResultsSource.Calculation;
+
       this.resultsContainer.results.candidateResults.forEach(
         (result) =>
           (result.candidate = this.campaign.candidates.find(
             (c) => c.id === result.candidateId
           ))
       );
+
+      this.initResultsStructure(this.resultsContainer.results);
     }
+  }
+
+  onResultsDecrypted(results: CampaignResults): void {
+    this.resultsContainer = {
+      results: results,
+      isCountSuccessful: true,
+      source: ResultsSource.Storage,
+    };
+
+    this.initResultsStructure(this.resultsContainer.results);
   }
 
   private async initCampaign(id: string): Promise<void> {
@@ -60,5 +82,11 @@ export class CampaignResultsViewComponent implements OnInit, OnDestroy {
     if (!this.campaign.isAfterVotingEnd()) {
       this.router.navigate([RouteNames.campaigns.index, this.campaign.id]);
     }
+  }
+
+  private initResultsStructure(results: CampaignResults) {
+    results.candidateResults = results.candidateResults?.sort(
+      (x, y) => x.candidate.index - y.candidate.index
+    );
   }
 }

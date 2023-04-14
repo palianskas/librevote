@@ -40,7 +40,7 @@ export class CandidateResultsDto {
   id?: string;
   candidateId: string;
   voteCount: string;
-  campaignResultsId: string;
+  campaignResultsId?: string;
   candidate?: CampaignCandidateDto | null;
   campaignResults?: CampaignResultsDto | null;
 

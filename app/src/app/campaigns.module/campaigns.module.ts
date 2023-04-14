@@ -30,6 +30,7 @@ import { CampaignResultsViewComponent } from './components/campaign-results-view
 import { CampaignResultsDisplayComponent } from './components/campaign-results-view.component/campaign-results-display.component/campaign-results-display.component';
 import { VoteCountFailureDisplayComponent } from './components/campaign-results-view.component/vote-count-failure-display.component/vote-count-failure-display.component';
 import { CampaignResultsSaveComponent } from './components/campaign-results-view.component/campaign-results-save.component/campaign-results-save.component';
+import { CampaignSavedResultsViewComponent } from './components/campaign-results-view.component/campaign-saved-results-view.component/campaign-saved-results-view.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { CampaignResultsSaveComponent } from './components/campaign-results-view
     CampaignResultsDisplayComponent,
     VoteCountFailureDisplayComponent,
     CampaignResultsSaveComponent,
+    CampaignSavedResultsViewComponent,
   ],
   imports: [
     CommonModule,

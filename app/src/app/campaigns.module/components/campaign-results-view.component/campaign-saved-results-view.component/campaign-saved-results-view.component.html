@@ -1,0 +1,38 @@
+<div class="d-flex align-items-center">
+  <div *ngIf="!isToggled">
+    <button class="btn btn-outline-primary" (click)="isToggled = true">
+      Decrypt saved results
+    </button>
+  </div>
+  <div *ngIf="isToggled">
+    <div class="row">
+      <div class="d-flex align-items-center">
+        <div>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            required
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Password"
+            autocomplete="off"
+          />
+        </div>
+        <div class="ms-2">
+          <button
+            class="btn btn-outline-primary"
+            [disabled]="!password"
+            (click)="onConfirm()"
+          >
+            Decrypt
+          </button>
+        </div>
+        <div class="ms-2" *ngIf="isPasswordIncorrect">
+          <span class="text-danger">Password is incorrect</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <i class="ms-2">Decrypt results that are already saved</i>
+</div>

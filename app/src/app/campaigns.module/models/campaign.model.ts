@@ -7,6 +7,10 @@ import {
   CampaignPublicLinkDto,
 } from './campaign-public-links/campaign-public-link.model';
 import {
+  CampaignResults,
+  CampaignResultsDto,
+} from './campaign-results/campaign-results.model';
+import {
   CampaignSettings,
   CampaignSettingsDto,
 } from './campaign-settings/campaign-settings.model';
@@ -24,6 +28,7 @@ export class Campaign {
   publicLink: CampaignPublicLink;
   candidates: CampaignCandidate[];
   settings: CampaignSettings;
+  results?: CampaignResults;
 
   isVotingActive(now = new Date()): boolean {
     const isBeforeVotingStart = this.isBeforeVotingStart(now);
@@ -63,6 +68,10 @@ export class Campaign {
       ? CampaignSettings.map(dto.settings)
       : CampaignSettings.default;
 
+    if (!!dto.results) {
+      entity.results = CampaignResults.map(dto.results);
+    }
+
     return entity;
   }
 }
@@ -79,6 +88,7 @@ export class CampaignDto {
   publicLink: CampaignPublicLinkDto;
   candidates: CampaignCandidateDto[];
   settings: CampaignSettingsDto;
+  results?: CampaignResultsDto;
 
   static map(data: any): CampaignDto {
     const dto = new CampaignDto();
@@ -108,6 +118,10 @@ export class CampaignDto {
     dto.settings = !!data.settings
       ? CampaignSettingsDto.map(data.settings)
       : CampaignSettingsDto.default;
+
+    if (!!data.results) {
+      dto.results = CampaignResultsDto.map(data.results);
+    }
 
     return dto;
   }

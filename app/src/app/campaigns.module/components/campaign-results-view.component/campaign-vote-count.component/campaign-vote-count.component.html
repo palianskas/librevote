@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center">
   <button class="btn btn-outline-primary" (click)="performVoteCount()">
-    <span *ngIf="!isCountInProgress"> Count </span>
+    <span *ngIf="!isCountInProgress"> Count votes </span>
     <img
       src="./assets/bootstrap-icons/arrow-repeat.svg"
       alt="Progress icon"
@@ -8,6 +8,7 @@
       *ngIf="isCountInProgress"
     />
   </button>
+  <i class="ms-2">Perform vote counting operation</i>
 </div>
 
 <app-campaign-key-access-modal

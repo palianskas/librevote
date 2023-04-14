@@ -14,16 +14,27 @@
     <div>
       <h3>Voting results</h3>
       <hr />
-      <app-campaign-vote-count
-        *ngIf="!resultsContainer"
-        [campaign]="campaign"
-        [onCountFinished]="onCountFinished.bind(this)"
-      ></app-campaign-vote-count>
-      <div *ngIf="!!resultsContainer" class="d-flex align-items-center">
-        <app-campaign-results-save
-          [results]="resultsContainer.results"
-        ></app-campaign-results-save>
+    </div>
+    <div class="d-flex">
+      <div class="row" *ngIf="!resultsContainer">
+        <div class="d-flex align-items-center">
+          <app-campaign-vote-count
+            [campaign]="campaign"
+            [onCountFinished]="onCountFinished.bind(this)"
+          ></app-campaign-vote-count>
+        </div>
+        <div class="d-flex align-items-center mt-2">
+          <app-campaign-saved-results-view
+            *ngIf="!!campaign.results"
+            [encryptedResults]="campaign.results"
+            [onResultsDecrypted]="onResultsDecrypted.bind(this)"
+          ></app-campaign-saved-results-view>
+        </div>
       </div>
+      <app-campaign-results-save
+        *ngIf="!!resultsContainer && isResultsSaveEnabled"
+        [results]="resultsContainer.results"
+      ></app-campaign-results-save>
     </div>
   </div>
   <div class="row" *ngIf="!!resultsContainer">
