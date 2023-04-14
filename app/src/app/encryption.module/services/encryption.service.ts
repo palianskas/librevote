@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BigInteger } from 'big-integer';
 import { random, pkcs5 } from 'node-forge';
-import { PaillierEncryptor } from '../encryption-domain/paillier-encryption-domain/paillier-encryptors';
 
 @Injectable({
   providedIn: 'root',
@@ -28,13 +26,5 @@ export class EncryptionService {
     const { saltedPassword, ..._ } = this.saltPassword(password, salt);
 
     return saltedPassword === saltedPasswordOther;
-  }
-
-  paillierEncrypt(message: BigInteger, pubKey: BigInteger): BigInteger {
-    const encryptor = new PaillierEncryptor();
-
-    const cipher = encryptor.encrypt(message, pubKey);
-
-    return cipher;
   }
 }

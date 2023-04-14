@@ -4,11 +4,11 @@ import { BigInteger } from 'big-integer';
 import { CampaignCandidatePublic } from 'src/app/campaigns.module/models/campaign-candidates/campaign-candidate-public.model';
 import { CampaignPublic } from 'src/app/campaigns.module/models/campaign-public.model';
 import { VotingMechanism } from 'src/app/campaigns.module/models/campaign-settings/campaign-settings.model';
-import { EncryptionService } from 'src/app/encryption.module/services/encryption.service';
 import { User } from 'src/app/users.module/models/user.model';
 import { Vote } from '../models/vote.model';
 import { VotesService } from './votes.service';
 import { VotingVoucher } from '../models/voting-voucher.model';
+import { EncryptionDomainFactory } from 'src/app/encryption.module/encryption-domain/encryption-domain.factory';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ import { VotingVoucher } from '../models/voting-voucher.model';
 export class VotingService {
   constructor(
     private readonly votesService: VotesService,
-    private readonly encryptionService: EncryptionService
+    private readonly encryptionDomainFactory: EncryptionDomainFactory
   ) {}
 
   public async castVote(
@@ -83,10 +83,7 @@ export class VotingService {
 
     const pubKey = bigInt(campaign.pubKey!);
 
-    const encryptedVoteValue = this.encryptionService.paillierEncrypt(
-      voteValue,
-      pubKey
-    );
+    const encryptedVoteValue = this.encryptVote(voteValue, pubKey);
 
     vote.value = encryptedVoteValue.toString();
 
@@ -100,6 +97,17 @@ export class VotingService {
     const value = bigInt(maxVoterCount).pow(candidateIndex);
 
     return value;
+  }
+
+  private encryptVote(vote: BigInteger, pubKey: BigInteger): BigInteger {
+    const privKey = bigInt.one; // stub
+
+    const encryptionDomain =
+      this.encryptionDomainFactory.getPaillierEncryptionDomain(pubKey, privKey);
+
+    const encryptedVote = encryptionDomain.encrypt(vote);
+
+    return encryptedVote;
   }
 
   private canCastVoucherVote(voucher?: VotingVoucher): boolean {
