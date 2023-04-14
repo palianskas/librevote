@@ -15,8 +15,8 @@ export class CampaignResultsService {
     return campaignResults;
   }
 
-  async create(dto: CampaignResultsDto): Promise<string> {
-    const campaignResults = await this.campaignResultsRepository.create(dto);
+  async save(dto: CampaignResultsDto): Promise<string> {
+    const campaignResults = await this.campaignResultsRepository.save(dto);
 
     return campaignResults.id;
   }

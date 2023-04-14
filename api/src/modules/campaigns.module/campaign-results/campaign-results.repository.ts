@@ -22,9 +22,12 @@ export class CampaignResultsRepository {
     return campaignResults;
   }
 
-  async create(dto: CampaignResultsDto): Promise<CampaignResults> {
-    const result = await this.dataService.campaignResults.create({
-      data: {
+  async save(dto: CampaignResultsDto): Promise<CampaignResults> {
+    const result = await this.dataService.campaignResults.upsert({
+      where: {
+        campaignId: dto.campaignId,
+      },
+      create: {
         campaignId: dto.campaignId,
         totalVoteCount: dto.totalVoteCount,
         candidateResults: {
@@ -33,11 +36,12 @@ export class CampaignResultsRepository {
           },
         },
       },
-      include: {
-        campaign: true,
+      update: {
+        totalVoteCount: dto.totalVoteCount,
         candidateResults: {
-          include: {
-            candidate: true,
+          deleteMany: {},
+          createMany: {
+            data: dto.candidateResults ?? [],
           },
         },
       },

@@ -7,11 +7,10 @@ import {
   Post,
 } from '@nestjs/common';
 import { Public } from 'src/modules/auth.module/guards/guard-activators.decorator';
-import { CampaignCandidateDto } from '../models/campaign-candidate/campaign-candidate.dto';
 import { CampaignResultsService } from '../campaign-results/campaign-results.service';
 import {
-  ICampaignResultsSaveRequest as ICampaignResultsCreateRequest,
-  ICampaignResultsSaveResponse as ICampaignResultsCreateResponse,
+  ICampaignResultsSaveRequest,
+  ICampaignResultsSaveResponse,
 } from './models/campaign-results-contracts.model';
 import { CampaignResultsDto } from '../models/campaign-results/campaign-results.dto';
 
@@ -36,14 +35,14 @@ export class CampaignResultsController {
   }
 
   @Post()
-  async create(
-    @Body() request: ICampaignResultsCreateRequest,
-  ): Promise<ICampaignResultsCreateResponse> {
+  async save(
+    @Body() request: ICampaignResultsSaveRequest,
+  ): Promise<ICampaignResultsSaveResponse> {
     const dto = request.dto;
 
-    const id = await this.campaignResultsService.create(dto);
+    const id = await this.campaignResultsService.save(dto);
 
-    const response: ICampaignResultsCreateResponse = {
+    const response: ICampaignResultsSaveResponse = {
       id: id,
     };
 
