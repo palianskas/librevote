@@ -36,13 +36,12 @@ export class CampaignResultsService {
     return campaignPublicLink;
   }
 
-  async create(dto: CampaignResultsDto, forceSave: boolean): Promise<string> {
+  async save(dto: CampaignResultsDto): Promise<string> {
     const request: ICampaignResultsSaveRequest = {
       dto: dto,
-      force: forceSave,
     };
 
-    const response = await this.campaignResultsApi.create(request);
+    const response = await this.campaignResultsApi.save(request);
 
     return response.id;
   }
@@ -62,7 +61,7 @@ export class CampaignResultsService {
           return null;
         });
       },
-      create: async (createRequest: ICampaignResultsSaveRequest) => {
+      save: async (createRequest: ICampaignResultsSaveRequest) => {
         const request = this.httpClient.post<ICampaignResultsSaveResponse>(
           apiUrl,
           createRequest,
@@ -81,7 +80,7 @@ export class CampaignResultsService {
 
 interface ICampaignResultsApi {
   get(id: string): Promise<CampaignResultsDto | null>;
-  create(
+  save(
     request: ICampaignResultsSaveRequest
   ): Promise<ICampaignResultsSaveResponse>;
 }
