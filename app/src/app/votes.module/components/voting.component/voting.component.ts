@@ -26,8 +26,6 @@ export class VotingComponent implements OnInit {
     this.candidates = this.campaign.candidates.sort(
       (x, y) => x.index - y.index
     );
-
-    console.log(this.candidates, this.campaign.candidates);
   }
 
   async vote() {
