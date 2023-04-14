@@ -8,6 +8,18 @@ import { EncryptionDomainFactory } from 'src/app/encryption.module/encryption-do
 import { Campaign } from 'src/app/campaigns.module/models/campaign.model';
 import { EncryptionDomain } from 'src/app/encryption.module/encryption-domain/encryption.domain';
 import { VoteAuditResult } from '../models/vote-audit-result.model';
+import { CampaignResults } from 'src/app/campaigns.module/models/campaign-results/campaign-results.model';
+import {
+  CampaignResultsContainer,
+  CampaignVoteCountFailureStatus,
+} from 'src/app/campaigns.module/models/campaign-results/campaign-results-container.model';
+import { CampaignCandidate } from 'src/app/campaigns.module/models/campaign-candidates/campaign-candidate.model';
+import { CandidateResults } from 'src/app/campaigns.module/models/campaign-results/candidate.results.model';
+
+class VoteCountResult {
+  totalVoteCount: number;
+  candidateVoteCounts: number[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -40,9 +52,123 @@ export class VoteProcessingService {
       };
 
       return result;
-    } catch {
+    } catch (e) {
       return { isSuccessful: false };
     }
+  }
+
+  public async executeCampaignVoteCount(
+    campaign: Campaign,
+    privateKey: string
+  ): Promise<CampaignResultsContainer> {
+    const privKey = bigInt(privateKey);
+    const pubKey = bigInt(campaign.pubKey);
+
+    const paillierEncryptionDomain =
+      this.encryptionDomainFactory.getPaillierEncryptionDomain(pubKey, privKey);
+
+    const votes = await this.votesService.getAllCampaignVotes(campaign.id);
+    const voteValues = votes.map((vote) => bigInt(vote.value));
+
+    if (votes.length < 1) {
+      const results: CampaignResultsContainer = {
+        isCountSuccessful: true,
+        results: {
+          campaignId: campaign.id,
+          totalVoteCount: '0',
+        },
+      };
+
+      return results;
+    }
+
+    const failureStatus = this.validateCampaignCountOperation(
+      pubKey,
+      voteValues,
+      campaign.settings.maxVoterCount,
+      paillierEncryptionDomain
+    );
+
+    if (!!failureStatus) {
+      const container: CampaignResultsContainer = {
+        isCountSuccessful: false,
+        failureStatus: failureStatus,
+      };
+
+      return container;
+    }
+
+    try {
+      const results = this.countCampaignVotes(
+        voteValues,
+        campaign,
+        paillierEncryptionDomain.decrypt.bind(paillierEncryptionDomain)
+      );
+
+      return { isCountSuccessful: true, results: results };
+    } catch {
+      return {
+        isCountSuccessful: false,
+        failureStatus: CampaignVoteCountFailureStatus.Other,
+      };
+    }
+  }
+
+  private validateCampaignCountOperation(
+    pubKey: BigInteger,
+    encryptedVotes: BigInteger[],
+    maxVoterCount: number,
+    encryptionDomain: EncryptionDomain<BigInteger>
+  ): CampaignVoteCountFailureStatus | null {
+    if (!this.validateEncryptionDomainKeyPair(encryptionDomain)) {
+      return CampaignVoteCountFailureStatus.KeyPairMismatch;
+    }
+
+    const areVotesValid = this.isVoteRangeValid(
+      pubKey,
+      maxVoterCount,
+      encryptedVotes,
+      0,
+      encryptedVotes.length,
+      encryptionDomain.decrypt.bind(encryptionDomain)
+    );
+
+    if (!areVotesValid) {
+      return CampaignVoteCountFailureStatus.InvalidVotesDetected;
+    }
+
+    return null;
+  }
+
+  private countCampaignVotes(
+    voteValues: BigInteger[],
+    campaign: Campaign,
+    decryptionFunc: (cipher: BigInteger) => BigInteger
+  ): CampaignResults {
+    const encryptedEncodedVotes = this.encodeVotes(
+      voteValues,
+      bigInt(campaign.pubKey)
+    );
+
+    const encodedVotes = decryptionFunc(encryptedEncodedVotes);
+
+    const voteCountResults = this.countVotes(
+      encodedVotes.toJSNumber(),
+      campaign.settings.maxVoterCount
+    );
+
+    const candidateResults = this.getCandidateResults(
+      voteCountResults.candidateVoteCounts,
+      campaign.candidates
+    );
+
+    const results: CampaignResults = {
+      campaignId: campaign.id,
+      totalVoteCount: voteCountResults.totalVoteCount.toString(),
+      candidateResults: candidateResults,
+    };
+
+    return results;
   }
 
   private validateVotes(
@@ -66,7 +192,7 @@ export class VoteProcessingService {
 
     const encryptedVoteValues = votes.map((vote) => bigInt(vote.value));
 
-    const invalidIndices = this.validateVotesBatch(
+    const invalidIndices = this.validateVoteRange(
       pubKey,
       campaign.settings.maxVoterCount,
       encryptedVoteValues,
@@ -90,7 +216,7 @@ export class VoteProcessingService {
     return value.eq(decipher);
   }
 
-  private validateVotesBatch(
+  private validateVoteRange(
     pubKey: BigInteger,
     maxVoterCount: number,
     encryptedVotes: BigInteger[],
@@ -98,19 +224,30 @@ export class VoteProcessingService {
     batchEndIndex: number,
     decryptionFunc: (cipher: BigInteger) => BigInteger
   ): number[] {
-    let encryptedVoteAggregate = encryptedVotes[batchStartIndex];
-
-    for (let i = batchStartIndex + 1; i < batchEndIndex; i++) {
-      encryptedVoteAggregate = encryptedVoteAggregate
-        .multiply(encryptedVotes[i])
-        .mod(pubKey.pow(2));
-    }
+    const encryptedVoteAggregate = this.encodeVotes(
+      encryptedVotes,
+      pubKey,
+      batchStartIndex,
+      batchEndIndex
+    );
 
     const value = decryptionFunc(encryptedVoteAggregate);
 
-    const voteCount = this.getVoteCount(value.toJSNumber(), maxVoterCount);
+    const { totalVoteCount } = this.countVotes(
+      value.toJSNumber(),
+      maxVoterCount
+    );
 
-    if (voteCount === batchEndIndex - batchStartIndex) {
+    if (
+      this.isVoteRangeValid(
+        pubKey,
+        maxVoterCount,
+        encryptedVotes,
+        batchStartIndex,
+        batchEndIndex,
+        decryptionFunc
+      )
+    ) {
       return [];
     }
 
@@ -118,7 +255,7 @@ export class VoteProcessingService {
       batchStartIndex + Math.floor((batchEndIndex - batchStartIndex) / 2);
 
     if (batchEndIndex - batchStartIndex > 1) {
-      const invalidLeftSideVoteIndices = this.validateVotesBatch(
+      const invalidLeftSideVoteIndices = this.validateVoteRange(
         pubKey,
         maxVoterCount,
         encryptedVotes,
@@ -126,7 +263,7 @@ export class VoteProcessingService {
         pivotIndex,
         decryptionFunc
       );
-      const invalidRightSideIndices = this.validateVotesBatch(
+      const invalidRightSideIndices = this.validateVoteRange(
         pubKey,
         maxVoterCount,
         encryptedVotes,
@@ -141,11 +278,36 @@ export class VoteProcessingService {
     }
   }
 
-  private getVoteCount(
+  private isVoteRangeValid(
+    pubKey: BigInteger,
+    maxVoterCount: number,
+    encryptedVotes: BigInteger[],
+    rangeStartIndex: number,
+    rangeEndIndex: number,
+    decryptionFunc: (cipher: BigInteger) => BigInteger
+  ): boolean {
+    const encryptedVoteAggregate = this.encodeVotes(
+      encryptedVotes,
+      pubKey,
+      rangeStartIndex,
+      rangeEndIndex
+    );
+    const value = decryptionFunc(encryptedVoteAggregate);
+
+    const { totalVoteCount } = this.countVotes(
+      value.toJSNumber(),
+      maxVoterCount
+    );
+
+    return totalVoteCount === rangeEndIndex - rangeStartIndex;
+  }
+
+  private countVotes(
     encodedVotesValue: number,
     maxVoterCount: number
-  ): number {
+  ): VoteCountResult {
     let totalVoteCount = 0;
+    const candidateVoteCounts = [];
 
     while (true) {
       if (encodedVotesValue == 0) {
@@ -154,12 +316,57 @@ export class VoteProcessingService {
 
       const candidateVoteCount = encodedVotesValue % maxVoterCount;
 
+      candidateVoteCounts.push(candidateVoteCount);
+
       totalVoteCount += candidateVoteCount;
 
       encodedVotesValue -= candidateVoteCount;
       encodedVotesValue /= maxVoterCount;
     }
 
-    return totalVoteCount;
+    return { totalVoteCount, candidateVoteCounts };
+  }
+
+  private encodeVotes(
+    voteValues: BigInteger[],
+    pubKey: BigInteger,
+    startIndex = 0,
+    endIndex = voteValues.length
+  ): BigInteger {
+    let voteAggregate = bigInt(voteValues[startIndex]);
+
+    for (let i = startIndex + 1; i < endIndex; i++) {
+      voteAggregate = voteAggregate.multiply(voteValues[i]).mod(pubKey.pow(2));
+    }
+
+    return voteAggregate;
+  }
+
+  private getCandidateResults(
+    candidateVoteCounts: number[],
+    candidates: CampaignCandidate[]
+  ): CandidateResults[] {
+    const results = candidates.map((candidate) => {
+      const result: CandidateResults = {
+        candidateId: candidate.id,
+        voteCount: candidateVoteCounts[candidate.index].toString(),
+      };
+
+      return result;
+    });
+
+    return results;
+  }
+
+  private encryptCampaignResults(
+    results: CampaignResults,
+    encryptionDomain: EncryptionDomain<string>
+  ): void {
+    results.totalVoteCount = encryptionDomain.encrypt(results.totalVoteCount);
+
+    results.candidateResults?.forEach(
+      (result) =>
+        (result.voteCount = encryptionDomain.encrypt(result.voteCount))
+    );
   }
 }

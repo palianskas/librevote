@@ -13,6 +13,18 @@
       >Edit</a
     >
     <button class="btn btn-outline-danger" (click)="delete()">Delete</button>
+    <a
+      class="btn btn-outline-primary m-3"
+      [routerLink]="[
+        '/',
+        routeNames.campaigns.index,
+        routeNames.campaigns.results.index,
+        campaign.id
+      ]"
+      *ngIf="campaign.isAfterVotingEnd()"
+      aria-current="page"
+      >View results</a
+    >
   </div>
   <div class="mb-3">
     <h1>Campaign: {{ campaign.name }}</h1>

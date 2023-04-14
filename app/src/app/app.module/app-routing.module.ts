@@ -8,6 +8,7 @@ import { CampaignPublicLinkViewComponent } from '../campaigns.module/components/
 import { CampaignsViewComponent } from '../campaigns.module/components/campaigns-view.component/campaigns-view.component';
 import { AuthGuard, RouteNames } from './app.routes';
 import { MainComponent } from './components/main.component/main.component';
+import { CampaignResultsViewComponent } from '../campaigns.module/components/campaign-results-view.component/campaign-results-view.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,15 @@ const routes: Routes = [
       {
         path: ':id',
         component: CampaignInfoComponent,
+      },
+      {
+        path: 'results',
+        children: [
+          {
+            path: ':id',
+            component: CampaignResultsViewComponent,
+          },
+        ],
       },
     ],
   },

@@ -5,10 +5,10 @@ import {
 import { CampaignResults, CampaignResultsDto } from './campaign-results.model';
 
 export class CandidateResults {
-  id: string;
+  id?: string;
   candidateId: string;
   voteCount: string;
-  campaignResultsId: string;
+  campaignResultsId?: string;
   candidate?: CampaignCandidate | null;
   campaignResults?: CampaignResults | null;
 

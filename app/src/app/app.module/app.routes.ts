@@ -15,6 +15,9 @@ export const RouteNames = {
     form: {
       index: 'form',
     },
+    results: {
+      index: 'results',
+    },
   },
   vote: {
     index: 'vote',

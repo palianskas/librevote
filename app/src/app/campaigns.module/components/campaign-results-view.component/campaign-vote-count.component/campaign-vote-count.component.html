@@ -1,0 +1,16 @@
+<div class="d-flex align-items-center">
+  <button class="btn btn-outline-primary" (click)="performVoteCount()">
+    <span *ngIf="!isCountInProgress"> Count </span>
+    <img
+      src="./assets/bootstrap-icons/arrow-repeat.svg"
+      alt="Progress icon"
+      class="loading-indicator"
+      *ngIf="isCountInProgress"
+    />
+  </button>
+</div>
+
+<app-campaign-key-access-modal
+  [campaignId]="campaign.id"
+  [onKeyAccessed]="this.onPrivateKeyAccessed.bind(this)"
+></app-campaign-key-access-modal>

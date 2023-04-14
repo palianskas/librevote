@@ -5,7 +5,7 @@ import {
 } from './candidate.results.model';
 
 export class CampaignResults {
-  id: string;
+  id?: string;
   campaignId: string;
   totalVoteCount: string;
   campaign?: Campaign | null;
