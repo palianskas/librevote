@@ -15,7 +15,7 @@ export class CandidateResultsDto {
 
     dto.id = entity.id;
     dto.candidateId = entity.candidateId;
-    dto.voteCount = entity.voteCount;
+    dto.voteCount = entity.voteCount.toString();
     dto.campaignResultsId = entity.campaignResultsId;
 
     dto.candidate =

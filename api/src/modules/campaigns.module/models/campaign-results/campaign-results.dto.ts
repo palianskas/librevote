@@ -14,7 +14,7 @@ export class CampaignResultsDto {
 
     dto.id = entity.id;
     dto.campaignId = entity.campaignId;
-    dto.totalVoteCount = entity.totalVoteCount;
+    dto.totalVoteCount = entity.totalVoteCount.toString();
 
     dto.campaign = entity.campaign && CampaignDto.map(entity.campaign);
     dto.candidateResults = CandidateResultsDto.mapList(entity.candidateResults);

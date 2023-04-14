@@ -36,7 +36,7 @@ export class CampaignResultsRepository {
     const candidateResults =
       dto.candidateResults?.map((result) => ({
         id: result.id,
-        voteCount: result.voteCount,
+        voteCount: Buffer.from(dto.totalVoteCount, 'utf8'),
         candidateId: result.candidateId,
       })) ?? [];
 
@@ -46,7 +46,7 @@ export class CampaignResultsRepository {
       },
       create: {
         campaignId: dto.campaignId,
-        totalVoteCount: dto.totalVoteCount,
+        totalVoteCount: Buffer.from(dto.totalVoteCount, 'utf8'),
         candidateResults: {
           createMany: {
             data: candidateResults,
@@ -54,7 +54,7 @@ export class CampaignResultsRepository {
         },
       },
       update: {
-        totalVoteCount: dto.totalVoteCount,
+        totalVoteCount: Buffer.from(dto.totalVoteCount, 'utf8'),
         candidateResults: {
           deleteMany: {},
           createMany: {

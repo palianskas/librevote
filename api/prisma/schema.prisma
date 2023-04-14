@@ -94,7 +94,7 @@ model Vote {
 model CampaignResults {
   id               String             @id @default(cuid())
   campaignId       String             @unique()
-  totalVoteCount   String
+  totalVoteCount   Bytes
   candidateResults CandidateResults[]
   campaign         Campaign           @relation(fields: [campaignId], references: [id])
 }
@@ -103,7 +103,7 @@ model CandidateResults {
   id                String            @id @default(cuid())
   campaignResultsId String
   candidateId       String            @unique()
-  voteCount         String
+  voteCount         Bytes
   candidate         CampaignCandidate @relation(fields: [candidateId], references: [id])
   campaignResults   CampaignResults   @relation(fields: [campaignResultsId], references: [id])
 }
