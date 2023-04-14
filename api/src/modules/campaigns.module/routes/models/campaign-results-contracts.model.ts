@@ -2,7 +2,6 @@ import { CampaignResultsDto } from '../../models/campaign-results/campaign-resul
 
 export interface ICampaignResultsSaveRequest {
   dto: CampaignResultsDto;
-  force: boolean;
 }
 
 export interface ICampaignResultsSaveResponse {
