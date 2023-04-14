@@ -1,0 +1,25 @@
+<div class="mb-3">
+  <h5 class="text-success">Vote count done</h5>
+  <b>Total votes: {{ results.totalVoteCount }}</b>
+</div>
+<div class="d-flex w-100 mb-3">
+  <div
+    class="d-flex justify-content-center align-items-center"
+    *ngFor="let candidateResult; index as index; of: results.candidateResults"
+    [style.width]="getResultsBarWidthPropValue(candidateResult)"
+    [style.backgroundColor]="getCandidateColor(index)"
+  >
+    <h5 class="fw-bold text-truncate p-2 m-0">
+      {{ candidateResult.candidate.name }}
+    </h5>
+  </div>
+</div>
+<div
+  class="d-flex align-items-center"
+  *ngFor="let candidateResult; index as index; of: results.candidateResults"
+>
+  <span class="dot" [style.backgroundColor]="getCandidateColor(index)"></span>
+  <h5 class="ms-2">
+    {{ getCandidateResultsSummary(candidateResult) }}
+  </h5>
+</div>

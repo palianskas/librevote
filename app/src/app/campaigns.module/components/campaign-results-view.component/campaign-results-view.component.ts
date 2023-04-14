@@ -20,7 +20,6 @@ export class CampaignResultsViewComponent implements OnInit, OnDestroy {
   campaign: Campaign;
 
   resultsContainer?: CampaignResultsContainer;
-  candidateColors: number[];
 
   constructor(
     private readonly campaignService: CampaignsService,
@@ -36,10 +35,6 @@ export class CampaignResultsViewComponent implements OnInit, OnDestroy {
       await this.initCampaign(id);
 
       this.validateCampaignStatus();
-
-      this.candidateColors = this.colorsService.getHueSpectrum(
-        this.campaign.candidates.length
-      );
     });
   }
 
@@ -58,34 +53,6 @@ export class CampaignResultsViewComponent implements OnInit, OnDestroy {
           ))
       );
     }
-  }
-
-  getResultsBarWidthPropValue(candidateResults: CandidateResults): string {
-    const percentage = this.getCandidateResultsPercentage(candidateResults);
-
-    return `calc(${percentage}% + ${percentage < 5 ? '25' : '0'}px)`;
-  }
-
-  getCandidateResultsPercentage(candidateResults: CandidateResults): number {
-    const candidateVoteCount = Number(candidateResults.voteCount);
-    const totalVoteCount = Number(this.resultsContainer.results.totalVoteCount);
-
-    return (candidateVoteCount / totalVoteCount) * 100;
-  }
-
-  getCandidateColor(candidateIndex: number): string {
-    const hue = this.candidateColors[candidateIndex];
-
-    const color = `hsl(${hue} 100% 67%)`;
-
-    return color;
-  }
-
-  getCandidateResultsSummary(candidateResults: CandidateResults): string {
-    const percentage =
-      this.getCandidateResultsPercentage(candidateResults).toFixed(3);
-
-    return `${candidateResults.candidate.name}: ${candidateResults.voteCount} vote(s) (${percentage}%)`;
   }
 
   private async initCampaign(id: string): Promise<void> {

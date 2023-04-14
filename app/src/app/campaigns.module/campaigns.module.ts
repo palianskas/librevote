@@ -27,6 +27,8 @@ import { CampaignVoucherDispenseryComponent } from './components/campaign-info.c
 import { CampaignVoucherDisplayModalComponent } from './components/campaign-info.component/campaign-voucher-dispensery.component/campaign-voucher-display-modal.component/campaign-voucher-display-modal.component';
 import { CampaignVoteCountComponent } from './components/campaign-results-view.component/campaign-vote-count.component/campaign-vote-count.component';
 import { CampaignResultsViewComponent } from './components/campaign-results-view.component/campaign-results-view.component';
+import { CampaignResultsDisplayComponent } from './components/campaign-results-view.component/campaign-results-display.component/campaign-results-display.component';
+import { VoteCountFailureDisplayComponent } from './components/campaign-results-view.component/vote-count-failure-display.component/vote-count-failure-display.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { CampaignResultsViewComponent } from './components/campaign-results-view
     CampaignVoucherDisplayModalComponent,
     CampaignResultsViewComponent,
     CampaignVoteCountComponent,
+    CampaignResultsDisplayComponent,
+    VoteCountFailureDisplayComponent,
   ],
   imports: [
     CommonModule,

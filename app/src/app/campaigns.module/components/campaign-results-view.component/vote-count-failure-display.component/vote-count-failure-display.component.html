@@ -1,0 +1,18 @@
+<h5 class="text-danger">Vote count failed</h5>
+<div [ngSwitch]="failureStatus">
+  <div *ngSwitchCase="0">
+    <p>
+      Provided encryption key pair did not match. Please ensure that the private
+      key matches the public key.
+    </p>
+  </div>
+  <div *ngSwitchCase="1">
+    <p>
+      Campaign contains invalid votes. Please perform a vote audit and remove
+      the invalid votes.
+    </p>
+  </div>
+  <div *ngSwitchDefault>
+    <p>Error while counting votes.</p>
+  </div>
+</div>

@@ -23,66 +23,14 @@
   </div>
   <div class="row" *ngIf="!!resultsContainer">
     <div *ngIf="!resultsContainer.isCountSuccessful">
-      <h5 class="text-danger">Vote count failed</h5>
-      <div [ngSwitch]="resultsContainer.failureStatus">
-        <div *ngSwitchCase="0">
-          <p>
-            Provided encryption key pair did not match. Please ensure that the
-            private key matches the public key.
-          </p>
-        </div>
-        <div *ngSwitchCase="1">
-          <p>
-            Campaign contains invalid votes. Please perform a vote audit and
-            remove the invalid votes.
-          </p>
-        </div>
-        <div *ngSwitchDefault>
-          <p>Error while counting votes.</p>
-        </div>
-      </div>
+      <app-vote-count-failure-display
+        [failureStatus]="resultsContainer.failureStatus"
+      ></app-vote-count-failure-display>
     </div>
     <div *ngIf="resultsContainer.isCountSuccessful">
-      <div class="mb-3">
-        <h5 class="text-success">Vote count done</h5>
-        <div>
-          <span
-            >Total votes: {{ resultsContainer.results.totalVoteCount }}</span
-          >
-        </div>
-      </div>
-      <div class="d-flex w-100 mb-3">
-        <div
-          class="d-flex justify-content-center align-items-center"
-          *ngFor="
-            let candidateResult;
-            index as index;
-            of: resultsContainer.results.candidateResults
-          "
-          [style.width]="getResultsBarWidthPropValue(candidateResult)"
-          [style.backgroundColor]="getCandidateColor(index)"
-        >
-          <h5 class="fw-bold text-truncate p-2 m-0">
-            {{ candidateResult.candidate.name }}
-          </h5>
-        </div>
-      </div>
-      <div
-        class="d-flex align-items-center"
-        *ngFor="
-          let candidateResult;
-          index as index;
-          of: resultsContainer.results.candidateResults
-        "
-      >
-        <span
-          class="dot"
-          [style.backgroundColor]="getCandidateColor(index)"
-        ></span>
-        <h5 class="ms-2">
-          {{ getCandidateResultsSummary(candidateResult) }}
-        </h5>
-      </div>
+      <app-campaign-results-display
+        [results]="resultsContainer.results"
+      ></app-campaign-results-display>
     </div>
   </div>
 </div>
