@@ -5,8 +5,6 @@ import { CampaignsService } from '../../services/campaigns.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CampaignResultsContainer } from '../../models/campaign-results/campaign-results-container.model';
-import { ColorsService } from 'src/app/common.module/services/colors.service';
-import { CandidateResults } from '../../models/campaign-results/candidate.results.model';
 
 @Component({
   selector: 'app-campaign-vote-count-view',
@@ -23,7 +21,6 @@ export class CampaignResultsViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly campaignService: CampaignsService,
-    private readonly colorsService: ColorsService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {}
