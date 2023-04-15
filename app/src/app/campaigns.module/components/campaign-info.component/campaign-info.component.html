@@ -1,7 +1,7 @@
 <div class="m-5 d-flex flex-column" *ngIf="!!campaign">
-  <div *ngIf="isUserAdmin">
+  <div class="d-flex mb-3" *ngIf="isUserAdmin">
     <a
-      class="btn btn-outline-primary m-3 ms-0"
+      class="btn btn-outline-primary me-2"
       [routerLink]="[
         '/',
         routeNames.campaigns.index,
@@ -12,9 +12,8 @@
       aria-current="page"
       >Edit</a
     >
-    <button class="btn btn-outline-danger" (click)="delete()">Delete</button>
     <a
-      class="btn btn-outline-primary m-3"
+      class="btn btn-outline-primary me-2"
       [routerLink]="[
         '/',
         routeNames.campaigns.index,
@@ -25,6 +24,8 @@
       aria-current="page"
       >View results</a
     >
+    <div class="flex-grow-1"></div>
+    <button class="btn btn-outline-danger" (click)="delete()">Delete</button>
   </div>
   <div class="mb-3">
     <h1>Campaign: {{ campaign.name }}</h1>
