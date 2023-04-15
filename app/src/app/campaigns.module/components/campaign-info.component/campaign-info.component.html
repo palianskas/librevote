@@ -52,7 +52,7 @@
     ></app-campaign-encryption-keys>
     <app-campaign-voter-input
       class="col-lg-6"
-      *ngIf="isInviteOnlyCampaign && campaign.isBeforeVotingStart()"
+      *ngIf="isInviteOnlyCampaign && !campaign.isAfterVotingEnd()"
       [campaign]="campaign"
     ></app-campaign-voter-input>
     <app-campaign-voting-control

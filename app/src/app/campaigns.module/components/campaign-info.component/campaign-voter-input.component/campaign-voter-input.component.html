@@ -3,11 +3,11 @@
   <hr />
 
   <button
-    class="btn btn-outline-primary mb-3"
+    class="btn btn-primary mb-3"
     *ngIf="pendingRegistrations.length > 0"
     (click)="onSubmit()"
   >
-    Register voters
+    Register new voters
   </button>
   <div class="input-group mb-3">
     <span for="voter-email-input" class="input-group-text">Voter email</span>
@@ -81,6 +81,7 @@
           src="./assets/bootstrap-icons/x.svg"
           alt="Close"
           class="clickable"
+          *ngIf="campaign.isBeforeVotingStart()"
           (click)="deleteSavedRegistration(index)"
         />
       </span>

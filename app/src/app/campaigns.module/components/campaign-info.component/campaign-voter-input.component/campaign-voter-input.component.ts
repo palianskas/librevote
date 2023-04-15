@@ -153,7 +153,8 @@ export class CampaignVoterInputComponent implements OnInit {
   private flushRegistrations(): void {
     this.invalidRegistrations = this.filterInvalidRegistrations(
       this.savedRegistrations,
-      this.pendingRegistrations
+      this.pendingRegistrations,
+      this.invalidRegistrations
     );
 
     this.pendingRegistrations = [];
@@ -161,10 +162,9 @@ export class CampaignVoterInputComponent implements OnInit {
 
   private filterInvalidRegistrations(
     savedRegistrations: RegistrationEntry[],
-    pendingRegistrations: RegistrationEntry[]
+    pendingRegistrations: RegistrationEntry[],
+    invalidRegistrations: RegistrationEntry[]
   ): RegistrationEntry[] {
-    const invalidRegistrations: RegistrationEntry[] = [];
-
     const savedUsernames = savedRegistrations.map((entry) => entry.username);
 
     pendingRegistrations.forEach((entry) => {
