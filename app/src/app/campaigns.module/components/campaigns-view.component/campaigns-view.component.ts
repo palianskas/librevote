@@ -34,6 +34,6 @@ export class CampaignsViewComponent implements OnInit {
   }
 
   getDisplayableDate(date?: Date): string {
-    return StringHelpers.dateToString(date);
+    return StringHelpers.campaignDateTimeToString(date);
   }
 }

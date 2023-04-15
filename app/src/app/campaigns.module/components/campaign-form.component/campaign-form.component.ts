@@ -17,6 +17,7 @@ import { Campaign, CampaignDto } from '../../models/campaign.model';
 import { CampaignCandidatesService } from '../../services/campaign-candidates.service';
 import { CampaignPublicLinksService } from '../../services/campaign-public-links.service';
 import { CampaignsService } from '../../services/campaigns.service';
+import { StringHelpers } from 'src/app/encryption.module/string.helpers';
 
 // lowercase letters and numbers with optional dashes inbetween
 const publicLinkRegExp = /^[a-z0-9](([a-z0-9]|\-)*[a-z0-9])?$/;
@@ -33,10 +34,6 @@ function dateIntervalValidator(
 
     return isOverlap ? { overlap: true } : null;
   };
-}
-
-function toDateString(date: Date): string {
-  return formatDate(date, 'yyyy-MM-ddTHH:mm', 'en');
 }
 
 @Component({
@@ -167,8 +164,12 @@ export class CampaignFormComponent implements OnInit, OnDestroy {
       this.startDate.enable();
       this.endDate.enable();
 
-      this.startDate.setValue(toDateString(this.campaign.startDate));
-      this.endDate.setValue(toDateString(this.campaign.endDate));
+      this.startDate.setValue(
+        StringHelpers.dateTimeToIsoString(this.campaign.startDate)
+      );
+      this.endDate.setValue(
+        StringHelpers.dateTimeToIsoString(this.campaign.endDate)
+      );
     }
   }
 
@@ -215,8 +216,12 @@ export class CampaignFormComponent implements OnInit, OnDestroy {
       this.startDate.disable();
       this.endDate.disable();
     } else {
-      this.startDate.setValue(toDateString(this.campaign.startDate));
-      this.endDate.setValue(toDateString(this.campaign.endDate));
+      this.startDate.setValue(
+        StringHelpers.dateTimeToIsoString(this.campaign.startDate)
+      );
+      this.endDate.setValue(
+        StringHelpers.dateTimeToIsoString(this.campaign.endDate)
+      );
     }
   }
 

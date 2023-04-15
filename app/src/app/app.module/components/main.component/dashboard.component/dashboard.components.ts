@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getDisplayableDate(date?: Date): string {
-    return StringHelpers.dateToString(date);
+    return StringHelpers.campaignDateTimeToString(date);
   }
 
   private buildCampaignOverview(

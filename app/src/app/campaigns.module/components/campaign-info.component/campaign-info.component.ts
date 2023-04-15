@@ -79,7 +79,7 @@ export class CampaignInfoComponent implements OnInit, OnDestroy {
   }
 
   getDisplayableDate(date?: Date): string {
-    return StringHelpers.dateToString(date);
+    return StringHelpers.campaignDateTimeToString(date);
   }
 
   private async fetchCampaign(id: string): Promise<Campaign> {
