@@ -19,13 +19,18 @@
       <div class="modal-body">
         <div class="d-flex flex-column align-items-center">
           <canvas id="qrcode-canvas" class="w-50 h-auto m-5"></canvas>
-
-          <a
-            href="{{ voucherContainer.votingLink }}"
-            class="h5"
+          <div
+            class="d-flex flex-column align-items-center"
             *ngIf="!!voucherContainer"
-            >{{ voucherContainer.votingLink }}</a
           >
+            <a href="{{ voucherContainer.votingLink }}" class="h5">{{
+              voucherContainer.votingLink
+            }}</a>
+            <span
+              >Voucher is valid until
+              {{ formatDate(voucherContainer.voucher.validUntilDate) }}</span
+            >
+          </div>
         </div>
       </div>
       <div class="modal-footer">

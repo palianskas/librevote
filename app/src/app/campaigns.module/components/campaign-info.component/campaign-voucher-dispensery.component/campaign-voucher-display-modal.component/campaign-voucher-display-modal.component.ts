@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { VoucherContainer } from 'src/app/votes.module/models/voucher-container.model';
 import * as QRcode from 'qrcode';
+import { StringHelpers } from 'src/app/encryption.module/string.helpers';
 
 @Component({
   selector: 'app-campaign-voucher-display-modal',
@@ -26,6 +27,10 @@ export class CampaignVoucherDisplayModalComponent {
       'voucher-display-modal-close-button'
     );
     button.click();
+  }
+
+  formatDate(date: Date): string {
+    return StringHelpers.dateTimeToString(date);
   }
 
   private generateVoucherQrCode(): void {
