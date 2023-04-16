@@ -29,15 +29,15 @@ export class AesDecryptor implements IDecryptor<string> {
   decrypt(message: string, key: string): string | null {
     key = normalizeKey(key);
 
-    const encryptor = cipher.createDecipher('AES-CBC', key);
+    const decryptor = cipher.createDecipher('AES-CBC', key);
 
-    encryptor.start({ iv: key });
-    encryptor.update(util.createBuffer(message));
-    if (!encryptor.finish()) {
+    decryptor.start({ iv: key });
+    decryptor.update(util.createBuffer(message));
+    if (!decryptor.finish()) {
       return null;
     }
 
-    const result = encryptor.output;
+    const result = decryptor.output;
 
     return result.data;
   }
