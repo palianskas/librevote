@@ -7,6 +7,14 @@
           Campaigns
         </a>
       </div>
+      <div *ngIf="!!user">
+        <a
+          class="navbar-brand"
+          [routerLink]="[routeNames.vote.index, routeNames.vote.search.index]"
+        >
+          Search
+        </a>
+      </div>
     </div>
     <div *ngIf="!user" class="d-flex">
       <div class="container">

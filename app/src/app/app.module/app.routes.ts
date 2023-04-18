@@ -21,6 +21,9 @@ export const RouteNames = {
   },
   vote: {
     index: 'vote',
+    search: {
+      index: 'search',
+    },
   },
 } as const;
 
