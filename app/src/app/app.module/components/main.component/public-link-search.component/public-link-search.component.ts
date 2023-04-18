@@ -3,10 +3,10 @@ import { RouteNames } from 'src/app/app.module/app.routes';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-no-auth-dashboard',
-  templateUrl: './no-auth-dashboard.component.html',
+  selector: 'app-public-link-search',
+  templateUrl: './public-link-search.component.html',
 })
-export class NoAuthDashboardComponent {
+export class PublicLinkSearchComponent {
   publicLink?: string;
 
   constructor(private readonly router: Router) {}

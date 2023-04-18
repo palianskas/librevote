@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app.component/app.component';
 import { DashboardComponent } from './components/main.component/dashboard.component/dashboard.components';
 import { MainComponent } from './components/main.component/main.component';
-import { NoAuthDashboardComponent } from './components/main.component/no-auth-dashboard.component/no-auth-dashboard.component';
+import { PublicLinkSearchComponent } from './components/main.component/public-link-search.component/public-link-search.component';
 import { NavigationComponent } from './components/navigation.component/navigation.component';
 
 @NgModule({
@@ -21,7 +21,7 @@ import { NavigationComponent } from './components/navigation.component/navigatio
     NavigationComponent,
     MainComponent,
     DashboardComponent,
-    NoAuthDashboardComponent,
+    PublicLinkSearchComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,7 @@ import { CampaignsViewComponent } from '../campaigns.module/components/campaigns
 import { AuthGuard, RouteNames } from './app.routes';
 import { MainComponent } from './components/main.component/main.component';
 import { CampaignResultsViewComponent } from '../campaigns.module/components/campaign-results-view.component/campaign-results-view.component';
-import { NoAuthDashboardComponent } from './components/main.component/no-auth-dashboard.component/no-auth-dashboard.component';
+import { PublicLinkSearchComponent } from './components/main.component/public-link-search.component/public-link-search.component';
 
 const routes: Routes = [
   {
@@ -56,7 +56,7 @@ const routes: Routes = [
     children: [
       {
         path: RouteNames.vote.search.index,
-        component: NoAuthDashboardComponent,
+        component: PublicLinkSearchComponent,
       },
       {
         path: ':link',
