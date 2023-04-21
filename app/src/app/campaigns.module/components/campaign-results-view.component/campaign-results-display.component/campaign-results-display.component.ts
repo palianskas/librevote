@@ -23,7 +23,9 @@ export class CampaignResultsDisplayComponent implements OnInit {
   getResultsBarWidthPropValue(candidateResults: CandidateResults): string {
     const percentage = this.getCandidateResultsPercentage(candidateResults);
 
-    return `calc(${percentage}% + ${percentage < 5 ? '25' : '0'}px)`;
+    return `calc(${percentage}% + ${
+      percentage > 0 && percentage < 5 ? '25' : '0'
+    }px)`;
   }
 
   getCandidateResultsPercentage(candidateResults: CandidateResults): number {

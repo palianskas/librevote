@@ -9,7 +9,10 @@
     [style.width]="getResultsBarWidthPropValue(candidateResult)"
     [style.backgroundColor]="getCandidateColor(index)"
   >
-    <h5 class="fw-bold text-truncate p-2 m-0">
+    <h5
+      class="fw-bold text-truncate p-2 m-0"
+      *ngIf="candidateResult.voteCount != '0'"
+    >
       {{ candidateResult.candidate.name }}
     </h5>
   </div>
