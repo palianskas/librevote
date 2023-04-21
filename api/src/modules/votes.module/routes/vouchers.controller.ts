@@ -21,6 +21,7 @@ import {
   IVoteVoucherSearchResponse,
 } from './models/vote-vouchers-contracts.model';
 import { VoucherSearchHandler } from './handlers/voucher-search.handler';
+import { Public } from 'src/modules/auth.module/guards/guard-activators.decorator';
 
 @Controller('vouchers')
 export class VouchersController {
@@ -30,6 +31,7 @@ export class VouchersController {
     private readonly voucherSearchHandler: VoucherSearchHandler,
   ) {}
 
+  @Public()
   @Get(':id')
   async get(@Param('id') id: string): Promise<VotingVoucherDto> {
     const voucher = await this.voucherService.get(id);
