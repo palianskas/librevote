@@ -106,7 +106,8 @@ export class VoteProcessingService {
       );
 
       return { isCountSuccessful: true, results: results };
-    } catch {
+    } catch (e) {
+      console.error(e);
       return {
         isCountSuccessful: false,
         failureStatus: CampaignVoteCountFailureStatus.Other,
@@ -154,7 +155,8 @@ export class VoteProcessingService {
 
     const voteCountResults = this.countVotes(
       encodedVotes.toJSNumber(),
-      campaign.settings.maxVoterCount
+      campaign.settings.maxVoterCount,
+      campaign.candidates.length
     );
 
     const candidateResults = this.getCandidateResults(
@@ -224,20 +226,6 @@ export class VoteProcessingService {
     batchEndIndex: number,
     decryptionFunc: (cipher: BigInteger) => BigInteger
   ): number[] {
-    const encryptedVoteAggregate = this.encodeVotes(
-      encryptedVotes,
-      pubKey,
-      batchStartIndex,
-      batchEndIndex
-    );
-
-    const value = decryptionFunc(encryptedVoteAggregate);
-
-    const { totalVoteCount } = this.countVotes(
-      value.toJSNumber(),
-      maxVoterCount
-    );
-
     if (
       this.isVoteRangeValid(
         pubKey,
@@ -304,13 +292,18 @@ export class VoteProcessingService {
 
   private countVotes(
     encodedVotesValue: number,
-    maxVoterCount: number
+    maxVoterCount: number,
+    candidateCount = -1
   ): VoteCountResult {
     let totalVoteCount = 0;
     const candidateVoteCounts = [];
 
     while (true) {
       if (encodedVotesValue == 0) {
+        for (let i = candidateVoteCounts.length; i < candidateCount; i++) {
+          candidateVoteCounts.push(0);
+        }
+
         break;
       }
 
