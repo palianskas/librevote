@@ -25,6 +25,9 @@ export const RouteNames = {
       index: 'search',
     },
   },
+  invites: {
+    index: 'invites',
+  },
 } as const;
 
 @Injectable({

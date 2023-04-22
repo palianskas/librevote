@@ -15,6 +15,11 @@
           Search
         </a>
       </div>
+      <div *ngIf="!!user">
+        <a class="navbar-brand" [routerLink]="[routeNames.invites.index]">
+          My invites
+        </a>
+      </div>
     </div>
     <div *ngIf="!user" class="d-flex">
       <div class="container">

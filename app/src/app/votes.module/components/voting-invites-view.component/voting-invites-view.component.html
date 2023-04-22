@@ -1,0 +1,22 @@
+<div class="m-5">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Voting start date</th>
+        <th scope="col">Voting end date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let invite of invites"
+        (click)="open(invite.campaign)"
+        class="clickable clickable-bg"
+      >
+        <td>{{ invite.campaign.name }}</td>
+        <td>{{ getDisplayableDate(invite.campaign.startDate) }}</td>
+        <td>{{ getDisplayableDate(invite.campaign.endDate) }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

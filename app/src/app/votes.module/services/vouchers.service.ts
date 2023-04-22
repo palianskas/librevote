@@ -14,6 +14,7 @@ import {
   IVoteVoucherSearchResponse,
   IVotingVoucherCreateRequest,
   IVotingVoucherCreateResponse,
+  UserVouchersResponse,
 } from '../models/vouchers-contracts.model';
 
 @Injectable({
@@ -78,6 +79,10 @@ export class VotingVouchersService {
     return this.vouchersApi.delete(id);
   }
 
+  public async getPending(): Promise<UserVouchersResponse> {
+    return this.vouchersApi.getPending();
+  }
+
   private initApi(): void {
     const apiUrl = this.configService.API_URL + 'vouchers/';
 
@@ -139,6 +144,15 @@ export class VotingVouchersService {
 
         return firstValueFrom(request);
       },
+      getPending: async () => {
+        const url = apiUrl + 'pending';
+
+        const request = this.httpClient.get<UserVouchersResponse>(url, {
+          observe: 'body',
+        });
+
+        return firstValueFrom(request);
+      },
     };
   }
 }
@@ -155,4 +169,5 @@ interface IVotingVouchersApi {
     request: IVoteVoucherSearchRequest
   ): Promise<IVoteVoucherSearchResponse>;
   delete(id: string): Promise<void>;
+  getPending(): Promise<UserVouchersResponse>;
 }

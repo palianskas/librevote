@@ -1,3 +1,4 @@
+import { CampaignPublicDto } from 'src/app/campaigns.module/models/campaign-public.model';
 import { User, UserDto } from 'src/app/users.module/models/user.model';
 
 export class VotingVoucher {
@@ -53,6 +54,7 @@ export class VotingVoucherDto {
   designatedUserId?: string;
   designatedUser?: UserDto;
   deleteDate?: Date;
+  campaign: CampaignPublicDto;
 
   static map(data: any): VotingVoucherDto {
     const dto = new VotingVoucherDto();
@@ -64,6 +66,7 @@ export class VotingVoucherDto {
     dto.validUntilDate = data.validUntilDate && new Date(data.validUntilDate);
     dto.designatedUserId = data.designatedUserId;
     dto.deleteDate = data.deleteDate && new Date(data.deleteDate);
+    dto.campaign = data.campaign && CampaignPublicDto.map(data.campaign);
 
     dto.designatedUser =
       data.designatedUser && UserDto.map(data.designatedUser);

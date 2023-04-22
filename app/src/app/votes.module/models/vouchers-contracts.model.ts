@@ -25,3 +25,7 @@ export interface IVoteVoucherSearchRequest {
 export interface IVoteVoucherSearchResponse {
   rows: VotingVoucherDto[];
 }
+export class UserVouchersResponse {
+  userId: string;
+  dtos: VotingVoucherDto[];
+}

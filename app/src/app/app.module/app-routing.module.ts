@@ -10,6 +10,7 @@ import { AuthGuard, RouteNames } from './app.routes';
 import { MainComponent } from './components/main.component/main.component';
 import { CampaignResultsViewComponent } from '../campaigns.module/components/campaign-results-view.component/campaign-results-view.component';
 import { PublicLinkSearchComponent } from './components/main.component/public-link-search.component/public-link-search.component';
+import { VotingInvitesViewComponent } from '../votes.module/components/voting-invites-view.component/voting-invites-view.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,15 @@ const routes: Routes = [
       {
         path: ':link',
         component: CampaignPublicLinkViewComponent,
+      },
+    ],
+  },
+  {
+    path: RouteNames.invites.index,
+    children: [
+      {
+        path: '',
+        component: VotingInvitesViewComponent,
       },
     ],
   },
