@@ -4,6 +4,8 @@ import { CampaignPublic } from 'src/app/campaigns.module/models/campaign-public.
 import { User } from 'src/app/users.module/models/user.model';
 import { VotingService } from 'src/app/votes.module/services/voting.service';
 import { VotingVoucher } from '../../models/voting-voucher.model';
+import { VoteCastError } from '../../models/vote-cast-error.enum';
+import { VoteCastResponse } from '../../models/vote-cast-response.model';
 
 @Component({
   selector: 'app-voting',
@@ -17,8 +19,7 @@ export class VotingComponent implements OnInit {
   candidates: CampaignCandidatePublic[];
   selectedCandidate?: CampaignCandidatePublic;
 
-  isVoteCastDone = false;
-  isVoteCastSuccessful = false;
+  voteCastResponse: VoteCastResponse;
 
   constructor(private readonly votingService: VotingService) {}
 
@@ -29,23 +30,26 @@ export class VotingComponent implements OnInit {
   }
 
   async vote() {
-    try {
-      const response = await this.votingService.castVote(
-        this.campaign,
-        this.selectedCandidate,
-        this.voucher,
-        this.user
-      );
-      this.isVoteCastSuccessful = !!response;
-    } catch {
-      this.isVoteCastSuccessful = false;
-    } finally {
-      this.selectedCandidate = null;
-      this.isVoteCastDone = true;
-    }
+    this.voteCastResponse = await this.votingService.castVote(
+      this.campaign,
+      this.selectedCandidate,
+      this.voucher,
+      this.user
+    );
+
+    this.selectedCandidate = null;
   }
 
   selectCandidate(candidate: CampaignCandidatePublic): void {
     this.selectedCandidate = candidate;
+  }
+
+  resolveErrorMessage(error: VoteCastError): string {
+    switch (error) {
+      case VoteCastError.SpamDetected:
+        return 'Cannot vote multiple times';
+      default:
+        return "Please try again or contact the campaign's administrator";
+    }
   }
 }

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <div *ngIf="!isVoteCastDone">
+  <div *ngIf="!voteCastResponse">
     <div class="row">
       <div class="p-0">
         <button
@@ -39,16 +39,16 @@
       </div>
     </div>
   </div>
-  <div *ngIf="isVoteCastDone" class="d-flex justify-content-center">
-    <h3 class="text-success" *ngIf="isVoteCastSuccessful">
+  <div *ngIf="!!voteCastResponse" class="d-flex justify-content-center">
+    <h3 class="text-success" *ngIf="voteCastResponse.isSuccessful">
       Voting successful!
     </h3>
     <div
       class="d-flex flex-column align-items-center"
-      *ngIf="!isVoteCastSuccessful"
+      *ngIf="!voteCastResponse.isSuccessful"
     >
       <h3 class="text-danger">Voting failed!</h3>
-      <p>Please try again or contact the campaign's administrator</p>
+      <p>{{ resolveErrorMessage(voteCastResponse.error) }}</p>
     </div>
   </div>
 </div>

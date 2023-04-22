@@ -9,6 +9,9 @@ import { Vote } from '../models/vote.model';
 import { VotesService } from './votes.service';
 import { VotingVoucher } from '../models/voting-voucher.model';
 import { EncryptionDomainFactory } from 'src/app/encryption.module/encryption-domain/encryption-domain.factory';
+import { VoteCastResponse } from '../models/vote-cast-response.model';
+import { VoteCastError } from '../models/vote-cast-error.enum';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +27,7 @@ export class VotingService {
     candidate: CampaignCandidatePublic,
     voucher?: VotingVoucher,
     user?: User
-  ): Promise<string | null> {
+  ): Promise<VoteCastResponse> {
     if (!this.canCastVote(campaign, voucher, user)) {
       return null;
     }
@@ -34,11 +37,21 @@ export class VotingService {
     try {
       const id = await this.votesService.create(vote);
 
-      return id;
-    } catch (e) {
-      console.error(e);
+      const response: VoteCastResponse = {
+        isSuccessful: true,
+        voteId: id,
+      };
 
-      return null;
+      return response;
+    } catch (e) {
+      const errorId = this.resolveErrorId(e);
+
+      const response: VoteCastResponse = {
+        isSuccessful: false,
+        error: errorId,
+      };
+
+      return response;
     }
   }
 
@@ -116,5 +129,14 @@ export class VotingService {
 
   private canCastInviteOnlyVote(user?: User): boolean {
     return !!user;
+  }
+
+  private resolveErrorId(error: HttpErrorResponse | any): VoteCastError | null {
+    switch (error?.error?.message) {
+      case VoteCastError.SpamDetected:
+        return VoteCastError.SpamDetected;
+      default:
+        return VoteCastError.Other;
+    }
   }
 }
