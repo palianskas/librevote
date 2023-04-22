@@ -1,4 +1,5 @@
 import { User, VotingVoucher as VotingVoucherEntity } from '@prisma/client';
+import { CampaignPublicDto } from 'src/modules/campaigns.module/models/campaign/campaign.dto';
 import { Campaign } from 'src/modules/campaigns.module/models/campaign/campaign.model';
 import { UserDto } from 'src/modules/users.module/models/user.dto';
 
@@ -16,6 +17,7 @@ export class VotingVoucherDto {
   designatedUserId?: string;
   designatedUser?: UserDto;
   deleteDate: Date | null;
+  campaign?: CampaignPublicDto;
 
   static map(entity: VotingVoucher): VotingVoucherDto {
     const dto = new VotingVoucherDto();
@@ -36,6 +38,9 @@ export class VotingVoucherDto {
     }
     if (!!entity.deleteDate) {
       dto.deleteDate = new Date(entity.deleteDate);
+    }
+    if (!!entity.campaign) {
+      dto.campaign = CampaignPublicDto.map(entity.campaign);
     }
 
     return dto;

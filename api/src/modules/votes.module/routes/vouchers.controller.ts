@@ -19,6 +19,7 @@ import {
   IVoteVoucherCreateResponse,
   IVoteVoucherSearchRequest,
   IVoteVoucherSearchResponse,
+  UserVouchersResponse,
 } from './models/vote-vouchers-contracts.model';
 import { VoucherSearchHandler } from './handlers/voucher-search.handler';
 import { Public } from 'src/modules/auth.module/guards/guard-activators.decorator';
@@ -30,6 +31,27 @@ export class VouchersController {
     private readonly voucherCreateHandler: VoucherCreateHandler,
     private readonly voucherSearchHandler: VoucherSearchHandler,
   ) {}
+
+  @Get('pending')
+  async getPendingUserVouchers(
+    @Req() request: IAuthenticatedRequest,
+  ): Promise<UserVouchersResponse> {
+    const filter = {
+      designatedUserId: request.user.id,
+      isSpent: false,
+    };
+
+    const vouchers = await this.voucherService.search(filter);
+
+    const dtos = VotingVoucherDto.mapList(vouchers);
+
+    const response: UserVouchersResponse = {
+      userId: request.user.id,
+      dtos: dtos,
+    };
+
+    return response;
+  }
 
   @Public()
   @Get(':id')

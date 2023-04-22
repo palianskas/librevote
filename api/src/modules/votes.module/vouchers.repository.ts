@@ -90,7 +90,11 @@ export class VouchersRepository {
       query.select = fieldSelect;
     } else {
       query.include = {
-        campaign: true,
+        campaign: {
+          include: {
+            publicLinks: true,
+          },
+        },
         designatedUser: true,
       };
     }
