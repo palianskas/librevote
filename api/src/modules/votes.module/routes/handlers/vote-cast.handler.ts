@@ -16,6 +16,7 @@ import {
   VotingVoucherDto,
 } from '../../models/voting-voucher.model';
 import { createHash } from 'crypto';
+import { VoteCastError } from '../../models/vote-cast-error.enum';
 
 @Injectable()
 export class VoteCastHandler {
@@ -173,7 +174,7 @@ export class VoteCastHandler {
     );
 
     if (isIpUsed) {
-      throw new BadRequestException('Cannot vote multiple times');
+      throw new BadRequestException(VoteCastError.SpamDetected);
     }
   }
 
