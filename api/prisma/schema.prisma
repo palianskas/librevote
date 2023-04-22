@@ -83,12 +83,13 @@ model VotingVoucher {
 }
 
 model Vote {
-  id         String   @id @default(cuid())
-  campaignId String
-  voucherId  String?
-  value      String
-  createDate DateTime
-  isInvalid  Boolean  @default(false)
+  id          String   @id @default(cuid())
+  campaignId  String
+  voucherId   String?
+  value       String
+  createDate  DateTime
+  isInvalid   Boolean  @default(false)
+  voterIpHash String
 }
 
 model CampaignResults {

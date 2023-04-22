@@ -15,6 +15,7 @@ import {
   VotingVoucher,
   VotingVoucherDto,
 } from '../../models/voting-voucher.model';
+import { createHash } from 'crypto';
 
 @Injectable()
 export class VoteCastHandler {
@@ -27,16 +28,27 @@ export class VoteCastHandler {
   async handle(
     request: IVoteCastRequest,
     user: User | undefined,
+    voterIp: string,
   ): Promise<string> {
     const campaign = await this.campaignsService.get(request.dto.campaignId);
 
-    const voucher = await this.validateRequest(request, campaign, user);
+    const voterIpHash = createHash('sha256')
+      .update(voterIp, 'ascii')
+      .digest()
+      .toString('ascii');
+
+    const voucher = await this.validateRequest(
+      request,
+      campaign,
+      user,
+      voterIpHash,
+    );
 
     if (!!voucher) {
       this.spendVoucher(voucher);
     }
 
-    const result = await this.votesService.create(request.dto);
+    const result = await this.votesService.create(request.dto, voterIpHash);
 
     return result.id;
   }
@@ -45,6 +57,7 @@ export class VoteCastHandler {
     request: IVoteCastRequest,
     campaign: Campaign | null,
     user: User | undefined,
+    voterIpHash: string,
   ): Promise<VotingVoucher | null> {
     if (!campaign || !!campaign.deleteDate) {
       throw new NotFoundException(
@@ -87,8 +100,11 @@ export class VoteCastHandler {
       case VotingMechanism.Voucher: {
         return await this.validateVoucherVoting(request);
       }
-      case VotingMechanism.Public:
+      case VotingMechanism.Public: {
+        await this.validatePublicVoting(request, voterIpHash);
+
         return null;
+      }
       default: {
         throw new Error(
           `Cannot determine voting mechanism for campaign ${campaign.id}`,
@@ -145,6 +161,20 @@ export class VoteCastHandler {
     }
 
     return voucher;
+  }
+
+  private async validatePublicVoting(
+    request: IVoteCastRequest,
+    voterIpHash: string,
+  ) {
+    const isIpUsed = await this.votesService.hasIpVotedInCampaign(
+      request.dto.campaignId,
+      voterIpHash,
+    );
+
+    if (isIpUsed) {
+      throw new BadRequestException('Cannot vote multiple times');
+    }
   }
 
   private isVoucherValid(voucher: VotingVoucher): boolean {

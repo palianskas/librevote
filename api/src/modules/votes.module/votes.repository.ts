@@ -42,13 +42,14 @@ export class VotesRepository {
     return response;
   }
 
-  create(dto: VoteDto): Promise<Vote> {
+  create(dto: VoteDto, voterIpHash: string): Promise<Vote> {
     return this.dataService.vote.create({
       data: {
         campaignId: dto.campaignId,
         value: dto.value,
         voucherId: dto.voucherId,
         createDate: dto.createDate,
+        voterIpHash: voterIpHash,
       },
     });
   }

@@ -50,7 +50,11 @@ export class VotesController {
   ): Promise<IVoteCastResponse> {
     const user = request.user;
 
-    const voteId = await this.voteCastHandler.handle(voteCastRequest, user);
+    const voteId = await this.voteCastHandler.handle(
+      voteCastRequest,
+      user,
+      request.ip,
+    );
 
     const response: IVoteCastResponse = {
       id: voteId,

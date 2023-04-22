@@ -20,8 +20,8 @@ export class VotesService {
     return vote;
   }
 
-  create(dto: VoteDto): Promise<Vote> {
-    return this.votesRepository.create(dto);
+  create(dto: VoteDto, voterIpHash: string): Promise<Vote> {
+    return this.votesRepository.create(dto, voterIpHash);
   }
 
   search(
@@ -94,6 +94,20 @@ export class VotesService {
     };
 
     return this.votesRepository.bulkUpdate(filter, data);
+  }
+
+  async hasIpVotedInCampaign(
+    campaignId: string,
+    ipHash: string,
+  ): Promise<boolean> {
+    const filter = {
+      campaignId: campaignId,
+      voterIpHash: ipHash,
+    };
+
+    const ipVoteCount = await this.count(filter);
+
+    return ipVoteCount > 0;
   }
 
   private buildSearchCuror(page: number): IPrismaCursor {
