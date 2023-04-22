@@ -70,6 +70,7 @@ export class VotesService {
     );
 
     const isAcceptingVotes =
+      this.campaignService.isVotingActive(campaign) &&
       !!campaign.settings &&
       campaign.settings.maxVoterCount > currentCampaignVoteCount;
 
