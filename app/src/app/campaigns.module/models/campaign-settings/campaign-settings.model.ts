@@ -1,4 +1,4 @@
-import { CampaignDto } from '../campaign.model';
+import { Campaign, CampaignDto } from '../campaign.model';
 
 export enum VotingMechanism {
   Public = 'Public',
@@ -9,7 +9,7 @@ export enum VotingMechanism {
 export class CampaignSettings {
   id?: string;
   campaignId?: string;
-  campaign?: CampaignDto;
+  campaign?: Campaign;
   votingMechanism: VotingMechanism;
   isManualVoteStartEndEnabled: boolean;
   maxVoterCount: number;
@@ -24,14 +24,14 @@ export class CampaignSettings {
     entity.maxVoterCount = dto.maxVoterCount;
 
     if (!!dto.campaign) {
-      entity.campaign = CampaignDto.map(dto.campaign);
+      entity.campaign = Campaign.map(dto.campaign);
     }
 
     return entity;
   }
 
   static get default(): CampaignSettings {
-    const defaultSettings: CampaignSettingsDto = {
+    const defaultSettings: CampaignSettings = {
       votingMechanism: VotingMechanism.Public,
       isManualVoteStartEndEnabled: false,
       maxVoterCount: 100,
