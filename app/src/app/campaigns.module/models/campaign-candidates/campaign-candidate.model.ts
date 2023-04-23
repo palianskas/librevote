@@ -7,7 +7,7 @@ export class CampaignCandidate {
   index: number;
 
   campaignId: string;
-  campaign?: CampaignDto;
+  campaign?: Campaign;
 
   static map(dto: CampaignCandidateDto): CampaignCandidate {
     const entity = new CampaignCandidate();
