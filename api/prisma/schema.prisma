@@ -25,7 +25,6 @@ model Campaign {
   deleteDate     DateTime?
   campaignUsers  CampaignUser[]
   publicLinks    CampaignPublicLink[]
-  districts      District[]
   candidates     CampaignCandidate[]
   settings       CampaignSettings?
   votingVouchers VotingVoucher[]
@@ -33,13 +32,12 @@ model Campaign {
 }
 
 model CampaignUser {
-  id         String     @id @default(cuid())
+  id         String   @id @default(cuid())
   role       String
   userId     String
   campaignId String
-  user       User       @relation(fields: [userId], references: [id])
-  campaign   Campaign   @relation(fields: [campaignId], references: [id])
-  districts  District[]
+  user       User     @relation(fields: [userId], references: [id])
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
 }
 
 model CampaignPublicLink {
@@ -107,15 +105,4 @@ model CandidateResults {
   voteCount         Bytes
   candidate         CampaignCandidate @relation(fields: [candidateId], references: [id])
   campaignResults   CampaignResults   @relation(fields: [campaignResultsId], references: [id])
-}
-
-model District {
-  id               String         @id @default(cuid())
-  name             String
-  campaignId       String?
-  campaign         Campaign?      @relation(fields: [campaignId], references: [id])
-  parentDistrictId String?
-  parentDistrict   District?      @relation(name: "parent-child-district", fields: [parentDistrictId], references: [id])
-  childDistricts   District[]     @relation(name: "parent-child-district")
-  campaignUsers    CampaignUser[]
 }
