@@ -9,8 +9,6 @@ import {
 import {
   ICampaignCandidateCreateRequest,
   ICampaignCandidateCreateResponse,
-  ICampaignCandidateUpdateRequest,
-  ICampaignCandidateUpdateResponse,
 } from '../models/campaign-candidates/campaign-candidates-contracts.model';
 
 @Injectable({
@@ -48,16 +46,6 @@ export class CampaignCandidatesService {
     return response.id;
   }
 
-  // async update(dto: CampaignCandidateDto): Promise<CampaignCandidateDto> {
-  //   const request: ICampaignCandidateCreateRequest = {
-  //     dto: dto,
-  //   };
-
-  //   const response = await this.campaignCandidatesApi.update(request);
-
-  //   return response.dto;
-  // }
-
   private initApi(): ICampaignCandidatesApi {
     const apiUrl = this.configService.API_URL + 'campaign-candidates/';
 
@@ -84,17 +72,6 @@ export class CampaignCandidatesService {
 
         return firstValueFrom(request);
       },
-      // update: async (updateRequest: ICampaignCandidateUpdateRequest) => {
-      //   const request = this.httpClient.put<ICampaignCandidateUpdateResponse>(
-      //     apiUrl,
-      //     updateRequest,
-      //     {
-      //       observe: 'body',
-      //     }
-      //   );
-
-      //   return firstValueFrom(request);
-      // },
     };
 
     return api;
@@ -106,7 +83,4 @@ interface ICampaignCandidatesApi {
   create(
     request: ICampaignCandidateCreateRequest
   ): Promise<ICampaignCandidateCreateResponse>;
-  // update(
-  //   request: ICampaignCandidateUpdateRequest
-  // ): Promise<ICampaignCandidateUpdateResponse>;
 }

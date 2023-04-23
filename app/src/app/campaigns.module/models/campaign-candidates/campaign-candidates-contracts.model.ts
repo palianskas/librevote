@@ -6,9 +6,3 @@ export interface ICampaignCandidateCreateRequest {
 export interface ICampaignCandidateCreateResponse {
   id: string;
 }
-export interface ICampaignCandidateUpdateRequest {
-  dto: CampaignCandidateDto;
-}
-export interface ICampaignCandidateUpdateResponse {
-  dto: CampaignCandidateDto;
-}
