@@ -18,11 +18,11 @@ export class CampaignSettingsPublicDto {
   votingMechanism: VotingMechanism;
   maxVoterCount: number;
 
-  static map(entity: CampaignSettingsPublic): CampaignSettingsPublicDto {
+  static map(data: any): CampaignSettingsPublicDto {
     const dto = new CampaignSettingsPublicDto();
 
-    dto.votingMechanism = VotingMechanism[entity.votingMechanism];
-    dto.maxVoterCount = entity.maxVoterCount;
+    dto.votingMechanism = VotingMechanism[data.votingMechanism];
+    dto.maxVoterCount = data.maxVoterCount;
 
     return dto;
   }
