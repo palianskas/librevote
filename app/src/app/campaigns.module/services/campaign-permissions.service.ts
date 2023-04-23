@@ -14,7 +14,7 @@ export class CampaignPermissionsService {
     this.init();
   }
 
-  async init(): Promise<void> {
+  private async init(): Promise<void> {
     this.currentUser = await this.authService.getUser();
   }
 
