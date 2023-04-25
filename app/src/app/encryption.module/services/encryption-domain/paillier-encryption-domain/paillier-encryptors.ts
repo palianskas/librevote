@@ -30,7 +30,7 @@ export class PaillierEncryptor implements IEncryptor<BigInteger> {
     return cipher;
   }
 
-  validate(message: BigInteger, mod: BigInteger): boolean {
+  private validate(message: BigInteger, mod: BigInteger): boolean {
     return message.geq(bigInt.zero) && message.lesser(mod);
   }
 }
@@ -56,7 +56,7 @@ export class PaillierDecryptor implements IDecryptor<BigInteger> {
     return message;
   }
 
-  validate(cipher: BigInteger, mod: BigInteger): boolean {
+  private validate(cipher: BigInteger, mod: BigInteger): boolean {
     return cipher.greater(bigInt.zero) && cipher.lt(mod.pow(2));
   }
 }
