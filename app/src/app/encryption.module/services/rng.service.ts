@@ -72,7 +72,7 @@ export class RngService {
     return bigInt(integer.toString(10));
   }
 
-  private toArrayBuffer(string: string) {
+  private toArrayBuffer(string: string): ArrayBuffer {
     const buffer = new ArrayBuffer(string.length * 2);
     let bufferView = new Uint16Array(buffer);
 
