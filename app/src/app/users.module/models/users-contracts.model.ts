@@ -1,9 +1,9 @@
 import { UserDto } from 'src/app/users.module/models/user.model';
 
-export class UsersSearchRequest {
+export interface IUsersSearchRequest {
   emails: string[];
 }
 
-export class UsersSearchResponse {
+export interface IUsersSearchResponse {
   rows: UserDto[];
 }

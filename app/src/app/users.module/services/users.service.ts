@@ -5,8 +5,8 @@ import { User, UserDto } from 'src/app/users.module/models/user.model';
 import { AuthService } from 'src/app/auth.module/services/auth.service';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import {
-  UsersSearchRequest,
-  UsersSearchResponse,
+  IUsersSearchRequest,
+  IUsersSearchResponse,
 } from '../models/users-contracts.model';
 
 @Injectable({
@@ -35,7 +35,7 @@ export class UsersService {
   }
 
   async search(emails: string[]): Promise<User[]> {
-    const request: UsersSearchRequest = {
+    const request: IUsersSearchRequest = {
       emails: emails,
     };
 
@@ -64,7 +64,7 @@ export class UsersService {
       search: async (searchRequest) => {
         const url = apiUrl + 'search/';
 
-        const request = this.httpClient.post<UsersSearchResponse>(
+        const request = this.httpClient.post<IUsersSearchResponse>(
           url,
           searchRequest,
           {
@@ -82,5 +82,5 @@ export class UsersService {
 
 interface IUsersApi {
   get(id: string): Promise<UserDto | null>;
-  search(request: UsersSearchRequest): Promise<UsersSearchResponse>;
+  search(request: IUsersSearchRequest): Promise<IUsersSearchResponse>;
 }
