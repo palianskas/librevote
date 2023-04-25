@@ -9,9 +9,9 @@ export class KeyContainerContext {
 }
 
 export class KeyContainer {
-  private _key: string;
-  private _salt?: string;
-  private _password?: string;
+  private key: string;
+  private salt?: string;
+  private password?: string;
 
   context: KeyContainerContext;
 
@@ -21,7 +21,7 @@ export class KeyContainer {
     password: string | null | { value: string; salt: string },
     private readonly encryptionService: EncryptionService
   ) {
-    this._key = key;
+    this.key = key;
     this.context = context;
 
     if (!password) {
@@ -29,34 +29,34 @@ export class KeyContainer {
     }
 
     if (typeof password === 'string') {
-      this._saveSaltedPassword(password);
+      this.saveSaltedPassword(password);
     } else {
-      this._password = password.value;
-      this._salt = password.salt;
+      this.password = password.value;
+      this.salt = password.salt;
     }
   }
 
   getKey(): string {
-    return this._key;
+    return this.key;
   }
 
   canAccessKey(password?: string): boolean {
-    if (!this._password && !this._salt && !password) {
+    if (!this.password && !this.salt && !password) {
       return true;
     }
 
-    return this.encryptionService.isMatch(password, this._password, this._salt);
+    return this.encryptionService.isMatch(password, this.password, this.salt);
   }
 
   get isPasswordProtected(): boolean {
-    return !!this._password;
+    return !!this.password;
   }
 
-  private _saveSaltedPassword(password: string): void {
+  private saveSaltedPassword(password: string): void {
     const { saltedPassword, salt } =
       this.encryptionService.saltPassword(password);
 
-    this._password = saltedPassword;
-    this._salt = salt;
+    this.password = saltedPassword;
+    this.salt = salt;
   }
 }
