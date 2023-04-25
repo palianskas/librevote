@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EncryptionDomainFactory } from './encryption-domain/encryption-domain.factory';
 import { EncryptionService } from './services/encryption.service';
-import { KeyContainerService } from './key-container/key-container.service';
+import { EncryptionDomainFactory } from './services/encryption-domain/encryption-domain.factory';
+import { KeyContainerService } from './services/key-container/key-container.service';
 
 @NgModule({
   declarations: [],

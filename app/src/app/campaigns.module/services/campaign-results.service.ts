@@ -10,7 +10,7 @@ import {
   ICampaignResultsSaveRequest,
   ICampaignResultsSaveResponse,
 } from '../models/campaign-results/campaign-results-contracts.model';
-import { EncryptionDomainFactory } from 'src/app/encryption.module/encryption-domain/encryption-domain.factory';
+import { EncryptionDomainFactory } from 'src/app/encryption.module/services/encryption-domain/encryption-domain.factory';
 
 @Injectable({
   providedIn: 'root',

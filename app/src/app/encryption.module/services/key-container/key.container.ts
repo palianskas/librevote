@@ -1,4 +1,4 @@
-import { EncryptionService } from '../services/encryption.service';
+import { EncryptionService } from '../encryption.service';
 
 export class KeyContainerContext {
   campaignId: string;

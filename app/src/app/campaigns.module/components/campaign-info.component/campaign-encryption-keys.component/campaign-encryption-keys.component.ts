@@ -6,11 +6,11 @@ import {
 } from 'src/app/campaigns.module/models/campaign.model';
 import { CampaignsService } from 'src/app/campaigns.module/services/campaigns.service';
 import { BrowserHelpers } from 'src/app/encryption.module/browser.helpers';
-import { KeyContainerService } from 'src/app/encryption.module/key-container/key-container.service';
 import { KeyHelpers } from 'src/app/encryption.module/key.helpers';
 import { RngService } from 'src/app/encryption.module/services/rng.service';
 import { CampaignEncryptionKeysModalComponent } from './campaign-encryption-keys-modal.component/campaign-encryption-keys-modal.component';
 import { CampaignPrivateKeyRevealModalComponent } from './campaign-key-reveal-modal.component/campaign-key-reveal-modal.component';
+import { KeyContainerService } from 'src/app/encryption.module/services/key-container/key-container.service';
 
 enum KeyStorageOption {
   DoNotStore,
@@ -41,7 +41,8 @@ export class CampaignEncryptionKeysComponent {
 
   constructor(
     private readonly campaignsService: CampaignsService,
-    private readonly keyContainerService: KeyContainerService
+    private readonly keyContainerService: KeyContainerService,
+    private readonly rngService: RngService
   ) {}
 
   getDisplayableKey(pubKey: string, showFullPubKey): string {
@@ -50,7 +51,7 @@ export class CampaignEncryptionKeysComponent {
 
   async generate(): Promise<void> {
     this.openKeyStoreModal();
-    this.keyPair = await RngService.generatePaillierKeyPair();
+    this.keyPair = await this.rngService.generatePaillierKeyPair();
   }
 
   save(storageOption: KeyStorageOption, password?: string): void {

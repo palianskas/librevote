@@ -8,10 +8,10 @@ import { User } from 'src/app/users.module/models/user.model';
 import { Vote } from '../models/vote.model';
 import { VotesService } from './votes.service';
 import { VotingVoucher } from '../models/voting-voucher.model';
-import { EncryptionDomainFactory } from 'src/app/encryption.module/encryption-domain/encryption-domain.factory';
 import { VoteCastResponse } from '../models/vote-cast-response.model';
 import { VoteCastError } from '../models/vote-cast-error.enum';
 import { HttpErrorResponse } from '@angular/common/http';
+import { EncryptionDomainFactory } from 'src/app/encryption.module/services/encryption-domain/encryption-domain.factory';
 
 @Injectable({
   providedIn: 'root',

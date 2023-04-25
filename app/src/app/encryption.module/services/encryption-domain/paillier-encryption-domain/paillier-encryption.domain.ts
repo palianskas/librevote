@@ -1,7 +1,7 @@
 import * as bigInt from 'big-integer';
 import { BigInteger } from 'big-integer';
-import { DiscreteNumber } from '../../discrete-number.type';
 import { EncryptionDomain } from '../encryption.domain';
+import { DiscreteNumber } from 'src/app/encryption.module/discrete-number.type';
 
 export class PaillierEncryptionDomain extends EncryptionDomain<BigInteger> {
   override encrypt(message: DiscreteNumber): BigInteger {

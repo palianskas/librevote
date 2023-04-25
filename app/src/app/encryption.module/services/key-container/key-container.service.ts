@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EncryptionDomainFactory } from '../encryption-domain/encryption-domain.factory';
 import { KeyContainer, KeyContainerContext } from './key.container';
-import { EncryptionService } from '../services/encryption.service';
+import { EncryptionService } from '../encryption.service';
 
 @Injectable({ providedIn: 'root' })
 export class KeyContainerService {

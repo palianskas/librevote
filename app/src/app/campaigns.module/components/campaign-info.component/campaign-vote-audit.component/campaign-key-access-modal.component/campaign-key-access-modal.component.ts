@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { KeyContainerService } from 'src/app/encryption.module/key-container/key-container.service';
-import { KeyContainer } from 'src/app/encryption.module/key-container/key.container';
+import { KeyContainerService } from 'src/app/encryption.module/services/key-container/key-container.service';
+import { KeyContainer } from 'src/app/encryption.module/services/key-container/key.container';
 
 @Component({
   selector: 'app-campaign-key-access-modal',

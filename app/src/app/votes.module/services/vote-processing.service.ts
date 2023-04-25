@@ -4,9 +4,7 @@ import { Vote } from '../models/vote.model';
 import { CampaignsService } from 'src/app/campaigns.module/services/campaigns.service';
 import * as bigInt from 'big-integer';
 import { BigInteger } from 'big-integer';
-import { EncryptionDomainFactory } from 'src/app/encryption.module/encryption-domain/encryption-domain.factory';
 import { Campaign } from 'src/app/campaigns.module/models/campaign.model';
-import { EncryptionDomain } from 'src/app/encryption.module/encryption-domain/encryption.domain';
 import { VoteAuditResult } from '../models/vote-audit-result.model';
 import { CampaignResults } from 'src/app/campaigns.module/models/campaign-results/campaign-results.model';
 import {
@@ -15,6 +13,8 @@ import {
 } from 'src/app/campaigns.module/models/campaign-results/campaign-results-container.model';
 import { CampaignCandidate } from 'src/app/campaigns.module/models/campaign-candidates/campaign-candidate.model';
 import { CandidateResults } from 'src/app/campaigns.module/models/campaign-results/candidate.results.model';
+import { EncryptionDomainFactory } from 'src/app/encryption.module/services/encryption-domain/encryption-domain.factory';
+import { EncryptionDomain } from 'src/app/encryption.module/services/encryption-domain/encryption.domain';
 
 class VoteCountResult {
   totalVoteCount: number;

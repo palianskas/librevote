@@ -1,9 +1,11 @@
 import * as bigInt from 'big-integer';
 import { BigInteger } from 'big-integer';
-import { RngService } from '../../services/rng.service';
 import { IDecryptor, IEncryptor } from '../encryption.domain';
+import { RngService } from '../../rng.service';
 
 export class PaillierEncryptor implements IEncryptor<BigInteger> {
+  constructor(private readonly rngService: RngService) {}
+
   encrypt(message: BigInteger, pubKey: BigInteger): BigInteger {
     if (!this.validate(message, pubKey)) {
       throw new Error(`Cannot encrypt message ${message} with mod ${pubKey}`);
@@ -11,7 +13,7 @@ export class PaillierEncryptor implements IEncryptor<BigInteger> {
 
     let r: BigInteger;
     while (true) {
-      r = RngService.getRandomInt(pubKey.bitLength().toJSNumber());
+      r = this.rngService.getRandomInt(pubKey.bitLength().toJSNumber());
 
       if (r.lt(pubKey) && bigInt.gcd(r, pubKey).equals(bigInt.one)) {
         break;

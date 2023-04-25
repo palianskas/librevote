@@ -5,7 +5,7 @@ import { jsbn, pki, random } from 'node-forge';
 
 @Injectable({ providedIn: 'root' })
 export class RngService {
-  static getRandomInt(bits = 2048): BigInteger {
+  getRandomInt(bits = 2048): BigInteger {
     const string = random.getBytesSync(Math.ceil(bits / 32));
     const buffer = this.toArrayBuffer(string);
     const array = new Uint32Array(buffer);
@@ -21,7 +21,7 @@ export class RngService {
     return res;
   }
 
-  static async getRandomPrimePair(
+  async getRandomPrimePair(
     bits = 4096
   ): Promise<{ p: BigInteger; q: BigInteger }> {
     let onResolve: Function;
@@ -56,7 +56,7 @@ export class RngService {
     return primePairPromise;
   }
 
-  static async generatePaillierKeyPair(bits = 256): Promise<{
+  async generatePaillierKeyPair(bits = 2048): Promise<{
     lambda: BigInteger;
     n: BigInteger;
   }> {
@@ -68,11 +68,11 @@ export class RngService {
     return { lambda, n };
   }
 
-  private static toBigInteger(integer: jsbn.BigInteger): BigInteger {
+  private toBigInteger(integer: jsbn.BigInteger): BigInteger {
     return bigInt(integer.toString(10));
   }
 
-  private static toArrayBuffer(string: string) {
+  private toArrayBuffer(string: string) {
     const buffer = new ArrayBuffer(string.length * 2);
     let bufferView = new Uint16Array(buffer);
 
