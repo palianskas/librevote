@@ -107,7 +107,7 @@ export class KeyContainerService {
     return isValid;
   }
 
-  private getContainerLocationKey(campaignId): string {
+  private getContainerLocationKey(campaignId: string): string {
     const locationKey =
       KeyContainerService._containerLocationPrefix + campaignId;
 
