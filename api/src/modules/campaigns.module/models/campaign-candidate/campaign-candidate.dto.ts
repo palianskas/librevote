@@ -58,7 +58,7 @@ export class CampaignCandidatePublicDto {
   }
 
   static mapList(
-    entities: CampaignCandidatePublicDto[] | undefined,
+    entities: CampaignCandidate[] | undefined,
   ): CampaignCandidatePublicDto[] {
     if (!entities) {
       return [];
