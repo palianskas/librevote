@@ -167,7 +167,7 @@ export class VoteCastHandler {
   private async validatePublicVoting(
     request: IVoteCastRequest,
     voterIpHash: string,
-  ) {
+  ): Promise<void> {
     const isIpUsed = await this.votesService.hasIpVotedInCampaign(
       request.dto.campaignId,
       voterIpHash,
