@@ -28,7 +28,7 @@ export class CampaignVoteAuditComponent implements OnInit {
 
   constructor(
     private readonly votesService: VotesService,
-    private readonly voteAuditService: VoteProcessingService
+    private readonly voteProcessingService: VoteProcessingService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -67,7 +67,7 @@ export class CampaignVoteAuditComponent implements OnInit {
 
   private async auditVotes(): Promise<void> {
     this.isAuditInProgress = true;
-    this.auditResult = await this.voteAuditService.auditVotes(
+    this.auditResult = await this.voteProcessingService.auditVotes(
       this.campaign.id,
       this.privKey
     );
