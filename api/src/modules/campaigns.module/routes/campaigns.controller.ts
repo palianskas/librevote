@@ -27,6 +27,7 @@ import {
   ICampaignSearchRequest,
   ICampaignSearchResponse,
   ICampaignStartResponse,
+  ICampaignStopResponse,
 } from './models/campaign-contracts.model';
 import { CampaignVotingControlHandler } from './handlers/campaign-voting-control.handler';
 
@@ -147,7 +148,7 @@ export class CampaignsController {
   async stopVoting(
     @Param('id') id: string,
     @Request() request: IAuthenticatedRequest,
-  ) {
+  ): Promise<ICampaignStopResponse> {
     const user = request.user;
 
     return this.campaignVotingControlHandler.handleStopVoting(user, id);
