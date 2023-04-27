@@ -36,7 +36,7 @@ export class CampaignsController {
     private readonly campaignService: CampaignsService,
     private readonly campaignSearchHandler: CampaignSearchHandler,
     private readonly campaignCreateHandler: CampaignCreateHandler,
-    private readonly campaignSaveHandler: CampaignUpdateHandler,
+    private readonly campaignUpdateHandler: CampaignUpdateHandler,
     private readonly campaignVotingControlHandler: CampaignVotingControlHandler,
   ) {}
 
@@ -81,7 +81,7 @@ export class CampaignsController {
   ): Promise<ICampaignSaveResponse> {
     const user = request.user;
 
-    const response = await this.campaignSaveHandler.handle(user, body);
+    const response = await this.campaignUpdateHandler.handle(user, body);
 
     return response;
   }
