@@ -88,7 +88,7 @@ export class KeyContainerService {
     }
 
     const container = new KeyContainer(
-      data._key,
+      data.key,
       data.context as KeyContainerContext,
       {
         value: data._password,
@@ -102,7 +102,7 @@ export class KeyContainerService {
 
   private isValidContainer(data: any): boolean {
     const isValid =
-      !!data && !!data._key && KeyContainerContext.isValidContext(data.context);
+      !!data && !!data.key && KeyContainerContext.isValidContext(data.context);
 
     return isValid;
   }
