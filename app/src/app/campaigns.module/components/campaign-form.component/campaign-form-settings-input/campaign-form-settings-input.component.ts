@@ -26,6 +26,8 @@ export class CampaignFormSettingsInputComponent {
     { key: 100000, value: 100000 },
     { key: 1000000, value: 1000000 },
     { key: 10000000, value: 10000000 },
+    { key: 100000000, value: 100000000 },
+    { key: 1000000000, value: 1000000000 },
   ];
 
   onChange(): void {
