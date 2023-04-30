@@ -11,8 +11,6 @@ import { Campaign } from '../../models/campaign/campaign.model';
 import {
   ICampaignStartResponse,
   ICampaignStopResponse,
-  ICampaignSaveRequest as ICampaignUpdateRequest,
-  ICampaignSaveResponse as ICampaignUpdateResponse,
 } from '../models/campaign-contracts.model';
 
 @Injectable()

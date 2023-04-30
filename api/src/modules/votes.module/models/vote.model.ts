@@ -1,6 +1,6 @@
 import { Vote as VoteEntity } from '@prisma/client';
 
-export type Vote = VoteEntity & {};
+export type Vote = VoteEntity;
 
 export class VoteDto {
   id?: string;

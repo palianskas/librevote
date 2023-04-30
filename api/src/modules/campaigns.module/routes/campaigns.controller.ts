@@ -179,7 +179,7 @@ export class CampaignsController {
 
     const dto = CampaignDto.map(campaign, true);
 
-    const res = await this.campaignService.update(dto);
+    await this.campaignService.update(dto);
 
     return;
   }

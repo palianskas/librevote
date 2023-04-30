@@ -37,7 +37,7 @@ export class CampaignCandidatesRepository {
     return result;
   }
 
-  private buildQuery(filter: any, fieldSelect: any = null): IPrismaQuery {
+  private buildQuery(filter: any): IPrismaQuery {
     const query: IPrismaQuery = {
       where: filter,
       include: {

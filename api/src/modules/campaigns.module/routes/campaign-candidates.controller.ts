@@ -5,9 +5,7 @@ import {
   NotFoundException,
   Param,
   Post,
-  Put,
 } from '@nestjs/common';
-import { BadRequestException } from '@nestjs/common/exceptions';
 import { Public } from 'src/modules/auth.module/guards/guard-activators.decorator';
 import { CampaignCandidatesService } from '../campaign-candidates/campaign-candidates.service';
 import { CampaignCandidateDto } from '../models/campaign-candidate/campaign-candidate.dto';
