@@ -154,7 +154,7 @@ export class VoteProcessingService {
     const encodedVotes = decryptionFunc(encryptedEncodedVotes);
 
     const voteCountResults = this.countVotes(
-      encodedVotes.toJSNumber(),
+      encodedVotes,
       campaign.settings.maxVoterCount,
       campaign.candidates.length
     );
@@ -282,16 +282,13 @@ export class VoteProcessingService {
     );
     const value = decryptionFunc(encryptedVoteAggregate);
 
-    const { totalVoteCount } = this.countVotes(
-      value.toJSNumber(),
-      maxVoterCount
-    );
+    const { totalVoteCount } = this.countVotes(value, maxVoterCount);
 
     return totalVoteCount === rangeEndIndex - rangeStartIndex;
   }
 
   private countVotes(
-    encodedVotesValue: number,
+    encodedVotesValue: BigInteger,
     maxVoterCount: number,
     candidateCount = -1
   ): VoteCountResult {
@@ -299,7 +296,7 @@ export class VoteProcessingService {
     const candidateVoteCounts = [];
 
     while (true) {
-      if (encodedVotesValue == 0) {
+      if (encodedVotesValue.eq(0)) {
         for (let i = candidateVoteCounts.length; i < candidateCount; i++) {
           candidateVoteCounts.push(0);
         }
@@ -307,14 +304,14 @@ export class VoteProcessingService {
         break;
       }
 
-      const candidateVoteCount = encodedVotesValue % maxVoterCount;
+      const candidateVoteCount = encodedVotesValue.mod(maxVoterCount);
 
       candidateVoteCounts.push(candidateVoteCount);
 
-      totalVoteCount += candidateVoteCount;
+      totalVoteCount += candidateVoteCount.toJSNumber();
 
-      encodedVotesValue -= candidateVoteCount;
-      encodedVotesValue /= maxVoterCount;
+      encodedVotesValue = encodedVotesValue.subtract(candidateVoteCount);
+      encodedVotesValue = encodedVotesValue.divide(maxVoterCount);
     }
 
     return { totalVoteCount, candidateVoteCounts };
