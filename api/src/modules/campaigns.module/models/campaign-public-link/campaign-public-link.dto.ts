@@ -57,8 +57,10 @@ export class CampaignPublicLinkDto {
     }
 
     return (
-      link.validFrom!.getUTCMilliseconds() < currentTimestamp &&
-      currentTimestamp < link.validUntil!.getUTCMilliseconds()
+      (!link.validFrom ||
+        link.validFrom.getUTCMilliseconds() < currentTimestamp) &&
+      (!link.validUntil ||
+        currentTimestamp < link.validUntil.getUTCMilliseconds())
     );
   }
 }

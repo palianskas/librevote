@@ -42,7 +42,7 @@ export class CampaignVotingControlHandler {
 
     const response: ICampaignStartResponse = {
       campaignId: campaign.id,
-      startDate: campaign.startDate!,
+      startDate: entity.startDate,
     };
 
     return response;
@@ -73,7 +73,7 @@ export class CampaignVotingControlHandler {
 
     const response: ICampaignStopResponse = {
       campaignId: campaign.id,
-      endDate: campaign.endDate!,
+      endDate: entity.endDate,
     };
 
     return response;
