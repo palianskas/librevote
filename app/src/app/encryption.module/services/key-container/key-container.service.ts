@@ -91,8 +91,8 @@ export class KeyContainerService {
       data.key,
       data.context as KeyContainerContext,
       {
-        value: data._password,
-        salt: data._salt,
+        value: data.password,
+        salt: data.salt,
       },
       this.encryptionService
     );
