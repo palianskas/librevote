@@ -18,7 +18,9 @@ export class CampaignSettingsPublicDto {
   votingMechanism: VotingMechanism;
   maxVoterCount: number;
 
-  static map(data: any): CampaignSettingsPublicDto {
+  static map(
+    data: Partial<CampaignSettingsPublicDto>
+  ): CampaignSettingsPublicDto {
     const dto = new CampaignSettingsPublicDto();
 
     dto.votingMechanism = VotingMechanism[data.votingMechanism];

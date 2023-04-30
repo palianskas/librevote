@@ -36,7 +36,9 @@ export class CampaignCandidatePublicDto {
   index: number;
   campaignId: string;
 
-  static map(data: any): CampaignCandidatePublicDto {
+  static map(
+    data: Partial<CampaignCandidatePublicDto>
+  ): CampaignCandidatePublicDto {
     const dto = new CampaignCandidatePublicDto();
 
     dto.id = data.id;
@@ -49,7 +51,9 @@ export class CampaignCandidatePublicDto {
     return dto;
   }
 
-  static mapList(entries: any[] | undefined): CampaignCandidatePublicDto[] {
+  static mapList(
+    entries: Partial<CampaignCandidatePublicDto>[] | undefined
+  ): CampaignCandidatePublicDto[] {
     if (!entries) {
       return [];
     }

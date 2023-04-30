@@ -1,7 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { firstValueFrom, Subject } from 'rxjs';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import {
   ITokenRefreshRequest,

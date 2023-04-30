@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { VoteAuditResult } from 'src/app/votes.module/models/vote-audit-result.model';
 import { VotesService } from 'src/app/votes.module/services/votes.service';
 

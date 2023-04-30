@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Campaign } from 'src/app/campaigns.module/models/campaign.model';
 import { VoteProcessingService } from 'src/app/votes.module/services/vote-processing.service';
 import { CampaignPrivateKeyAccessModalComponent } from '../../campaign-info.component/campaign-vote-audit.component/campaign-key-access-modal.component/campaign-key-access-modal.component';

@@ -1,4 +1,3 @@
-import { formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -20,7 +19,7 @@ import { CampaignsService } from '../../services/campaigns.service';
 import { StringHelpers } from 'src/app/encryption.module/string.helpers';
 
 // lowercase letters and numbers with optional dashes inbetween
-const publicLinkRegExp = /^[a-z0-9](([a-z0-9]|\-)*[a-z0-9])?$/;
+const publicLinkRegExp = /^[a-z0-9](([a-z0-9]|-)*[a-z0-9])?$/;
 
 function dateIntervalValidator(
   startDateControl: AbstractControl,
@@ -260,7 +259,7 @@ export class CampaignFormComponent implements OnInit, OnDestroy {
 
   private async handleSave(): Promise<string> {
     if (!!this.campaign.id) {
-      const response = await this.updateRecord(this.campaign);
+      const response = await this.updateRecord();
 
       return response.id;
     }
@@ -278,7 +277,7 @@ export class CampaignFormComponent implements OnInit, OnDestroy {
 
     return id;
   }
-  private updateRecord(dto: CampaignDto): Promise<CampaignDto> {
+  private updateRecord(): Promise<CampaignDto> {
     this.updatePublicLink();
 
     return this.campaignsService.update(this.campaign);

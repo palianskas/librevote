@@ -26,7 +26,7 @@ export class CampaignUser {
     return entity;
   }
 
-  static mapList(entities: any[]): CampaignUser[] {
+  static mapList(entities: CampaignUserDto[]): CampaignUser[] {
     if (!entities) {
       return [];
     }
@@ -43,7 +43,7 @@ export class CampaignUserDto {
   campaign?: CampaignDto;
   user?: UserDto;
 
-  static map(data: any): CampaignUserDto {
+  static map(data: Partial<CampaignUserDto>): CampaignUserDto {
     const dto = new CampaignUserDto();
 
     dto.userId = data.userId;
@@ -60,7 +60,7 @@ export class CampaignUserDto {
     return dto;
   }
 
-  static mapList(entities: any[]): CampaignUserDto[] {
+  static mapList(entities: Partial<CampaignUserDto>[]): CampaignUserDto[] {
     if (!entities) {
       return [];
     }

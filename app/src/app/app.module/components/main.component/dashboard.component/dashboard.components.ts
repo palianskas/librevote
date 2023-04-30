@@ -46,7 +46,6 @@ export class DashboardComponent implements OnInit {
   private buildCampaignOverview(
     campaigns: Campaign[]
   ): CampaignOverviewContainer {
-    const now = new Date();
     const inProgressCampaigns = campaigns.filter((campaign) =>
       campaign.isVotingActive()
     );

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { VoucherContainer } from 'src/app/votes.module/models/voucher-container.model';
 import * as QRcode from 'qrcode';
 import { StringHelpers } from 'src/app/encryption.module/string.helpers';

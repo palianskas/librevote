@@ -8,7 +8,7 @@ import { CampaignsService } from 'src/app/campaigns.module/services/campaigns.se
 })
 export class CampaignVotingControlComponent {
   @Input() campaign: Campaign;
-  @Input() onStartStopCallback: Function;
+  @Input() onStartStopCallback: () => void;
 
   constructor(private readonly campaignsService: CampaignsService) {}
 

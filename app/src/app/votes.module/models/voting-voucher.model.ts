@@ -56,7 +56,7 @@ export class VotingVoucherDto {
   deleteDate?: Date;
   campaign: CampaignPublicDto;
 
-  static map(data: any): VotingVoucherDto {
+  static map(data: Partial<VotingVoucherDto>): VotingVoucherDto {
     const dto = new VotingVoucherDto();
 
     dto.id = data.id;

@@ -32,7 +32,7 @@ export class CampaignResultsDto {
   campaign?: CampaignDto | null;
   candidateResults?: CandidateResultsDto[];
 
-  static map(data: any): CampaignResultsDto {
+  static map(data: Partial<CampaignResultsDto>): CampaignResultsDto {
     const dto = new CampaignResultsDto();
 
     dto.id = data.id;

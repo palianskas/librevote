@@ -50,7 +50,7 @@ export class CampaignPublicDto {
   candidates: CampaignCandidatePublicDto[];
   settings?: CampaignSettingsPublicDto;
 
-  static map(data: any): CampaignPublicDto {
+  static map(data: Partial<CampaignPublicDto>): CampaignPublicDto {
     const dto = new CampaignPublicDto();
 
     dto.id = data.id;

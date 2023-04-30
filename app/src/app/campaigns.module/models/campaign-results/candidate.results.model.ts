@@ -44,7 +44,7 @@ export class CandidateResultsDto {
   candidate?: CampaignCandidateDto | null;
   campaignResults?: CampaignResultsDto | null;
 
-  static map(data: any): CandidateResultsDto {
+  static map(data: Partial<CandidateResultsDto>): CandidateResultsDto {
     const dto = new CandidateResultsDto();
 
     dto.id = data.id;
@@ -59,7 +59,9 @@ export class CandidateResultsDto {
     return dto;
   }
 
-  static mapList(data: any[] | undefined): CandidateResultsDto[] {
+  static mapList(
+    data: Partial<CandidateResultsDto>[] | undefined
+  ): CandidateResultsDto[] {
     if (!data) {
       return [];
     }

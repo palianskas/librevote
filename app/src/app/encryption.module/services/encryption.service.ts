@@ -23,7 +23,7 @@ export class EncryptionService {
     saltedPasswordOther: string,
     salt: string
   ): boolean {
-    const { saltedPassword, ..._ } = this.saltPassword(password, salt);
+    const { saltedPassword } = this.saltPassword(password, salt);
 
     return saltedPassword === saltedPasswordOther;
   }

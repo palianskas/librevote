@@ -1,9 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { BigInteger } from 'big-integer';
-import {
-  Campaign,
-  CampaignDto,
-} from 'src/app/campaigns.module/models/campaign.model';
+import { Campaign } from 'src/app/campaigns.module/models/campaign.model';
 import { CampaignsService } from 'src/app/campaigns.module/services/campaigns.service';
 import { BrowserHelpers } from 'src/app/encryption.module/browser.helpers';
 import { KeyHelpers } from 'src/app/encryption.module/key.helpers';

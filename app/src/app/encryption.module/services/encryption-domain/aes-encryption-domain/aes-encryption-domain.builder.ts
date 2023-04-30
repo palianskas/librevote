@@ -22,12 +22,12 @@ export class AesEncryptionDomainBuilder
     return this;
   }
 
-  withPubKey(key: string): this {
+  withPubKey(): this {
     // ignore
     return this;
   }
 
-  withMod(mod: string): this {
+  withMod(): this {
     // ignore
     return this;
   }

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { User, UserDto } from 'src/app/users.module/models/user.model';
-import { AuthService } from 'src/app/auth.module/services/auth.service';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import {
   IUsersSearchRequest,

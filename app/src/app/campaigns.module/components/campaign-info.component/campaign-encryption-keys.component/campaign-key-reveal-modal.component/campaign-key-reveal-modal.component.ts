@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Campaign } from 'src/app/campaigns.module/models/campaign.model';
 import { BrowserHelpers } from 'src/app/encryption.module/browser.helpers';
 import { KeyContainerService } from 'src/app/encryption.module/services/key-container/key-container.service';

@@ -5,7 +5,7 @@ import { RouteNames } from '../../app.routes';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'main-root',
+  selector: 'app-main-root',
   templateUrl: './main.component.html',
 })
 export class MainComponent implements OnInit, OnDestroy {

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { AuthService } from 'src/app/auth.module/services/auth.service';
 import { ConfigService } from 'src/app/common.module/services/config.service';
 import {
   CampaignPublicLink,

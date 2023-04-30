@@ -59,7 +59,7 @@ export class VotesService {
   }
 
   public async getAllCampaignVotes(campaignId: string): Promise<Vote[]> {
-    let votes: Vote[] = [];
+    const votes: Vote[] = [];
 
     const request: IVoteSearchRequest = {
       campaignId: campaignId,

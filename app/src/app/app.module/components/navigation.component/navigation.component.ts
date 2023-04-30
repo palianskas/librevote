@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/users.module/models/user.model';
 import { AuthService } from 'src/app/auth.module/services/auth.service';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css'],
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, OnDestroy {
   user: User = null;
   routeNames = RouteNames;
 

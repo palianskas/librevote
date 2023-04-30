@@ -32,8 +32,6 @@ export class CampaignEncryptionKeysModalComponent {
     },
   ];
 
-  constructor() {}
-
   confirm(): void {
     this.onConfirm(this.selectedKeyStorageOption, this.password);
   }

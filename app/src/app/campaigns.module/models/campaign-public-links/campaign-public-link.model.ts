@@ -40,22 +40,22 @@ export class CampaignPublicLinkDto {
 
   campaign?: CampaignPublicDto;
 
-  static map(entity: CampaignPublicLink): CampaignPublicLinkDto {
+  static map(data: Partial<CampaignPublicLinkDto>): CampaignPublicLinkDto {
     const dto = new CampaignPublicLinkDto();
 
-    dto.id = entity.id;
-    dto.campaignId = entity.campaignId;
-    dto.link = entity.link;
+    dto.id = data.id;
+    dto.campaignId = data.campaignId;
+    dto.link = data.link;
 
-    if (!!entity.validFrom) {
-      dto.validFrom = new Date(entity.validFrom);
+    if (!!data.validFrom) {
+      dto.validFrom = new Date(data.validFrom);
     }
-    if (!!entity.validUntil) {
-      dto.validFrom = new Date(entity.validUntil);
+    if (!!data.validUntil) {
+      dto.validFrom = new Date(data.validUntil);
     }
 
-    if (!!entity.campaign) {
-      dto.campaign = CampaignPublicDto.map(entity.campaign);
+    if (!!data.campaign) {
+      dto.campaign = CampaignPublicDto.map(data.campaign);
     }
 
     return dto;

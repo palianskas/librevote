@@ -24,7 +24,11 @@ export class RngService {
   async getRandomPrimePair(
     bits = 4096
   ): Promise<{ p: BigInteger; q: BigInteger }> {
-    let onResolve: Function;
+    let onResolve: (
+      value:
+        | { p: BigInteger; q: BigInteger }
+        | PromiseLike<{ p: BigInteger; q: BigInteger }>
+    ) => void;
     const primePairPromise = new Promise<{ p: BigInteger; q: BigInteger }>(
       (resolve) => {
         onResolve = resolve;
@@ -74,7 +78,7 @@ export class RngService {
 
   private toArrayBuffer(string: string): ArrayBuffer {
     const buffer = new ArrayBuffer(string.length * 2);
-    let bufferView = new Uint16Array(buffer);
+    const bufferView = new Uint16Array(buffer);
 
     for (let i = 0; i < string.length; i++) {
       bufferView[i] = string.charCodeAt(i);

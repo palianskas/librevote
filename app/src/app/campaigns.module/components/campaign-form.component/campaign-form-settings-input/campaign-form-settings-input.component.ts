@@ -9,7 +9,7 @@ import {
   templateUrl: './campaign-form-settings-input.component.html',
 })
 export class CampaignFormSettingsInputComponent {
-  @Input() onChangeCallback: Function;
+  @Input() onChangeCallback: () => void;
   @Input() settings: CampaignSettings;
   @Output() settingsChange = new EventEmitter<CampaignSettings>();
 

@@ -3,7 +3,7 @@ import { EncryptionService } from '../encryption.service';
 export class KeyContainerContext {
   campaignId: string;
 
-  static isValidContext(data: any): boolean {
+  static isValidContext(data: Partial<KeyContainerContext>): boolean {
     return !!data?.campaignId;
   }
 }

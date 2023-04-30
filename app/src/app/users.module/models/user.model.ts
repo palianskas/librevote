@@ -29,7 +29,7 @@ export class UserDto {
   name: string;
   email: string;
 
-  static map(data: any): UserDto {
+  static map(data: Partial<UserDto>): UserDto {
     const dto = new UserDto();
 
     dto.id = data.id;

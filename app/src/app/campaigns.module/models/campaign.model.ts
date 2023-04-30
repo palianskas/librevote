@@ -90,7 +90,7 @@ export class CampaignDto {
   settings: CampaignSettingsDto;
   results?: CampaignResultsDto;
 
-  static map(data: any): CampaignDto {
+  static map(data: Partial<CampaignDto>): CampaignDto {
     const dto = new CampaignDto();
 
     dto.id = data.id;

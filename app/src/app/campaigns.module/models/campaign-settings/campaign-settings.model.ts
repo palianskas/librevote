@@ -49,17 +49,17 @@ export class CampaignSettingsDto {
   isManualVoteStartEndEnabled: boolean;
   maxVoterCount: number;
 
-  static map(entity: CampaignSettings): CampaignSettingsDto {
+  static map(data: Partial<CampaignSettingsDto>): CampaignSettingsDto {
     const dto = new CampaignSettingsDto();
 
-    dto.id = entity.id;
-    dto.campaignId = entity.campaignId;
-    dto.votingMechanism = VotingMechanism[entity.votingMechanism];
-    dto.isManualVoteStartEndEnabled = entity.isManualVoteStartEndEnabled;
-    dto.maxVoterCount = entity.maxVoterCount;
+    dto.id = data.id;
+    dto.campaignId = data.campaignId;
+    dto.votingMechanism = VotingMechanism[data.votingMechanism];
+    dto.isManualVoteStartEndEnabled = data.isManualVoteStartEndEnabled;
+    dto.maxVoterCount = data.maxVoterCount;
 
-    if (!!entity.campaign) {
-      dto.campaign = CampaignDto.map(entity.campaign);
+    if (!!data.campaign) {
+      dto.campaign = CampaignDto.map(data.campaign);
     }
 
     return dto;

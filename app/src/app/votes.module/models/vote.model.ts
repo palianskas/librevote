@@ -32,7 +32,7 @@ export class VoteDto {
   createDate: Date;
   isInvalid: boolean;
 
-  static map(data: any): VoteDto {
+  static map(data: Partial<VoteDto>): VoteDto {
     const dto = new VoteDto();
 
     dto.id = data.id;

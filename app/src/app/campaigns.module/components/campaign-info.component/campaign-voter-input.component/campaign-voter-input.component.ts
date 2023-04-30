@@ -108,7 +108,7 @@ export class CampaignVoterInputComponent implements OnInit {
   }
 
   private async parseCsv(file: File): Promise<string[]> {
-    let onResolve: Function;
+    let onResolve: (values: string[] | PromiseLike<string[]>) => void;
     const promise = new Promise<string[]>((resolve) => {
       onResolve = resolve;
     });
