@@ -36,11 +36,10 @@ export class VoucherSearchHandler {
 
     const filter = {
       campaignId: request.campaignId,
+      deleteDate: null,
     };
 
-    const result = await this.vouchersService.search(filter);
-
-    const vouchers = result.filter((voucher) => !voucher.deleteDate);
+    const vouchers = await this.vouchersService.search(filter);
 
     const response: IVoteVoucherSearchResponse = {
       rows: VotingVoucherDto.mapList(vouchers),

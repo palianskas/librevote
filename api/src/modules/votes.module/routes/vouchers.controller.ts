@@ -39,6 +39,7 @@ export class VouchersController {
     const filter = {
       designatedUserId: request.user.id,
       isSpent: false,
+      deleteDate: null,
     };
 
     const vouchers = await this.voucherService.search(filter);
