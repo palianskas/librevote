@@ -25,7 +25,13 @@
       >View results</a
     >
     <div class="flex-grow-1"></div>
-    <button class="btn btn-outline-danger" (click)="delete()">Delete</button>
+    <button
+      *ngIf="isUserAdmin"
+      class="btn btn-outline-danger"
+      (click)="delete()"
+    >
+      Delete
+    </button>
   </div>
   <div class="mb-3">
     <h1>Campaign: {{ campaign.name }}</h1>
