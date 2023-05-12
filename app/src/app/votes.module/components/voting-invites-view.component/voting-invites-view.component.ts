@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteNames } from 'src/app/app.module/app.routes';
 import { StringHelpers } from 'src/app/encryption.module/string.helpers';
-import { VotingVoucherDto } from '../../models/voting-voucher.model';
+import { VotingVoucher } from '../../models/voting-voucher.model';
 import { VotingVouchersService } from '../../services/vouchers.service';
 import { CampaignPublicDto } from 'src/app/campaigns.module/models/campaign-public.model';
 
@@ -11,7 +11,7 @@ import { CampaignPublicDto } from 'src/app/campaigns.module/models/campaign-publ
   templateUrl: './voting-invites-view.component.html',
 })
 export class VotingInvitesViewComponent implements OnInit {
-  invites: VotingVoucherDto[];
+  invites: VotingVoucher[];
 
   routeNames = RouteNames;
 
@@ -22,7 +22,7 @@ export class VotingInvitesViewComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const response = await this.voucherService.getPending();
-    this.invites = response.dtos;
+    this.invites = VotingVoucher.mapList(response.dtos);
   }
 
   open(campaign: CampaignPublicDto): void {

@@ -1,4 +1,7 @@
-import { CampaignPublicDto } from 'src/app/campaigns.module/models/campaign-public.model';
+import {
+  CampaignPublic,
+  CampaignPublicDto,
+} from 'src/app/campaigns.module/models/campaign-public.model';
 import { User, UserDto } from 'src/app/users.module/models/user.model';
 
 export class VotingVoucher {
@@ -10,6 +13,7 @@ export class VotingVoucher {
   designatedUserId?: string;
   designatedUser?: User;
   deleteDate?: Date;
+  campaign?: CampaignPublic;
 
   get isValid(): boolean {
     const now = new Date();
@@ -32,6 +36,8 @@ export class VotingVoucher {
     entity.deleteDate = dto.deleteDate && new Date(dto.deleteDate);
 
     entity.designatedUser = dto.designatedUser && User.map(dto.designatedUser);
+
+    entity.campaign = dto.campaign && CampaignPublic.map(dto.campaign);
 
     return entity;
   }
